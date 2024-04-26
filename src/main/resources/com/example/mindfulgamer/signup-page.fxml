@@ -20,9 +20,13 @@
                 layoutX="138.0"
                 layoutY="267.0"
                 mnemonicParsing="false"
+                onAction = "#onSignUpButtonClick"
+                text="Sign Up"
+                disable="true"
                 />
-        <Label fx:id="signup_title"
+        <Label
                layoutX="78.0"
+               text="Sign Up!"
                >
             <font>
                 <Font name="System Bold" size="48.0" />
@@ -65,5 +69,6 @@
                    layoutX="213.0"
                    layoutY="316.0"
                    text="Login"
+                   onAction="#onSignUpButtonClick"
         />
 </AnchorPane>

@@ -53,5 +53,6 @@
                layoutX="195.0"
                layoutY="310.0"
                text="Signup"
+               onAction="#onSignUpHyperlinkClick"
     />
 </AnchorPane>
