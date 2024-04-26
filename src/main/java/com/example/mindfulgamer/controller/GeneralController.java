@@ -15,10 +15,7 @@ public class GeneralController {
 
     // Constructors
     @FXML
-    public Button reminder_tab;
-    @FXML
-    public Button logout_tab;
-
+    public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout;
     @FXML
     public void Dashboard(){
 
@@ -29,7 +26,7 @@ public class GeneralController {
     }
     @FXML
     public void Reminders() throws IOException {
-        Stage stage = (Stage) reminder_tab.getScene().getWindow();
+        Stage stage = (Stage) reminders.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -51,7 +48,7 @@ public class GeneralController {
 
     @FXML
     public void Logout() throws IOException{
-        Stage stage = (Stage) logout_tab.getScene().getWindow();
+        Stage stage = (Stage) logout.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
