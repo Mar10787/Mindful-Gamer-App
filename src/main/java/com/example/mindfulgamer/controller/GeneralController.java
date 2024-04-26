@@ -16,6 +16,8 @@ public class GeneralController {
     // Constructors
     @FXML
     public Button reminder_tab;
+    @FXML
+    public Button logout_tab;
 
     @FXML
     public void Dashboard(){
@@ -48,8 +50,11 @@ public class GeneralController {
     }
 
     @FXML
-    public void Logout(){
-
+    public void Logout() throws IOException{
+        Stage stage = (Stage) logout_tab.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
     @FXML
     public void Settings(){
