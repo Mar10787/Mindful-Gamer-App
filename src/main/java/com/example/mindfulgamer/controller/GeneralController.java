@@ -21,8 +21,11 @@ public class GeneralController {
 
     }
     @FXML
-    public void Gaming_Time(){
-
+    public void Gaming_Time() throws IOException{
+        Stage stage = (Stage) gaming_time.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
     @FXML
     public void Reminders() throws IOException {
