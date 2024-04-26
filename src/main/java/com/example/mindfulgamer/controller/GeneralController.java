@@ -1,13 +1,21 @@
 package com.example.mindfulgamer.controller;
 
+import com.example.mindfulgamer.HelloApplication;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
     // used to code redundancy
 
     // Constructors
-
+    @FXML
+    public Button reminder_tab;
 
     @FXML
     public void Dashboard(){
@@ -18,8 +26,11 @@ public class GeneralController {
 
     }
     @FXML
-    public void Reminders(){
-
+    public void Reminders() throws IOException {
+        Stage stage = (Stage) reminder_tab.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
 
     @FXML
