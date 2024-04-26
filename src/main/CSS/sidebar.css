@@ -1,0 +1,33 @@
+.background {
+    -fx-background-color: #ebebeb;
+}
+.side_bar {
+    -fx-background-color: rgb(98, 122, 143);
+    -fx-border-color: aliceblue;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-border-style: solid;
+}
+.inner_sidebar {
+    -fx-background-color: #b3dbe6;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+    -fx-border-style: solid;
+}
+.sidebar_buttons {
+    -fx-background-color: rgb(98, 122, 143);
+    -fx-font-weight: bold;
+}
+.background_buttons {
+    -fx-background-color: #ebebeb;
+    -fx-font-weight: bold;
+}
+.checkbox {
+    -fx-font-weight: bold;niam-use-this.fxml
+}
+.popup_background {
+    -fx-background-color: rgb(98, 122, 143);
+}
+.centre {
+    -fx-text-align: center;
+}
