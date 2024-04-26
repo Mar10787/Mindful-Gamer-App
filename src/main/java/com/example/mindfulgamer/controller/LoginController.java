@@ -48,8 +48,8 @@ public class LoginController {
          * Method used to direct the user to the next window of the MindfulGamer Application
          */
         Stage stage = (Stage) login_button.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
 
@@ -62,7 +62,7 @@ public class LoginController {
          */
         Stage stage = (Stage) signup_hyperlink.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-page.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
         stage.setScene(scene);
     }
 }

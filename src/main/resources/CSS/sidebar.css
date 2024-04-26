@@ -23,7 +23,8 @@
     -fx-font-weight: bold;
 }
 .checkbox {
-    -fx-font-weight: bold;niam-use-this.fxml
+    -fx-font-weight: bold;
+    /*niam-use-this.fxml */
 }
 .popup_background {
     -fx-background-color: rgb(98, 122, 143);
