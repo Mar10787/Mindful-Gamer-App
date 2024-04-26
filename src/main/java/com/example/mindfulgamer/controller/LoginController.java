@@ -55,6 +55,14 @@ public class LoginController {
 
     // Needs to have a way to hide password when being entered
 
-    // HyperLink has also not been implemented, not sure whether we will direct the user to website or another page, depending on the priority
-    // Get this done in a timely manner
+    @FXML
+    protected void onSignUpHyperlinkClick() throws IOException{
+        /**
+         * Directs the user to the signup page
+         */
+        Stage stage = (Stage) signup_hyperlink.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("signup-page.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
 }
