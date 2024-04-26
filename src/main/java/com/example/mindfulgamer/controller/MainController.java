@@ -162,22 +162,4 @@ public class MainController {
         }
     }
 
-    @FXML
-    private void onDetails() {
-        User selectedUser = usersListView.getSelectionModel().getSelectedItem();
-        if (selectedUser != null) {
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("user-details-view.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
-                UserDetailsController controller = fxmlLoader.getController();
-                controller.setUserDetails(selectedUser);
-                Stage stage = new Stage();
-                stage.setTitle("User Details");
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
