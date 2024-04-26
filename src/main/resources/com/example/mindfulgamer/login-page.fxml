@@ -20,7 +20,7 @@
     </Label>
     <Text layoutX="71.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?" />
     <Hyperlink fx:id="signup_hyperlink" layoutX="195.0" layoutY="310.0" onAction="#onSignUpHyperlinkClick" text="Signup" />
-   <Pane layoutY="84.0" prefHeight="255.0" prefWidth="303.0">
+   <Pane layoutY="84.0" prefHeight="211.0" prefWidth="303.0">
       <children>
           <Button fx:id="login_button" disable="true" layoutX="130.0" layoutY="180.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Login" />
           <TextField fx:id="input_email" layoutX="22.0" layoutY="103.0" prefHeight="25.0" prefWidth="261.0" promptText="Email" />
