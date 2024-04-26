@@ -9,50 +9,49 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane xmlns="http://javafx.com" xmlns:fx="http://javafx.com" fx:controller="com.example.mindfulgamer.controller.LoginController">
-    <children>
-        <Label fx:id="login_title"
-               layoutX="103.0"
-               layoutY="14.0"
-               text="Login">
-            <font>
-                <Font name="System Bold"
-                      size="48.0"
-                />
-            </font>
-        </Label>
-        <TextField fx:id="input_email"
-                   layoutX="21.0"
-                   layoutY="133.0"
-                   prefHeight="25.0"
-                   prefWidth="291.0"
-                   promptText="Email"
-        />
-        <TextField fx:id="input_password"
-                   layoutX="21.0"
-                   layoutY="188.0"
-                   prefHeight="25.0"
-                   prefWidth="291.0"
-                   promptText="Password"
-        />
-        <Button fx:id="login_button"
-                layoutX="141.0"
-                layoutY="259.0"
-                mnemonicParsing="false"
-                text="Login"
-                onAction="#onLoginButtonClick"
-                disable="true"
-        />
-        <Text layoutX="71.0"
-              layoutY="326.0"
-              strokeType="OUTSIDE"
-              strokeWidth="0.0"
-              text="Don't have an account?"
-        />
-        <Hyperlink fx:id="signup_hyperlink"
-                   layoutX="195.0"
-                   layoutY="310.0"
-                   text="Signup"
-        />
-    </children>
+<AnchorPane xmlns="http://javafx.com" xmlns:fx="http://javafx.com"
+            fx:controller="com.example.mindfulgamer.controller.LoginController">
+    <Label fx:id="login_title"
+           layoutX="103.0"
+           layoutY="14.0"
+           text="Login">
+        <font>
+            <Font name="System Bold"
+                  size="48.0"
+            />
+        </font>
+    </Label>
+    <TextField fx:id="input_email"
+               layoutX="21.0"
+               layoutY="133.0"
+               prefHeight="25.0"
+               prefWidth="291.0"
+               promptText="Email"
+    />
+    <TextField fx:id="input_password"
+               layoutX="21.0"
+               layoutY="188.0"
+               prefHeight="25.0"
+               prefWidth="291.0"
+               promptText="Password"
+    />
+    <Button fx:id="login_button"
+            layoutX="141.0"
+            layoutY="259.0"
+            mnemonicParsing="false"
+            text="Login"
+            onAction="#onLoginButtonClick"
+            disable="true"
+    />
+    <Text layoutX="71.0"
+          layoutY="326.0"
+          strokeType="OUTSIDE"
+          strokeWidth="0.0"
+          text="Don't have an account?"
+    />
+    <Hyperlink fx:id="signup_hyperlink"
+               layoutX="195.0"
+               layoutY="310.0"
+               text="Signup"
+    />
 </AnchorPane>
