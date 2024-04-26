@@ -18,6 +18,9 @@ public class LoginController {
     private Hyperlink signup_hyperlink;
     @FXML
     public void initialize(){
+        /**
+         * Initialises the login page, mainly used to listen to the text being written by user
+         */
         // Listen for changes in email and password fields
         input_email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         input_password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
@@ -29,6 +32,9 @@ public class LoginController {
     // Method to check if both email and password fields are filled
     // *ALTER TO READ DATABASE*
     private void checkFields(){
+        /**
+         * This method is used to check that both fields are entered before the login button can be used
+         */
         String email = input_email.getText();
         String password = input_password.getText();
 
@@ -38,9 +44,17 @@ public class LoginController {
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
+        /**
+         * Method used to direct the user to the next window of the MindfulGamer Application
+         */
         Stage stage = (Stage) login_button.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.WIDTH, HelloApplication.HEIGHT);
         stage.setScene(scene);
     }
+
+    // Needs to have a way to hide password when being entered
+
+    // HyperLink has also not been implemented, not sure whether we will direct the user to website or another page, depending on the priority
+    // Get this done in a timely manner
 }
