@@ -6,12 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.scene.control.PasswordField;
 
 import java.io.IOException;
 
 public class LoginController {
     @FXML
-    private TextField input_email, input_password;
+    private TextField input_email;
+    @FXML
+    private PasswordField input_password;
     @FXML
     private Button login_button;
     @FXML

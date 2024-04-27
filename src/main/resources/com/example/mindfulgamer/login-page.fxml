@@ -12,6 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane prefHeight="360.0" prefWidth="303.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.LoginController">
     <Label fx:id="login_title" layoutX="88.0" layoutY="14.0" text="Login">
         <font>
@@ -24,7 +25,7 @@
       <children>
           <Button fx:id="login_button" disable="true" layoutX="130.0" layoutY="180.0" mnemonicParsing="false" onAction="#onLoginButtonClick" text="Login" />
           <TextField fx:id="input_email" layoutX="22.0" layoutY="103.0" prefHeight="25.0" prefWidth="261.0" promptText="Email" />
-          <TextField fx:id="input_password" layoutX="22.0" layoutY="145.0" prefHeight="25.0" prefWidth="261.0" promptText="Password" />
+          <PasswordField fx:id="input_password" layoutX="22.0" layoutY="145.0" prefHeight="25.0" prefWidth="261.0" promptText="Password" />
          <ImageView fitHeight="102.0" fitWidth="124.0" layoutX="91.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../../../GUI%20Images/icons8-controller-100.png" />
