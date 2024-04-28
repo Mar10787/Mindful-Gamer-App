@@ -54,6 +54,7 @@ public class SignUpController {
         String last_name = lname.getText();
         String email_rec = email.getText();
         String password_rec = password.getText();
+        String phone = "";
 
         // Should check in database to see if the email is found, if yes then produce an error that says so otherwise
 
@@ -79,7 +80,7 @@ public class SignUpController {
         String last_name_lower = last_name.toLowerCase();
         String email_lower = email_rec.toLowerCase();
 
-        User newUser = new User(first_name_lower, last_name_lower, email_lower, password_rec);
+        User newUser = new User(first_name_lower, last_name_lower, phone, email_lower, password_rec);
         userDAO.addUser(newUser);
         showSuccess("Sign Up Successful", "Welcome to Mindful Gamer!");
 
@@ -119,14 +120,14 @@ public class SignUpController {
         return email.matches(regex);
     }
 
-    public void showAlert(String title, String message) {
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-    public void showSuccess(String title, String message) {
+    private void showSuccess(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);

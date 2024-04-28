@@ -42,6 +42,7 @@ public class MainController {
         usersListView.getSelectionModel().select(user);
         firstNameTextField.setText(user.getFirstName());
         lastNameTextField.setText(user.getLastName());
+        phoneTextField.setText(user.getPhone());
         emailTextField.setText(user.getEmail());
     }
 
@@ -116,6 +117,7 @@ public class MainController {
         if (selectedUser != null) {
             selectedUser.setFirstName(firstNameTextField.getText());
             selectedUser.setLastName(lastNameTextField.getText());
+            selectedUser.setPhone(phoneTextField.getText());
             selectedUser.setEmail(emailTextField.getText());
             userDAO.updateUser(selectedUser);
             syncUsers();
@@ -139,7 +141,8 @@ public class MainController {
         final String DEFAULT_LAST_NAME = "User";
         final String DEFAULT_EMAIL = "";
         final String DEFAULT_PASSWORD = "";
-        User newUser = new User(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL, DEFAULT_PASSWORD);
+        final String DEFAULT_PHONE = "";
+        User newUser = new User(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL,DEFAULT_PHONE, DEFAULT_PASSWORD);
         // Add the new user to the database
         userDAO.addUser(newUser);
         syncUsers();
