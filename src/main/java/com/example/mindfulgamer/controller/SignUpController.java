@@ -23,6 +23,8 @@ public class SignUpController {
     public TextField fname, lname, email, password;
     @FXML
     private Label passwordErrorLabel;
+    @FXML
+    private Label emailErrorLabel;
 
 
     // Connection to database is not initialized
@@ -32,10 +34,10 @@ public class SignUpController {
         // Listen for changes in fname, lname, email and password
         fname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
+        email.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateEmail(newValue);});
         password.textProperty().addListener((observable, oldValue, newValue) -> {
-            validatePassword(newValue);
-        });
+            validatePassword(newValue);});
     }
     private void validatePassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
@@ -43,6 +45,14 @@ public class SignUpController {
             passwordErrorLabel.setText("Password must be at least 8 characters, include one number and one uppercase letter.");
         } else {
             passwordErrorLabel.setText("");
+        }
+    }
+    private void validateEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$";
+        if (!email.matches(regex)) {
+            emailErrorLabel.setText("Please enter a valid email address.");
+        } else {
+            emailErrorLabel.setText("");
         }
     }
     public void checkFields(){
@@ -72,6 +82,10 @@ public class SignUpController {
             showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
             return;
         }
+        if (!isValidEmail(email)) {
+            showAlert("Invalid Email", "Please enter a valid email address.");
+            return;
+        }
 
         User newUser = new User(first_name, last_name, email, phone, password);
         userDAO.addUser(newUser);
@@ -85,6 +99,11 @@ public class SignUpController {
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
         return password.matches(regex);
+    }
+
+    private boolean isValidEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$"; // Contains characters before @ symbol, the @ symbol, letters after @ symbol, "." and letters after ".".
+        return email.matches(regex);
     }
 
     private void showAlert(String title, String message) {
