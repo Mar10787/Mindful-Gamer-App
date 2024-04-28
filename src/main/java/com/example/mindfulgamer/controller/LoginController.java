@@ -40,7 +40,7 @@ public class LoginController {
 
     @FXML
     protected void onLoginButtonClick() throws IOException {
-        String email = input_email.getText();
+        String email = input_email.getText().toLowerCase();
         String password = input_password.getText();
         User user = userDAO.getUserByEmail(email);
 

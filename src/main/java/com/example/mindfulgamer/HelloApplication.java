@@ -1,6 +1,5 @@
 package com.example.mindfulgamer;
 
-import com.example.mindfulgamer.model.SqliteUserDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
