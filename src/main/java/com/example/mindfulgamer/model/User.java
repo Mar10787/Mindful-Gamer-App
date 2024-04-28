@@ -5,14 +5,12 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-    private String phone;
     private String password;
 
-    public User(String firstName, String lastName, String email, String phone, String password) {
+    public User(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.phone = phone;
         this.password = password;
     }
 
@@ -47,13 +45,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public String getFullName() {
         return firstName + " " + lastName;

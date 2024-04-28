@@ -20,7 +20,6 @@ public class SqliteUserDAO implements IUserDAO {
                     "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "firstName VARCHAR NOT NULL," +
                     "lastName VARCHAR NOT NULL," +
-                    "phone VARCHAR NOT NULL," +
                     "email VARCHAR NOT NULL," +
                     "password VARCHAR NOT NULL" +
                     ")";
@@ -84,10 +83,9 @@ public class SqliteUserDAO implements IUserDAO {
     public void addUser(User user) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO users (firstName, lastName, phone, email, password) VALUES (?, ?, ?, ?, ?)");
+                    "INSERT INTO users (firstName, lastName email, password) VALUES (?, ?, ?, ?)");
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
-            statement.setString(3, user.getPhone());
             statement.setString(4, user.getEmail());
             statement.setString(5, user.getPassword());
             statement.executeUpdate();
@@ -104,10 +102,9 @@ public class SqliteUserDAO implements IUserDAO {
     @Override
     public void updateUser(User user) {
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, phone = ?, email = ? WHERE userId = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstName = ?, lastName = ? email = ? WHERE userId = ?");
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getLastName());
-            statement.setString(3, user.getPhone());
             statement.setString(4, user.getEmail());
             statement.setInt(5, user.getId());
             statement.executeUpdate();
@@ -136,10 +133,9 @@ public class SqliteUserDAO implements IUserDAO {
             if (resultSet.next()) {
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                User user = new User(firstName, lastName, phone, email, password);
+                User user = new User(firstName, lastName, email, password);
                 user.setId(userId);
                 return user;
             }
@@ -160,10 +156,9 @@ public class SqliteUserDAO implements IUserDAO {
                 int userId = resultSet.getInt("userId");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                String phone = resultSet.getString("phone");
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
-                User user = new User(firstName, lastName, phone, email, password);
+                User user = new User(firstName, lastName, email, password);
                 user.setId(userId);
                 users.add(user);
             }
@@ -182,9 +177,8 @@ public class SqliteUserDAO implements IUserDAO {
                 int userId = resultSet.getInt("userId");
                 String firstName = resultSet.getString("firstName");
                 String lastName = resultSet.getString("lastName");
-                String phone = resultSet.getString("phone");
                 String password = resultSet.getString("password");
-                User user = new User(firstName, lastName, phone, email, password);
+                User user = new User(firstName, lastName, email, password);
                 user.setId(userId);
                 return user;
             }

@@ -27,7 +27,6 @@ public class SignUpController {
     private Label emailErrorLabel;
 
 
-    // Connection to database is not initialized
     @FXML
     public void initialize(){
         userDAO = new SqliteUserDAO();
@@ -36,8 +35,10 @@ public class SignUpController {
         lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         email.textProperty().addListener((observable, oldValue, newValue) -> {
             validateEmail(newValue);});
+        email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         password.textProperty().addListener((observable, oldValue, newValue) -> {
             validatePassword(newValue);});
+        password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
     }
     private void validatePassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
@@ -73,21 +74,20 @@ public class SignUpController {
     protected void onSignUpButtonClick() throws IOException {
         String first_name = fname.getText();
         String last_name = lname.getText();
-        String email = this.email.getText();
-        String phone = "";
-        String password = this.password.getText();
+        String email_rec = email.getText();
+        String password_rec = this.password.getText();
 
         // Checking password meets requirements
-        if (!isValidPassword(password)) {
+        if (!isValidPassword(password_rec)) {
             showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
             return;
         }
-        if (!isValidEmail(email)) {
+        if (!isValidEmail(email_rec)) {
             showAlert("Invalid Email", "Please enter a valid email address.");
             return;
         }
 
-        User newUser = new User(first_name, last_name, email, phone, password);
+        User newUser = new User(first_name, last_name, email_rec, password_rec);
         userDAO.addUser(newUser);
 
         // Redirect to the login page after signup
@@ -106,7 +106,7 @@ public class SignUpController {
         return email.matches(regex);
     }
 
-    private void showAlert(String title, String message) {
+    public void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -115,5 +115,9 @@ public class SignUpController {
     }
 
 
+    // Have a method where it check database and sees if there is already an existing user
+    // MODIFY the UI to show the requirements for the password, have a pop up when user is created successfully
+
+    // Currenty bug is that user cannot return to log in unless they meet requriement for the password and email
 
 }
