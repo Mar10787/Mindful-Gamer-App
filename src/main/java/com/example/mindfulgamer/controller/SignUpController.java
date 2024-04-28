@@ -43,10 +43,6 @@ public class SignUpController {
 
         // Enable sign up button if all parameters are not null
         signup.setDisable(first_name.isEmpty() || last_name.isEmpty() || email_rec.isEmpty() || password_rec.isEmpty());
-
-        // Modify the method and create other methods here to check each field for allowable characters, might
-        // need to alter signup-page.fxml to reflect changes such as password char or digit requirements, let users know
-        // what requirements are for each field if there is any
     }
 
     @FXML
@@ -54,19 +50,31 @@ public class SignUpController {
         String first_name = fname.getText();
         String last_name = lname.getText();
         String email_rec = email.getText();
-        String password_rec = this.password.getText();
+        String password_rec = password.getText();
 
-        // Checking password meets requirements
-        if (!isValidPassword(password_rec)) {
-            showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
+        // Checking both email and password first
+        if (!isValidEmail(email_rec) && !isValidPassword(password_rec)){
+            showAlert("Invalid Email and Password", "Please re-enter a valid email address and create a password that is 8 characters long, " +
+                    "including one number and uppercase letter.");
             return;
         }
-        if (!isValidEmail(email_rec)) {
+        // Checking email is valid
+        else if (!isValidEmail(email_rec)) {
             showAlert("Invalid Email", "Please enter a valid email address.");
             return;
         }
+        // Checking password meets requirements
+        else if (!isValidPassword(password_rec)) {
 
-        User newUser = new User(first_name, last_name, email_rec, password_rec);
+            showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
+            return;
+        }
+
+        String first_name_lower = first_name.toLowerCase();
+        String last_name_lower = last_name.toLowerCase();
+        String email_lower = email_rec.toLowerCase();
+
+        User newUser = new User(first_name_lower, last_name_lower, email_lower, password_rec);
         userDAO.addUser(newUser);
         showSuccess("Sign Up Successful", "Welcome to Mindful Gamer!");
 
@@ -111,11 +119,11 @@ public class SignUpController {
 
 
     // Have a method where it check database and sees if there is already an existing user
+    // When i create a user, its not saving to the database
+    // Also some of the users in the database shouldnt technically be allowed to be in there since the passwords are invalid, dont have to delete just fyi
 
-    // MODIFY the UI to show the requirements for the password
+    // MODIFY the UI to show the requirements for the password, ask alyssa for help, not really my strong suit here, or you could ask Ty
 
-    // What if user enters both incorrect email and password?
-    // When its both incorrect, it displays password error indicating that it brushes pass the email, create a new window tab where it shows that email
-    // and password are both incorrect whilst stating their requirements
+    // Im going to save first and last name as lowercase in user classes, so its easier in the long run
 
 }

@@ -14,6 +14,7 @@ public class User {
         this.password = password;
     }
 
+    // Name is going to be saved as lowercase
 
 
 
