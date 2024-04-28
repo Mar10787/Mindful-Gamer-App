@@ -21,10 +21,6 @@ public class SignUpController {
     public Button signup;
     @FXML
     public TextField fname, lname, email, password;
-    @FXML
-    private Label passwordErrorLabel;
-    @FXML
-    private Label emailErrorLabel;
 
 
     @FXML
@@ -33,29 +29,12 @@ public class SignUpController {
         // Listen for changes in fname, lname, email and password
         fname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        email.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateEmail(newValue);});
+
         email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        password.textProperty().addListener((observable, oldValue, newValue) -> {
-            validatePassword(newValue);});
+
         password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
     }
-    private void validatePassword(String password) {
-        String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
-        if (!password.matches(regex)) {
-            passwordErrorLabel.setText("Password must be at least 8 characters, include one number and one uppercase letter.");
-        } else {
-            passwordErrorLabel.setText("");
-        }
-    }
-    private void validateEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$";
-        if (!email.matches(regex)) {
-            emailErrorLabel.setText("Please enter a valid email address.");
-        } else {
-            emailErrorLabel.setText("");
-        }
-    }
+
     public void checkFields(){
         String first_name = fname.getText();
         String last_name = lname.getText();
@@ -89,6 +68,7 @@ public class SignUpController {
 
         User newUser = new User(first_name, last_name, email_rec, password_rec);
         userDAO.addUser(newUser);
+        showSuccess("Sign Up Successful", "Welcome to Mindful Gamer!");
 
         // Redirect to the login page after signup
         Stage stage = (Stage) signup.getScene().getWindow();
@@ -113,11 +93,22 @@ public class SignUpController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    public void showSuccess(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 
     // Have a method where it check database and sees if there is already an existing user
     // MODIFY the UI to show the requirements for the password, have a pop up when user is created successfully
 
     // Currenty bug is that user cannot return to log in unless they meet requriement for the password and email
+
+    // What if user enters both incorrect email and password?
+    // When its both incorrect, it displays password error indicating that it brushes pass the email, create a new window tab where it shows that email
+    // and password are both incorrect whilst stating their requirements
 
 }
