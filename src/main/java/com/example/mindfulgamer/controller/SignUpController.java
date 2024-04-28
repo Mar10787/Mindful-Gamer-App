@@ -52,6 +52,8 @@ public class SignUpController {
         String email_rec = email.getText();
         String password_rec = password.getText();
 
+        // Should check in database to see if the email is found, if yes then produce an error that says so otherwise
+
         // Checking both email and password first
         if (!isValidEmail(email_rec) && !isValidPassword(password_rec)){
             showAlert("Invalid Email and Password", "Please re-enter a valid email address and create a password that is 8 characters long, " +
