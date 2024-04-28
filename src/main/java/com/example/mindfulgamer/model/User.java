@@ -5,14 +5,20 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String phone;
 
-    public User(String firstName, String lastName, String email, String phone) {
+    public User(String firstName, String lastName, String phone, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
         this.phone = phone;
+        this.email = email;
+        this.password = password;
     }
+
+    // Name is going to be saved as lowercase
+
+
 
     public int getId() {return userId; }
 
@@ -50,7 +56,16 @@ public class User {
         this.phone = phone;
     }
 
+
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
