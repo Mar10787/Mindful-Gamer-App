@@ -1,5 +1,6 @@
 package com.example.mindfulgamer.model;
 
+import java.sql.Connection;
 import java.util.List;
 
 /**
@@ -33,6 +34,14 @@ public interface IUserDAO {
      * @param email The email entered for the sign up
      * @return if the email is found
      */
+    public void ClearData(String tablename);
+    /**
+     * Clears table for testing purposes
+     * @param connection, Database connection
+     *        tablename, The table name wanting to delete
+     */
+    public void ResetID(String tablename);
+
     public User getUser(int userId);
     /**
      * Retrieves all users from the database.

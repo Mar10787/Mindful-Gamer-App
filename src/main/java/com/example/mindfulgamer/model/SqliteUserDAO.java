@@ -81,6 +81,34 @@ public class SqliteUserDAO implements IUserDAO {
 //    }
 
     @Override
+    public void ClearData(String table){
+        /**
+         * Method used to delete all data from table in the database, used only for testing
+         */
+        String deleteQuery = "DELETE FROM " + table;
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)){
+            // Execute the delete query
+            statement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void ResetID(String table){
+        /**
+         * Method used to reset all ID from users table in the database, used only for testing
+         */
+        String reset = "ALTER TABLE " + table + " AUTO_INCREMENT = 1";
+        try (PreparedStatement statement = connection.prepareStatement(reset)){
+            // Execute the reset query
+            statement.executeUpdate();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
     public void addUser(User user) {
         try {
             PreparedStatement statement = connection.prepareStatement(

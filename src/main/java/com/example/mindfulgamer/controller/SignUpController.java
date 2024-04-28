@@ -89,7 +89,15 @@ public class SignUpController {
         userDAO.addUser(newUser);
         showSuccess("Sign Up Successful", "Welcome to Mindful Gamer!");
 
+        // TESTING PURPOSES //
+        // Deleting Database
+        //userDAO.ClearData("users");
+        // Reseting ID Count
+        //userDAO.ResetID("users");
+        // TESTING PURPOSES //
+
         // Redirect to the login page after signup
+
         Stage stage = (Stage) signup.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
