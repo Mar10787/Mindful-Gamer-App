@@ -1,13 +1,12 @@
 import com.example.mindfulgamer.model.SqliteUserDAO;
 import com.example.mindfulgamer.model.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class SignUpTest {
+    private SqliteUserDAO SignUp = new SqliteUserDAO();
+
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
         return password.matches(regex);

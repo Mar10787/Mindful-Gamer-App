@@ -30,11 +30,7 @@ public class SignUpController {
         // Listen for changes in fname, lname, email and password
         fname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        email.textProperty().addListener((observable, oldValue, newValue) -> {
-            validateEmail(newValue);});
         email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        password.textProperty().addListener((observable, oldValue, newValue) -> {
-            validatePassword(newValue);});
         password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
     }
 
@@ -102,26 +98,6 @@ public class SignUpController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
         stage.setScene(scene);
-    }
-    private void validatePassword(String password) {
-        if (emailErrorLabel != null) {
-            String regex = "^(?=.[0-9])(?=.[A-Z]).{8,}$";
-            if (!password.matches(regex)) {
-                passwordErrorLabel.setText("Password must be at least 8 characters, include one number and one uppercase letter."); //Contains 1 digit, one uppercase letter, and at least 8 characters long
-            } else {
-                passwordErrorLabel.setText("");
-            }
-        }
-    }
-    private void validateEmail(String email) {
-        if (emailErrorLabel != null) {
-            String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$";  // Contains characters before @ symbol, the @ symbol, letters after @ symbol, "." and letters after ".".
-            if (!email.matches(regex)) {
-                emailErrorLabel.setText("Please enter a valid email address.");
-            } else {
-                emailErrorLabel.setText("");
-            }
-        }
     }
     private boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
