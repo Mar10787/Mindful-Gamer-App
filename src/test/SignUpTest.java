@@ -1,20 +1,12 @@
-import com.example.mindfulgamer.model.SqliteUserDAO;
+import com.example.mindfulgamer.controller.SignUpController;
 import com.example.mindfulgamer.model.User;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class SignUpTest {
-    private SqliteUserDAO SignUp = new SqliteUserDAO();
+    private SignUpController SignUp = new SignUpController();
 
-    private boolean isValidPassword(String password) {
-        String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
-        return password.matches(regex);
-    }
-    private boolean isValidEmail(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$"; // Contains characters before @ symbol, the @ symbol, letters after @ symbol, "." and letters after ".".
-        return email.matches(regex);
-    }
     private boolean isEmailExist(String input_email){
         for (User user: users){
             String email = user.getEmail();
@@ -24,13 +16,6 @@ public class SignUpTest {
         }
         return false;
     }
-
-
-
-
-
-
-
 
     private User[] users = {
             new User("Martino", "Nguyen", "", "martino@gmail.com","Mar10787"),
@@ -47,23 +32,28 @@ public class SignUpTest {
 
     @Test
     public void TestEmailNoSpecialChar(){
-        assertEquals(false, isValidEmail(EmailNoAt));
+        boolean valid = SignUp.isValidEmail(EmailNoAt);
+        assertEquals(false, valid);
     }
     @Test
     public void TestEmailWithSpecialCharNoDot() {
-        assertEquals(false, isValidEmail(EmailNoAtNoDot));
+        boolean valid = SignUp.isValidEmail(EmailNoAtNoDot);
+        assertEquals(false, valid);
     }
     @Test
     public void TestEmailWithoutDot(){
-        assertEquals(false, isValidEmail(EmailAtNoDot));
+        boolean valid = SignUp.isValidEmail(EmailAtNoDot);
+        assertEquals(false, valid);
     }
     @Test
     public void TestEmailWithDotNoStringAfter(){
-        assertEquals(false, isValidEmail(EmailDotNoAfterString));
+        boolean valid = SignUp.isValidEmail(EmailDotNoAfterString);
+        assertEquals(false, valid);
     }
     @Test
     public void TestValidEmail(){
-        assertEquals(true, isValidEmail(validEmail));
+        boolean valid = SignUp.isValidEmail(validEmail);
+        assertEquals(true, valid);
     }
 
     // Password Validation
@@ -77,24 +67,30 @@ public class SignUpTest {
     String PassNot8Char = "A4c";
 
     @Test
+
     public void TestPassNull(){
-        assertEquals(false, isValidPassword(invalidPass));
+        boolean valid = SignUp.isValidPassword(invalidPass);
+        assertEquals(false, valid);
     }
     @Test
     public void TestPassValid(){
-        assertEquals(true, isValidPassword(validPass));
+        boolean valid = SignUp.isValidPassword(validPass);
+        assertEquals(true, valid);
     }
     @Test
     public void TestPassNoDigit(){
-        assertEquals(false, isValidPassword(PassNoDigit));
+        boolean valid = SignUp.isValidPassword(PassNoDigit);
+        assertEquals(false, valid);
     }
     @Test
     public void TestPassNoUpper(){
-        assertEquals(false, isValidPassword(PassNoUpper));
+        boolean valid = SignUp.isValidPassword(PassNoUpper);
+        assertEquals(false, valid);
     }
     @Test
     public void TestPassNo8Length(){
-        assertEquals(false, isValidPassword(PassNot8Char));
+        boolean valid = SignUp.isValidPassword(PassNot8Char);
+        assertEquals(false, valid);
     }
 
     // Testing to method used to check if email already exists in database

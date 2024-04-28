@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import com.example.mindfulgamer.model.IUserDAO;
 import com.example.mindfulgamer.model.SqliteUserDAO;
 
 
@@ -21,8 +20,6 @@ public class SignUpController {
     public Button signup;
     @FXML
     public TextField fname, lname, email, password;
-    @FXML
-    public Label emailErrorLabel,passwordErrorLabel;
 
     @FXML
     public void initialize(){
@@ -99,12 +96,12 @@ public class SignUpController {
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
         stage.setScene(scene);
     }
-    private boolean isValidPassword(String password) {
+    public boolean isValidPassword(String password) {
         String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
         return password.matches(regex);
     }
 
-    private boolean isValidEmail(String email) {
+    public boolean isValidEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[a-zA-Z]{2,}$"; // Contains characters before @ symbol, the @ symbol, letters after @ symbol, "." and letters after ".".
         return email.matches(regex);
     }
