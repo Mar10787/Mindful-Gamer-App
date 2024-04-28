@@ -101,11 +101,18 @@ public class SignUpController {
         alert.showAndWait();
     }
 
+    @FXML
+    public void onLogInButtonClick() throws IOException{
+        Stage stage = (Stage) signup.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
+        stage.setScene(scene);
+    }
+
 
     // Have a method where it check database and sees if there is already an existing user
-    // MODIFY the UI to show the requirements for the password, have a pop up when user is created successfully
 
-    // Currenty bug is that user cannot return to log in unless they meet requriement for the password and email
+    // MODIFY the UI to show the requirements for the password
 
     // What if user enters both incorrect email and password?
     // When its both incorrect, it displays password error indicating that it brushes pass the email, create a new window tab where it shows that email
