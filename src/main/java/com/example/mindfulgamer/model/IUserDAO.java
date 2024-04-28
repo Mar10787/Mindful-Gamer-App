@@ -27,6 +27,12 @@ public interface IUserDAO {
      * @param userId The id of the user to retrieve.
      * @return The user with the given id, or null if not found.
      */
+    public boolean isEmailExist(String email);
+    /**
+     * Check database if email already exists
+     * @param email The email entered for the sign up
+     * @return if the email is found
+     */
     public User getUser(int userId);
     /**
      * Retrieves all users from the database.

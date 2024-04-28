@@ -47,7 +47,6 @@ public class SignUpController {
         // Enable sign up button if all parameters are not null
         signup.setDisable(first_name.isEmpty() || last_name.isEmpty() || email_rec.isEmpty() || password_rec.isEmpty());
     }
-
     @FXML
     protected void onSignUpButtonClick() throws IOException {
         String first_name = fname.getText();
@@ -79,6 +78,12 @@ public class SignUpController {
         String first_name_lower = first_name.toLowerCase();
         String last_name_lower = last_name.toLowerCase();
         String email_lower = email_rec.toLowerCase();
+
+        // Check for email existing in the database
+        if (userDAO.isEmailExist(email_lower)){
+            showAlert("Email In Use", "This email is already being used.");
+            return;
+        }
 
         User newUser = new User(first_name_lower, last_name_lower, phone, email_lower, password_rec);
         userDAO.addUser(newUser);

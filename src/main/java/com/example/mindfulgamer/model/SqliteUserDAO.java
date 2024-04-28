@@ -102,6 +102,24 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
+    public boolean isEmailExist(String email){
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT COUNT(*) AS count FROM users WHERE email = ?"
+            );
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                int count = resultSet.getInt("count");
+                return count > 0;
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
     public void updateUser(User user) {
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, phone = ?, email = ? WHERE userId = ?");
