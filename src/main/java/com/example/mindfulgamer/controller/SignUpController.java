@@ -21,6 +21,8 @@ public class SignUpController {
     public Button signup;
     @FXML
     public TextField fname, lname, email, password;
+    @FXML
+    private Label passwordErrorLabel;
 
 
     // Connection to database is not initialized
@@ -31,7 +33,17 @@ public class SignUpController {
         fname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
         email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            validatePassword(newValue);
+        });
+    }
+    private void validatePassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$";
+        if (!password.matches(regex)) {
+            passwordErrorLabel.setText("Password must be at least 8 characters, include one number and one uppercase letter.");
+        } else {
+            passwordErrorLabel.setText("");
+        }
     }
     public void checkFields(){
         String first_name = fname.getText();
@@ -55,6 +67,12 @@ public class SignUpController {
         String phone = "";
         String password = this.password.getText();
 
+        // Checking password meets requirements
+        if (!isValidPassword(password)) {
+            showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
+            return;
+        }
+
         User newUser = new User(first_name, last_name, email, phone, password);
         userDAO.addUser(newUser);
 
@@ -63,6 +81,18 @@ public class SignUpController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
         stage.setScene(scene);
+    }
+    private boolean isValidPassword(String password) {
+        String regex = "^(?=.*[0-9])(?=.*[A-Z]).{8,}$"; //Contains 1 digit, one uppercase letter, and at least 8 characters long
+        return password.matches(regex);
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
 
