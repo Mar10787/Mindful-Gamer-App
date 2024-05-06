@@ -34,12 +34,15 @@
 }
 .timer_go {
     -fx-background-color: #3ec17d;
+    -fx-font-weight: bold;
 }
 .timer_pause {
     -fx-background-color: #eedc11;
+    -fx-font-weight: bold;
 }
 .timer_stop {
     -fx-background-color: #f32d2c;
+    -fx-font-weight: bold;
 }
 .reminder_button {
     -fx-background-color: #ebebeb;
