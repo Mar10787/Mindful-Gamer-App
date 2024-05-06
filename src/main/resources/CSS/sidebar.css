@@ -32,3 +32,15 @@
 .centre {
     -fx-text-align: center;
 }
+.timer_go {
+    -fx-background-color: #3ec17d;
+}
+.timer_pause {
+    -fx-background-color: #eedc11;
+}
+.timer_stop {
+    -fx-background-color: #f32d2c;
+}
+.reminder_button {
+    -fx-background-color: #ebebeb;
+}

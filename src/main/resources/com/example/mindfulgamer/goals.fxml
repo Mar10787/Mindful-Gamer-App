@@ -60,7 +60,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="timer" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Timer" textFill="WHITE">
+                  <Button fx:id="timers" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Timer" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -108,7 +108,7 @@
                      </graphic>
                   </Button>
                   <ScrollBar layoutX="444.0" layoutY="1.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="14.0" />
-                  <Label layoutX="8.0" prefHeight="30.0" prefWidth="175.0" text="Reminders">
+                  <Label layoutX="8.0" prefHeight="30.0" prefWidth="175.0" text="Goals">
                      <font>
                         <Font name="System Bold" size="27.0" />
                      </font>
@@ -117,7 +117,7 @@
             </Pane>
             <Pane layoutY="35.0" prefHeight="365.0" prefWidth="457.0">
                <children>
-                  <Button fx:id="add_reminder" layoutY="2.0" mnemonicParsing="false" styleClass="background_buttons" stylesheets="@../../../CSS/sidebar.css" text="Add reminder">
+                  <Button fx:id="add_reminder" layoutY="2.0" mnemonicParsing="false" styleClass="background_buttons" stylesheets="@../../../CSS/sidebar.css" text="Add goal">
                      <graphic>
                         <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -128,9 +128,9 @@
                   </Button>
                   <TableView layoutX="-2.0" layoutY="27.0" prefHeight="338.0" prefWidth="447.0">
                     <columns>
-                      <TableColumn prefWidth="293.0" text="Reminder" />
-                      <TableColumn prefWidth="75.0" text="Due" />
-                        <TableColumn prefWidth="78.0" text="Time" />
+                      <TableColumn prefWidth="183.0" text="Goal" />
+                      <TableColumn prefWidth="214.0" text="Progress" />
+                        <TableColumn prefWidth="49.0" text="Type" />
                     </columns>
                   </TableView>
                </children>
