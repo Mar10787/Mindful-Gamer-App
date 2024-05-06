@@ -36,8 +36,11 @@ public class GeneralController {
     }
 
     @FXML
-    public void Goals(){
-
+    public void Goals() throws IOException {
+        Stage stage = (Stage) goals.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("goals.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
 
     @FXML
