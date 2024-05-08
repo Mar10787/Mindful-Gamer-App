@@ -29,22 +29,12 @@ public class SqliteUserDAO implements IUserDAO {
             // New table for GamingDetails
             String createGameTrackingTable = "CREATE TABLE IF NOT EXISTS gameTracking (" +
                     "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "gameName TEXT," +
+                    "gameName VARCHAR," +
                     "startGame DATETIME," +
                     "endGame DATETIME," +
                     "gamingTime INTEGER" +
                     ")";
             statement.execute(createGameTrackingTable);
-
-            // New table for GamingDetails
-            String createStreamTrackingTable = "CREATE TABLE IF NOT EXISTS streamTracking (" +
-                    "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "streamName TEXT," +
-                    "startSession DATETIME," +
-                    "endSession DATETIME," +
-                    "streamingTime INTEGER" +
-                    ")";
-            statement.execute(createStreamTrackingTable);
 
             // New table for GamingDetails
             String createRemindersTable = "CREATE TABLE IF NOT EXISTS reminders (" +
@@ -63,22 +53,29 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
-//    private void insertSampleData() {
-//        try {
-//            // Clear before inserting
-//            Statement clearStatement = connection.createStatement();
-//            String clearQuery = "DELETE FROM users";
-//            clearStatement.execute(clearQuery);
-//            Statement insertStatement = connection.createStatement();
-//            String insertQuery = "INSERT INTO users (firstName, lastName, phone, email) VALUES "
-//                    + "('John', 'Doe', '0423423423', 'johndoe@example.com'),"
-//                    + "('Jane', 'Doe', '0423423424', 'janedoe@example.com'),"
-//                    + "('Jay', 'Doe', '0423423425', 'jaydoe@example.com')";
-//            insertStatement.execute(insertQuery);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void insertSampleData() {
+        try {
+            // Clear before inserting
+            Statement clearStatement = connection.createStatement();
+            String clearQuery = "DELETE FROM gameTracking";
+            clearStatement.execute(clearQuery);
+            Statement insertStatement = connection.createStatement();
+            String insertQuery = "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES "
+                    + "('Warframe', '7/04/2024  08:00', '7/04/2024  12:00', '4'),"
+                    + "('Warframe', '8/04/2024  13:00', '8/04/2024  15:00', '2'),"
+                    + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
+                    + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
+                    + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
+                    + "('Call of Duty', '8/04/2024  12:00', '8/04/2024  15:00', '3'),"
+                    + "('Warzone', '11/04/2024  10:00', '11/04/2024  13:00', '3'),"
+                    + "('Pokemon', '11/04/2024  15:00', '11/04/2024  21:00', '9'),"
+                    + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
+                    + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1')";
+            insertStatement.execute(insertQuery);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void ClearData(String table){
@@ -88,19 +85,6 @@ public class SqliteUserDAO implements IUserDAO {
         String deleteQuery = "DELETE FROM " + table;
         try (PreparedStatement statement = connection.prepareStatement(deleteQuery)){
             // Execute the delete query
-            statement.executeUpdate();
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-    @Override
-    public void ResetID(String table){
-        /**
-         * Method used to reset all ID from users table in the database, used only for testing
-         */
-        String reset = "ALTER TABLE " + table + " AUTO_INCREMENT = 1";
-        try (PreparedStatement statement = connection.prepareStatement(reset)){
-            // Execute the reset query
             statement.executeUpdate();
         } catch (SQLException e){
             e.printStackTrace();

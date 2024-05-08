@@ -40,7 +40,6 @@ public interface IUserDAO {
      * @param connection, Database connection
      *        tablename, The table name wanting to delete
      */
-    public void ResetID(String tablename);
 
     public User getUser(int userId);
     /**

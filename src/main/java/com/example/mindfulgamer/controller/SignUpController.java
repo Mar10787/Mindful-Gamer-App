@@ -87,6 +87,7 @@ public class SignUpController {
         //userDAO.ClearData("users");
         // Reseting ID Count
         //userDAO.ResetID("users");
+        //userDAO.insertSampleData();
         // TESTING PURPOSES //
 
         // Redirect to the login page after signup
