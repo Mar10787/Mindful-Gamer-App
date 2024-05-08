@@ -5,10 +5,10 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,8 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../../CSS/sidebar.css" xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.GeneralController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../../CSS/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.GeneralController">
     <children>
         <VBox prefHeight="400.0" prefWidth="134.0">
             <children>
@@ -29,7 +28,7 @@
                                 <Font name="System Bold" size="20.0" />
                             </font>
                         </Label>
-                        <Button fx:id = "dashboard" onAction="#Dashboard" layoutX="2.0" layoutY="56.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Dashboard" textFill="WHITE">
+                        <Button fx:id="dashboard" layoutX="2.0" layoutY="56.0" mnemonicParsing="false" onAction="#Dashboard" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Dashboard" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -38,7 +37,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id = "gaming_time" onAction = "#Gaming_Time" layoutX="2.0" layoutY="90.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Gaming Time" textFill="WHITE">
+                        <Button fx:id="gaming_time" layoutX="2.0" layoutY="90.0" mnemonicParsing="false" onAction="#Gaming_Time" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Gaming Time" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -47,8 +46,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="reminders" onAction = "#Reminders"
-                                layoutX="2.0" layoutY="124.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Reminders" textFill="WHITE">
+                        <Button fx:id="reminders" layoutX="2.0" layoutY="192.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Reminders" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -57,7 +55,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="goals" onAction = "#Goals" layoutX="2.0" layoutY="158.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Goals" textFill="WHITE">
+                        <Button fx:id="goals" layoutX="2.0" layoutY="158.0" mnemonicParsing="false" onAction="#Goals" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Goals" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -66,26 +64,16 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="achievements" onAction = "#Achievements" layoutX="2.0" layoutY="192.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Achievements" textFill="WHITE">
+                        <Button fx:id="timer" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Timer" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../GUI%20Images/icons8-trophy-48.png" />
+                                        <Image url="@../../../GUI%20Images/icons8-timer-50.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id = "healthy_habits" onAction="#Healthy_Habits" layoutY="226.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="125.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Healthy Habits" textFill="WHITE">
-                            <graphic>
-                                <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../../../GUI%20Images/icons8-heart-with-pulse-50.png" />
-                                    </image>
-                                </ImageView>
-                            </graphic>
-                        </Button>
-                        <Button fx:id="logout" onAction = "#Logout"
-                                layoutX="12.0" layoutY="352.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Logout" textFill="WHITE">
+                        <Button fx:id="logout" layoutX="12.0" layoutY="352.0" mnemonicParsing="false" onAction="#Logout" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Logout" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="27.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -124,12 +112,13 @@
                             </graphic>
                         </Button>
                         <ScrollBar layoutX="444.0" layoutY="1.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="14.0" />
-                        <CheckBox layoutX="14.0" layoutY="11.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="153.0" styleClass="checkbox" stylesheets="@../../../CSS/sidebar.css" text="Enable gaming tracker?" />
+                  <TextField layoutX="7.0" layoutY="7.0" prefHeight="0.0" prefWidth="215.0" promptText="Search here" />
+                  <Button layoutX="222.0" layoutY="7.0" mnemonicParsing="false" text="Search" />
                     </children>
                 </Pane>
-                <Pane layoutY="39.0" prefHeight="177.0" prefWidth="457.0">
+                <Pane layoutY="58.0" prefHeight="181.0" prefWidth="457.0">
                     <children>
-                        <BarChart layoutY="2.0" prefHeight="174.0" prefWidth="446.0" title="This week:">
+                        <BarChart layoutY="-19.0" prefHeight="181.0" prefWidth="446.0" title="This week:">
                             <xAxis>
                                 <CategoryAxis side="BOTTOM" />
                             </xAxis>
@@ -139,10 +128,10 @@
                         </BarChart>
                     </children>
                 </Pane>
-                <Pane layoutY="200.0" prefHeight="200.0" prefWidth="446.0">
+                <Pane layoutY="219.0" prefHeight="181.0" prefWidth="446.0">
                     <children>
-                        <PieChart prefHeight="200.0" prefWidth="224.0" title="Games played this week:" />
-                        <ListView editable="true" layoutX="232.0" prefHeight="200.0" prefWidth="200.0" />
+                        <PieChart prefHeight="200.0" prefWidth="227.0" title="Games played this week:" />
+                        <ListView editable="true" layoutX="229.0" prefHeight="181.0" prefWidth="203.0" />
                     </children>
                 </Pane>
             </children>

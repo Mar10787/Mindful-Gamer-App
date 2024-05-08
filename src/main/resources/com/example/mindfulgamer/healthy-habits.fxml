@@ -42,7 +42,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="reminders" layoutX="2.0" layoutY="192.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Reminders" textFill="WHITE">
+                  <Button fx:id="reminders" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Reminders" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -60,11 +60,20 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="timer" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Timer" textFill="WHITE">
+                  <Button fx:id="achievements" layoutX="2.0" layoutY="192.0" mnemonicParsing="false" onAction="#Achievements" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Achievements" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../GUI%20Images/icons8-timer-50.png" />
+                              <Image url="@../../../GUI%20Images/icons8-trophy-48.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="healthy_habits" layoutX="2.0" layoutY="226.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="125.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Healthy Habits" textFill="WHITE">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../GUI%20Images/icons8-heart-with-pulse-50.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -108,7 +117,7 @@
                      </graphic>
                   </Button>
                   <ScrollBar layoutX="444.0" layoutY="1.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="14.0" />
-                  <Label layoutX="8.0" prefHeight="30.0" prefWidth="175.0" text="Reminders">
+                  <Label layoutX="8.0" prefHeight="39.0" prefWidth="243.0" text="Healthy Habits">
                      <font>
                         <Font name="System Bold" size="27.0" />
                      </font>
@@ -117,22 +126,14 @@
             </Pane>
             <Pane layoutY="35.0" prefHeight="365.0" prefWidth="457.0">
                <children>
-                  <Button fx:id="add_reminder" layoutY="2.0" mnemonicParsing="false" styleClass="background_buttons" stylesheets="@../../../CSS/sidebar.css" text="Add reminder">
-                     <graphic>
-                        <ImageView fitHeight="17.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../GUI%20Images/icons8-plus-30.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                   <TableView layoutX="-2.0" layoutY="27.0" prefHeight="338.0" prefWidth="447.0">
                     <columns>
-                      <TableColumn prefWidth="293.0" text="Reminder" />
-                      <TableColumn prefWidth="75.0" text="Due" />
-                        <TableColumn prefWidth="78.0" text="Time" />
+                      <TableColumn prefWidth="183.0" text="Goal" />
+                      <TableColumn prefWidth="214.0" text="Progress" />
+                        <TableColumn prefWidth="49.0" text="Type" />
                     </columns>
                   </TableView>
+                  <Label layoutX="14.0" layoutY="6.0" text="Gaming can" />
                </children>
             </Pane>
          </children>
