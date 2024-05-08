@@ -245,4 +245,48 @@ public class SqliteUserDAO implements IUserDAO {
         return gameNames;
     }
 
+    public List<String> getStartDate(String gameName){
+        List<String> startDatesList = new ArrayList<>();
+        try {
+            // Prepare SQL statement
+            String query = "SELECT startGame FROM gameTracking WHERE gameName = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,gameName);
+
+            // Execute query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process result set
+            while (resultSet.next()){
+                String startDate = resultSet.getString("startGame");
+                String[] Date = startDate.split(" ");
+                startDatesList.add(Date[0]);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return startDatesList;
+    }
+
+    public List<Integer> getGamingTimes(String gameName){
+        List<Integer> gamingTimesList = new ArrayList<>();
+        try {
+            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1,gameName);
+
+            // Execute query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Process result set
+            while (resultSet.next()){
+                int gamingTime = resultSet.getInt("gamingTime");
+                gamingTimesList.add(gamingTime);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return gamingTimesList;
+    }
+
 }

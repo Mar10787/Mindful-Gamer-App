@@ -7,6 +7,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -15,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
@@ -28,6 +32,8 @@ public class GeneralController {
     public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout, search_button;
     @FXML
     private TextField searchField;
+    @FXML
+    private BarChart<String, Number> barChart;
     @FXML
     private ListView<String> searchResults;
 
@@ -105,8 +111,47 @@ public class GeneralController {
             alert.setContentText("The game \"" + query + "\" does not exist.");
             alert.showAndWait();
         } else{
+            List<Integer> gamingTime = userDAO.getGamingTimes(filteredList.get(0));
+            List<String> startDate = userDAO.getStartDate(filteredList.get(0));
+            updateChart(startDate,gamingTime);
             // Update the search results
         }
         searchResults.setItems(filteredList);
     }
+
+    private void updateChart(List<String> startDates, List<Integer> gamingTimes) {
+        // Perform your data update logic here based on the search data
+        // Dummy example: Update chart with dummy data
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Gaming Time");
+
+        // Add some dummy data (replace with your actual data retrieval logic)
+
+        for (int i = 0; i < startDates.size() && i < gamingTimes.size(); i++){
+            String startDate = startDates.get(i);
+            int gamingTime = gamingTimes.get(i);
+
+            int xValue = i + 1;
+            series.getData().add(new XYChart.Data<>(startDate,gamingTime));
+        }
+        // Set up a NumberAxis for the x-axis
+        NumberAxis xAxis = new NumberAxis();
+        xAxis.setLabel("Date"); // Set x-axis label
+        xAxis.setTickLabelRotation(90); // Rotate tick labels if needed
+
+        // Clear existing data and set new axis
+        barChart.getData().clear();
+        barChart.setData(FXCollections.observableArrayList(series));
+        barChart.setCategoryGap(0); // Optional: Set category gap to 0 for better alignment
+        barChart.setBarGap(0); // Optional: Set bar gap to 0 for better alignment
+        barChart.setHorizontalGridLinesVisible(false); // Optional: Hide horizontal grid lines
+        barChart.setVerticalGridLinesVisible(false); // Optional: Hide vertical grid lines
+        barChart.setLegendVisible(true); // Optional: Show legend
+        barChart.setTitle("Gaming Time"); // Optional: Set chart title
+        barChart.setAnimated(false); // Optional: Disable animation
+        barChart.setLegendVisible(true); // Optional: Show legend
+    }
+
+
+
 }
