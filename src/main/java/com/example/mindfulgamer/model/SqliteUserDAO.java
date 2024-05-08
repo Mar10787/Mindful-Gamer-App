@@ -1,5 +1,8 @@
 package com.example.mindfulgamer.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,6 +225,24 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public ObservableList<String> fetchAllGameNames(){
+        ObservableList<String> gameNames = FXCollections.observableArrayList();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT DISTINCT gameName FROM gameTracking";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()){
+                String gameName = resultSet.getString("gameName");
+                gameNames.add(gameName);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            // Handle exception
+        }
+        return gameNames;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.mindfulgamer.controller;
 
 import com.example.mindfulgamer.HelloApplication;
+import com.example.mindfulgamer.model.SqliteUserDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,21 +14,23 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
     // used to code redundancy
 
     // Constructors
+    SqliteUserDAO userDAO = new SqliteUserDAO();
+
+
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout, search_button;
     @FXML
     private TextField searchField;
     @FXML
     private ListView<String> searchResults;
-    private ObservableList<String> games = FXCollections.observableArrayList(
-            "Game 1","Game 2","Game 3"
-    );
+
     @FXML
     public void Dashboard(){
 
@@ -82,8 +85,9 @@ public class GeneralController {
     }
 
     @FXML
-    // Edit this such that 1. it uses the database, 2. It feeds the information from the database and changes the table
+    // 1. It feeds the information from the database and changes the table
     private void search(){
+        ObservableList<String> games = FXCollections.observableArrayList(userDAO.fetchAllGameNames());
         String query = searchField.getText().toLowerCase();
         ObservableList<String> filteredList = FXCollections.observableArrayList();
 
