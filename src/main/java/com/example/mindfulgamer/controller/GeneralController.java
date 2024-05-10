@@ -38,6 +38,7 @@ public class GeneralController {
     private BarChart<String, Number> barChart;
     @FXML
     private ListView<String> searchResults;
+    public ListView<String> gamesPlayedLastWeek;
 
     @FXML
     public void Dashboard(){
@@ -149,7 +150,6 @@ public class GeneralController {
 
     public void loadInitialData() {
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
-        // Change the map to store Date objects
         Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -159,28 +159,25 @@ public class GeneralController {
 
             for (int i = 0; i < startDates.size(); i++) {
                 try {
-                    Date date = dateFormat.parse(startDates.get(i));  // Parse the date string into a Date object
+                    Date date = dateFormat.parse(startDates.get(i));
                     gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
                 } catch (ParseException e) {
-                    e.printStackTrace();  // Handle potential parsing errors
+                    e.printStackTrace();
                 }
             }
         }
 
-        // Convert sorted dates back to strings for display
+        // Update chart
         List<String> sortedDates = new ArrayList<>();
         List<Integer> sortedTimes = new ArrayList<>();
         for (Map.Entry<Date, Integer> entry : gamingTimeByDate.entrySet()) {
-            sortedDates.add(dateFormat.format(entry.getKey()));  // Format the date back to string
+            sortedDates.add(dateFormat.format(entry.getKey()));
             sortedTimes.add(entry.getValue());
         }
-
         updateChart(sortedDates, sortedTimes);
+
+        // Update list of games played last week
+        List<String> gamesLastWeek = userDAO.getGamesPlayedLast7Days();
+        gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));  // Display these games in the ListView
     }
-
-
-
-
-
-
 }

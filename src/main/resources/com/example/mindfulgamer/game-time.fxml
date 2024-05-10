@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.ScrollBar?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../../CSS/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.GeneralController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../../CSS/sidebar.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.GeneralController">
     <children>
         <VBox prefHeight="400.0" prefWidth="134.0">
             <children>
@@ -112,8 +101,8 @@
                             </graphic>
                         </Button>
                         <ScrollBar layoutX="444.0" layoutY="1.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="14.0" />
-                  <TextField fx:id = "searchField" layoutX="7.0" layoutY="7.0" prefHeight="0.0" prefWidth="215.0" promptText="Search here" />
-                  <Button fx:id = "search_button" onAction = "#search" layoutX="222.0" layoutY="7.0" mnemonicParsing="false" text="Search" />
+                  <TextField fx:id="searchField" layoutX="7.0" layoutY="7.0" prefHeight="0.0" prefWidth="215.0" promptText="Search here" />
+                  <Button fx:id="search_button" layoutX="222.0" layoutY="7.0" mnemonicParsing="false" onAction="#search" text="Search" />
                     </children>
                 </Pane>
                 <Pane layoutY="58.0" prefHeight="181.0" prefWidth="457.0">
@@ -130,10 +119,11 @@
                 </Pane>
                 <Pane layoutY="219.0" prefHeight="181.0" prefWidth="446.0">
                     <children>
-                        <PieChart prefHeight="200.0" prefWidth="227.0" title="Games played this week:" />
-                        <ListView editable="true" layoutX="229.0" prefHeight="181.0" prefWidth="203.0" />
+                        <Label layoutX="10" layoutY="10" text="Games played this week:"/>
+                        <ListView fx:id="gamesPlayedLastWeek" layoutX="10" layoutY="30" prefHeight="150.0" prefWidth="426.0" />
                     </children>
                 </Pane>
+
             </children>
         </Pane>
     </children>

@@ -4,7 +4,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SqliteUserDAO implements IUserDAO {
@@ -73,8 +75,23 @@ public class SqliteUserDAO implements IUserDAO {
                     + "('Warzone', '11/04/2024  10:00', '11/04/2024  13:00', '3'),"
                     + "('Pokemon', '11/04/2024  15:00', '11/04/2024  21:00', '9'),"
                     + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
+                    + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1'),"
+                    + "('Warframe', '7/04/2024  08:00', '7/04/2024  12:00', '4'),"
+                    + "('Warframe', '8/04/2024  13:00', '8/04/2024  15:00', '2'),"
+                    + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
+                    + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
+                    + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
+                    + "('Call of Duty', '8/04/2024  12:00', '8/04/2024  15:00', '3'),"
+                    + "('Warzone', '11/04/2024  10:00', '11/04/2024  13:00', '3'),"
+                    + "('Pokemon', '11/04/2024  15:00', '11/04/2024  21:00', '9'),"
+                    + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
+                    + "('Stardew', '15/04/2024  08:00', '15/04/2024  12:00', '4'),"
+                    + "('Warframe', '16/04/2024  13:00', '16/04/2024  15:00', '2'),"
+                    + "('Stardew', '13/04/2024  08:00', '13/04/2024  15:00', '7'),"
+                    + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
                     + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1')";
             insertStatement.execute(insertQuery);
+            connection.commit(); // Commit the transaction
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -288,5 +305,34 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return gamingTimesList;
     }
+
+    // List of Games played in last 7 days
+    // Is just listing all games currently not past 7
+    public List<String> getGamesPlayedLast7Days() {
+        List<String> gamesLast7Days = new ArrayList<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Adjust the format if needed
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
+        java.util.Date sevenDaysAgoUtilDate = cal.getTime();
+
+        // Convert java.util.Date to java.sql.Date
+        java.sql.Date sevenDaysAgoSqlDate = new java.sql.Date(sevenDaysAgoUtilDate.getTime());
+
+        try {
+            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE startGame >= ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDate(1, sevenDaysAgoSqlDate); // Use setDate for java.sql.Date
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                gamesLast7Days.add(resultSet.getString("gameName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return gamesLast7Days;
+    }
+
+
 
 }
