@@ -15,10 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.*;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
@@ -42,12 +44,16 @@ public class GeneralController {
 
     }
     @FXML
-    public void Gaming_Time() throws IOException{
+    public void Gaming_Time() throws IOException {
         Stage stage = (Stage) gaming_time.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadInitialData();  // Call to load data on view initialization
     }
+
     @FXML
     public void Reminders() throws IOException {
         Stage stage = (Stage) reminders.getScene().getWindow();
@@ -120,26 +126,13 @@ public class GeneralController {
         searchResults.setItems(filteredList);
     }
 
-    private void updateChart(List<String> startDates, List<Integer> gamingTimes) {
-        // Perform your data update logic here based on the search data
-        // Dummy example: Update chart with dummy data
+    private void updateChart(List<String> dates, List<Integer> times) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Gaming Time");
 
-        // Add some dummy data (replace with your actual data retrieval logic)
-
-        for (int i = 0; i < startDates.size() && i < gamingTimes.size(); i++){
-            String startDate = startDates.get(i);
-            int gamingTime = gamingTimes.get(i);
-
-            int xValue = i + 1;
-            series.getData().add(new XYChart.Data<>(startDate,gamingTime));
+        for (int i = 0; i < dates.size(); i++) {
+            series.getData().add(new XYChart.Data<>(dates.get(i), times.get(i)));
         }
-        // Set up a NumberAxis for the x-axis
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("Date"); // Set x-axis label
-        xAxis.setTickLabelRotation(90); // Rotate tick labels if needed
-
         // Clear existing data and set new axis
         barChart.getData().clear();
         barChart.setData(FXCollections.observableArrayList(series));
@@ -152,6 +145,41 @@ public class GeneralController {
         barChart.setAnimated(false); // Optional: Disable animation
         barChart.setLegendVisible(true); // Optional: Show legend
     }
+
+
+    public void loadInitialData() {
+        ObservableList<String> allGames = userDAO.fetchAllGameNames();
+        // Change the map to store Date objects
+        Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        for (String game : allGames) {
+            List<String> startDates = userDAO.getStartDate(game);
+            List<Integer> gamingTimes = userDAO.getGamingTimes(game);
+
+            for (int i = 0; i < startDates.size(); i++) {
+                try {
+                    Date date = dateFormat.parse(startDates.get(i));  // Parse the date string into a Date object
+                    gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
+                } catch (ParseException e) {
+                    e.printStackTrace();  // Handle potential parsing errors
+                }
+            }
+        }
+
+        // Convert sorted dates back to strings for display
+        List<String> sortedDates = new ArrayList<>();
+        List<Integer> sortedTimes = new ArrayList<>();
+        for (Map.Entry<Date, Integer> entry : gamingTimeByDate.entrySet()) {
+            sortedDates.add(dateFormat.format(entry.getKey()));  // Format the date back to string
+            sortedTimes.add(entry.getValue());
+        }
+
+        updateChart(sortedDates, sortedTimes);
+    }
+
+
+
 
 
 
