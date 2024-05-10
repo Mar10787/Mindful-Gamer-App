@@ -103,6 +103,7 @@ public class GeneralController {
             }
         }
 
+        // Should change here so that it displays the weekly hurs tracked
         if (filteredList.isEmpty()){
             // Display a pop-up message indicating that the game does not exist
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
