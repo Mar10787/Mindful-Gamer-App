@@ -7,9 +7,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
@@ -317,7 +315,7 @@ public class SqliteUserDAO implements IUserDAO {
         List<String> gamesLast7Days = new ArrayList<>();
 
         try {
-            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE DATE(startGame) = DATE('now', '-7 days')";
+            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -327,7 +325,9 @@ public class SqliteUserDAO implements IUserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return gamesLast7Days;
+        Set<String> uniqueGames = new HashSet<>(gamesLast7Days);
+        List<String> uniqueGamesList = new ArrayList<>(uniqueGames);
+        return uniqueGamesList;
     }
 
 
