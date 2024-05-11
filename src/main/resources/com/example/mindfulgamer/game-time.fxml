@@ -120,7 +120,7 @@
                 </Pane>
                 <Pane layoutY="219.0" prefHeight="181.0" prefWidth="446.0">
                     <children>
-                        <Label layoutX="10" layoutY="10" text="Game Library"/>
+                        <Label layoutX="10" layoutY="10" text="Past Week Game Library"/>
                         <ListView fx:id="gamesPlayedLastWeek" layoutX="10" layoutY="30" prefHeight="150.0" prefWidth="426.0" onMouseClicked="#handleGameSelection"/>
                     </children>
                 </Pane>

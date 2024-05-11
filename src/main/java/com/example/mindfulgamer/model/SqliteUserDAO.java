@@ -307,19 +307,12 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     // List of Games played in last 7 days
-    // Is just listing all games currently not past 7
     public List<String> getGamesPlayedLast7Days() {
         List<String> gamesLast7Days = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Match the database format
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, -7);
-        java.util.Date sevenDaysAgoUtilDate = cal.getTime();
-        String formattedDate = dateFormat.format(sevenDaysAgoUtilDate); // Format the date as a string
 
         try {
-            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE SUBSTR(startGame, 1, 10) >= ?";
+            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE substr(startGame, 7, 4) || '-' || substr(startGame, 4, 2) || '-' || substr(startGame, 1, 2) >= date('now', '-7 days')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, formattedDate); // Use the formatted date string in the query
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -330,6 +323,8 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return gamesLast7Days;
     }
+
+
 
 
 
