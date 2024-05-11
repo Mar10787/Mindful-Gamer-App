@@ -121,13 +121,13 @@ public class GeneralController {
         } else{
             List<Integer> gamingTime = userDAO.getGamingTimes(filteredList.get(0));
             List<String> startDate = userDAO.getStartDate(filteredList.get(0));
-            updateChart(startDate,gamingTime);
+            updateChart(filteredList.get(0), startDate,gamingTime);
             // Update the search results
         }
         searchResults.setItems(filteredList);
     }
 
-    private void updateChart(List<String> dates, List<Integer> times) {
+    private void updateChart(String gameName, List<String> dates, List<Integer> times) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Gaming Time");
 
@@ -142,7 +142,12 @@ public class GeneralController {
         barChart.setHorizontalGridLinesVisible(false); // Optional: Hide horizontal grid lines
         barChart.setVerticalGridLinesVisible(false); // Optional: Hide vertical grid lines
         barChart.setLegendVisible(true); // Optional: Show legend
-        barChart.setTitle("Gaming Time"); // Optional: Set chart title
+        if (gameName != null){
+            barChart.setTitle("Gaming Time for " + gameName);
+        }
+        else{
+            barChart.setTitle("Game Time From Past 7 Days");
+        }
         barChart.setAnimated(false); // Optional: Disable animation
         barChart.setLegendVisible(true); // Optional: Show legend
     }
@@ -182,7 +187,8 @@ public class GeneralController {
             sortedDates.add(dateFormat.format(entry.getKey()));
             sortedTimes.add(entry.getValue());
         }
-        updateChart(sortedDates, sortedTimes);
+        String gameName = null;
+        updateChart(gameName,sortedDates, sortedTimes);
 
         // Update list of games played last week
         List<String> gamesLastWeek = userDAO.getGamesPlayedLast7Days();
@@ -210,7 +216,7 @@ public class GeneralController {
 
         barChart.getData().clear();
         barChart.getData().add(series);
-        barChart.setTitle("Gaming Time for " + gameName); // Optionally set the chart title to reflect the selected game
+        barChart.setTitle("Gaming Time History For " + gameName); // Optionally set the chart title to reflect the selected game
     }
 
 
