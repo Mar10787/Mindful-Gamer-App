@@ -266,7 +266,8 @@ public class SqliteUserDAO implements IUserDAO {
         List<String> startDatesList = new ArrayList<>();
         try {
             // Prepare SQL statement
-            String query = "SELECT startGame FROM gameTracking WHERE gameName = ? GROUP BY startGame";
+            String query = "SELECT startGame FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
+            ;
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
@@ -289,7 +290,7 @@ public class SqliteUserDAO implements IUserDAO {
     public List<Integer> getGamingTimes(String gameName){
         List<Integer> gamingTimesList = new ArrayList<>();
         try {
-            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? GROUP BY startGame";
+            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
