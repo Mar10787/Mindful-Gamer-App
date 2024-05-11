@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,9 +51,8 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-
         GeneralController controller = fxmlLoader.getController();
-        controller.loadInitialData();  // Call to load data on view initialization
+        controller.loadInitialData();
     }
 
     @FXML
@@ -148,10 +148,16 @@ public class GeneralController {
     }
 
 
+
     public void loadInitialData() {
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
         Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Get the date for 7 days ago
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
+        Date sevenDaysAgo = calendar.getTime();
 
         for (String game : allGames) {
             List<String> startDates = userDAO.getStartDate(game);
@@ -160,7 +166,9 @@ public class GeneralController {
             for (int i = 0; i < startDates.size(); i++) {
                 try {
                     Date date = dateFormat.parse(startDates.get(i));
-                    gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
+                    if (!date.before(sevenDaysAgo)) { // Check if the date is within the last 7 days
+                        gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -178,6 +186,34 @@ public class GeneralController {
 
         // Update list of games played last week
         List<String> gamesLastWeek = userDAO.getGamesPlayedLast7Days();
-        gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));  // Display these games in the ListView
+        gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));
     }
+
+    @FXML
+    private void handleGameSelection(MouseEvent event) {
+        String selectedGame = gamesPlayedLastWeek.getSelectionModel().getSelectedItem();
+        if (selectedGame != null) {
+            updateGameChart(selectedGame);
+        }
+    }
+
+    private void updateGameChart(String gameName) {
+        List<String> dates = userDAO.getStartDate(gameName);
+        List<Integer> times = userDAO.getGamingTimes(gameName);
+
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName(gameName); // Setting the series name to the game name
+
+        for (int i = 0; i < dates.size(); i++) {
+            series.getData().add(new XYChart.Data<>(dates.get(i), times.get(i)));
+        }
+
+        barChart.getData().clear();
+        barChart.getData().add(series);
+        barChart.setTitle("Gaming Time for " + gameName); // Optionally set the chart title to reflect the selected game
+    }
+
+
+
+
 }

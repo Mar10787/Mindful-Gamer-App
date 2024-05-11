@@ -66,8 +66,8 @@ public class SqliteUserDAO implements IUserDAO {
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES "
-                    + "('Warframe', '7/04/2024  08:00', '7/04/2024  12:00', '4'),"
-                    + "('Warframe', '8/04/2024  13:00', '8/04/2024  15:00', '2'),"
+                    + "('Warframe', '7/05/2024  08:00', '7/05/2024  12:00', '4'),"
+                    + "('Warframe', '8/05/2024  13:00', '8/05/2024  15:00', '2'),"
                     + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
                     + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
                     + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
@@ -77,7 +77,7 @@ public class SqliteUserDAO implements IUserDAO {
                     + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
                     + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1'),"
                     + "('Warframe', '7/04/2024  08:00', '7/04/2024  12:00', '4'),"
-                    + "('Warframe', '8/04/2024  13:00', '8/04/2024  15:00', '2'),"
+                    + "('Warframe', '8/05/2024  13:00', '8/05/2024  15:00', '2'),"
                     + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
                     + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
                     + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
@@ -91,7 +91,7 @@ public class SqliteUserDAO implements IUserDAO {
                     + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
                     + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1')";
             insertStatement.execute(insertQuery);
-            connection.commit(); // Commit the transaction
+            connection.commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -310,18 +310,16 @@ public class SqliteUserDAO implements IUserDAO {
     // Is just listing all games currently not past 7
     public List<String> getGamesPlayedLast7Days() {
         List<String> gamesLast7Days = new ArrayList<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Adjust the format if needed
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"); // Match the database format
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
         java.util.Date sevenDaysAgoUtilDate = cal.getTime();
-
-        // Convert java.util.Date to java.sql.Date
-        java.sql.Date sevenDaysAgoSqlDate = new java.sql.Date(sevenDaysAgoUtilDate.getTime());
+        String formattedDate = dateFormat.format(sevenDaysAgoUtilDate); // Format the date as a string
 
         try {
-            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE startGame >= ?";
+            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE SUBSTR(startGame, 1, 10) >= ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setDate(1, sevenDaysAgoSqlDate); // Use setDate for java.sql.Date
+            preparedStatement.setString(1, formattedDate); // Use the formatted date string in the query
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -332,6 +330,8 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return gamesLast7Days;
     }
+
+
 
 
 
