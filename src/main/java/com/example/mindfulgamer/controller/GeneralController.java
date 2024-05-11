@@ -157,12 +157,7 @@ public class GeneralController {
     public void loadInitialData() {
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
         Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-        // Get the date for 7 days ago
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR, -7);
-        Date sevenDaysAgo = calendar.getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
 
         for (String game : allGames) {
             List<String> startDates = userDAO.getStartDate(game);
@@ -171,9 +166,7 @@ public class GeneralController {
             for (int i = 0; i < startDates.size(); i++) {
                 try {
                     Date date = dateFormat.parse(startDates.get(i));
-                    if (!date.before(sevenDaysAgo)) { // Check if the date is within the last 7 days
-                        gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
-                    }
+                    gamingTimeByDate.put(date, gamingTimeByDate.getOrDefault(date, 0) + gamingTimes.get(i));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -216,7 +209,7 @@ public class GeneralController {
 
         barChart.getData().clear();
         barChart.getData().add(series);
-        barChart.setTitle("Gaming Time History For " + gameName); // Optionally set the chart title to reflect the selected game
+        barChart.setTitle("Game Time From Past 7 Days For " + gameName); // Optionally set the chart title to reflect the selected game
     }
 
 
