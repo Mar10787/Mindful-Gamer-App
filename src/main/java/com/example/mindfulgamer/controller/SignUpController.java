@@ -85,6 +85,7 @@ public class SignUpController {
         // TESTING PURPOSES //
         // Deleting Database
         // userDAO.ClearData("users");
+        //userDAO.ClearData("gameTracking");
         // Reseting ID Count
         //userDAO.ResetID("users");
         userDAO.insertSampleData();

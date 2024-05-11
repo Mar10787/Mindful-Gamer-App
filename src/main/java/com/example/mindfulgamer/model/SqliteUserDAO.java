@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -66,30 +68,30 @@ public class SqliteUserDAO implements IUserDAO {
             clearStatement.execute(clearQuery);
             Statement insertStatement = connection.createStatement();
             String insertQuery = "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES "
-                    + "('Warframe', '7/05/2024  08:00', '7/05/2024  12:00', '4'),"
-                    + "('Warframe', '8/05/2024  13:00', '8/05/2024  15:00', '2'),"
-                    + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
-                    + "('Warframe', '10/05/2024  15:00', '10/05/2024  20:00', '5'),"
-                    + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
-                    + "('Call of Duty', '8/04/2024  12:00', '8/04/2024  15:00', '3'),"
-                    + "('Warzone', '11/04/2024  10:00', '11/04/2024  13:00', '3'),"
-                    + "('Pokemon', '11/05/2024  15:00', '11/05/2024  21:00', '9'),"
-                    + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
-                    + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1'),"
-                    + "('Warframe', '7/04/2024  08:00', '7/04/2024  12:00', '4'),"
-                    + "('Warframe', '8/05/2024  13:00', '8/05/2024  15:00', '2'),"
-                    + "('Warframe', '9/04/2024  08:00', '9/04/2024  15:00', '7'),"
-                    + "('Warframe', '10/04/2024  15:00', '10/04/2024  20:00', '5'),"
-                    + "('League of Legends', '7/04/2024  15:00', '7/04/2024  16:00', '1'),"
-                    + "('Call of Duty', '8/04/2024  12:00', '8/04/2024  15:00', '3'),"
-                    + "('Warzone', '11/04/2024  10:00', '11/04/2024  13:00', '3'),"
-                    + "('Pokemon', '11/04/2024  15:00', '11/04/2024  21:00', '9'),"
-                    + "('Overwatch', '12/04/2024  08:00', '12/04/2024  10:00', '2'),"
-                    + "('Stardew', '15/04/2024  08:00', '15/04/2024  12:00', '4'),"
-                    + "('Warframe', '16/04/2024  13:00', '16/04/2024  15:00', '2'),"
-                    + "('Stardew', '13/04/2024  08:00', '13/04/2024  15:00', '7'),"
-                    + "('Warframe', '10/05/2024  15:00', '10/05/2024  20:00', '5'),"
-                    + "('Rocket League', '11/04/2024  08:30', '11/04/2024  09:30', '1')";
+                    + "('Warframe', '2024-05-07 08:00:00', '2024-05-07 12:30:00', '4.5'),"
+                    + "('Warframe', '2024-05-08 13:00:00', '2024-05-08 15:00:00', '2'),"
+                    + "('Warframe', '2024-04-09 08:00:00', '2024-04-09 15:00:00', '7'),"
+                    + "('Warframe', '2024-05-10 15:00:00', '2024-05-10 20:00:00', '5'),"
+                    + "('League of Legends', '2024-04-07 15:00:00', '2024-04-07 16:00:00', '1'),"
+                    + "('Call of Duty', '2024-04-08 12:00:00', '2024-04-08 15:00:00', '3'),"
+                    + "('Warzone', '2024-04-11 10:00:00', '2024-04-11 13:00:00', '3'),"
+                    + "('Pokemon', '2024-05-11 15:00:00', '2024-05-11 21:00:00', '9'),"
+                    + "('Overwatch', '2024-04-12 08:00:00', '2024-04-12 10:00:00', '2'),"
+                    + "('Rocket League', '2024-04-11 08:30:00', '2024-04-11 09:30:00', '1'),"
+                    + "('Warframe', '2024-04-07 08:00:00', '2024-04-07 12:00:00', '4'),"
+                    + "('Warframe', '2024-05-08 13:00:00', '2024-05-08 15:00:00', '2'),"
+                    + "('Warframe', '2024-04-09 08:00:00', '2024-04-09 15:00:00', '7'),"
+                    + "('Warframe', '2024-04-10 15:00:00', '2024-04-10 20:00:00', '5'),"
+                    + "('League of Legends', '2024-04-07 15:00:00', '2024-04-07 16:00:00', '1'),"
+                    + "('Call of Duty', '2024-04-08 12:00:00', '2024-04-08 15:00:00', '3'),"
+                    + "('Warzone', '2024-04-11 10:00:00', '2024-04-11 13:00:00', '3'),"
+                    + "('Pokemon', '2024-04-11 15:00:00', '2024-04-11 21:00:00', '9'),"
+                    + "('Overwatch', '2024-04-12 08:00:00', '2024-04-12 10:00:00', '2'),"
+                    + "('Stardew', '2024-04-15 08:00:00', '2024-04-15 12:00:00', '4'),"
+                    + "('Warframe', '2024-04-16 13:00:00', '2024-04-16 15:00:00', '2'),"
+                    + "('Stardew', '2024-04-13 08:00:00', '2024-04-13 15:00:00', '7'),"
+                    + "('Warframe', '2024-05-10 15:00:00', '2024-05-10 20:00:00', '5'),"
+                    + "('Rocket League', '2024-04-11 08:30:00', '2024-04-11 09:30:00', '1')";
             insertStatement.execute(insertQuery);
             connection.commit();
         } catch (Exception e) {
@@ -266,7 +268,7 @@ public class SqliteUserDAO implements IUserDAO {
         List<String> startDatesList = new ArrayList<>();
         try {
             // Prepare SQL statement
-            String query = "SELECT startGame FROM gameTracking WHERE gameName = ?";
+            String query = "SELECT startGame FROM gameTracking WHERE gameName = ? GROUP BY startGame";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
@@ -282,13 +284,14 @@ public class SqliteUserDAO implements IUserDAO {
         } catch (Exception e){
             e.printStackTrace();
         }
+
         return startDatesList;
     }
 
     public List<Integer> getGamingTimes(String gameName){
         List<Integer> gamingTimesList = new ArrayList<>();
         try {
-            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ?";
+            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? GROUP BY startGame";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
@@ -306,12 +309,15 @@ public class SqliteUserDAO implements IUserDAO {
         return gamingTimesList;
     }
 
+
+
+
     // List of Games played in last 7 days
     public List<String> getGamesPlayedLast7Days() {
         List<String> gamesLast7Days = new ArrayList<>();
 
         try {
-            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE substr(startGame, 7, 4) || '-' || substr(startGame, 4, 2) || '-' || substr(startGame, 1, 2) >= date('now', '-7 days')";
+            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE DATE(startGame) = DATE('now', '-7 days')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -323,7 +329,6 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return gamesLast7Days;
     }
-
 
 
 
