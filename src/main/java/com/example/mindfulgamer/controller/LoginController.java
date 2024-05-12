@@ -49,6 +49,9 @@ public class LoginController {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
+            // Remove below if the application starts from the dashboard, used to load data coming from log in page
+            GeneralController controller = fxmlLoader.getController();
+            controller.loadInitialData();
         } else {
             showAlert("Login Failed", "Incorrect email or password.");
         }
