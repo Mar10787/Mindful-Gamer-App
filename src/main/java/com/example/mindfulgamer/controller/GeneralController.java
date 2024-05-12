@@ -92,7 +92,8 @@ public class GeneralController {
     private Label timerLabel;
 
     // Method to start the timer
-    public void startTimer() {
+// Method to start the timer
+    public void startTimer(ActionEvent event) {
         if (!isRunning) {
             if (pausedTime == 0) {
                 startTime = System.currentTimeMillis();
@@ -223,5 +224,6 @@ public class GeneralController {
     @FXML
     public void noReminder() {
         timerinterval.setText("No Reminder");
+        intervalDuration = Duration.hours(999);
     }
 }
