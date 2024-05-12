@@ -110,7 +110,6 @@ public class GeneralController {
             }
         }
 
-        // Should change here so that it displays the weekly hurs tracked
         if (filteredList.isEmpty()){
             // Display a pop-up message indicating that the game does not exist
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -118,7 +117,34 @@ public class GeneralController {
             alert.setHeaderText(null);
             alert.setContentText("The game \"" + query + "\" does not exist.");
             alert.showAndWait();
-        } else{
+        }
+
+        // If user searches nothing in search bar, default to all games
+        else if (query.equals("")){
+            Map<String, Integer> gamingTimeByGame = new TreeMap<>();
+            // Should only be fetching games that are within past 7 days of being played
+            ObservableList<String> allGames = userDAO.fetchAllGameNames();
+
+            for (String game : allGames) {
+                List<String> startDates = userDAO.getStartDate(game);
+                List<Integer> gamingTimes = userDAO.getGamingTimes(game);
+
+                int totalGamingTime = 0;
+                for (int i = 0; i < startDates.size(); i++) {
+                    totalGamingTime += gamingTimes.get(i);
+                }
+                gamingTimeByGame.put(game, totalGamingTime);
+            }
+
+            List<String> gameNames = new ArrayList<>();
+            List<Integer> gamingTimes = new ArrayList<>();
+            for (Map.Entry<String, Integer> entry : gamingTimeByGame.entrySet()) {
+                gameNames.add(entry.getKey());
+                gamingTimes.add(entry.getValue());
+            }
+            updateChart("",gameNames,gamingTimes);
+        }
+        else{
             List<Integer> gamingTime = userDAO.getGamingTimes(filteredList.get(0));
             List<String> startDate = userDAO.getStartDate(filteredList.get(0));
             updateChart(filteredList.get(0), startDate,gamingTime);
@@ -143,7 +169,7 @@ public class GeneralController {
         barChart.setVerticalGridLinesVisible(false); // Optional: Hide vertical grid lines
         barChart.setLegendVisible(true); // Optional: Show legend
         if (gameName != null){
-            barChart.setTitle("Gaming Time for " + gameName);
+            barChart.setTitle("Game Time From Past 7 Days For " + gameName);
         }
         else{
             barChart.setTitle("Game Time From Past 7 Days");

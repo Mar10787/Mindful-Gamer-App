@@ -249,7 +249,7 @@ public class SqliteUserDAO implements IUserDAO {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT DISTINCT gameName FROM gameTracking";
+            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 String gameName = resultSet.getString("gameName");
