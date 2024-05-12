@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
@@ -22,6 +23,8 @@ public class GeneralController {
     // Constructors
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout;
+
+
     @FXML
     public void Dashboard(){
 
@@ -77,18 +80,20 @@ public class GeneralController {
     }
 
     @FXML
-    private Label timerLabel;
-
-    @FXML
     private MenuButton timerinterval;
-
+    // Other fields and methods remain the same...
+    private Duration intervalDuration; // Interval duration field
     private Timeline timeline;
     private long startTime = 0;
     private long pausedTime = 0;
     private boolean isRunning = false;
 
+    @FXML
+    private Label timerLabel;
+
     // Method to start the timer
-    public void startTimer(ActionEvent event) {
+// Method to start the timer
+    public void startTimer() {
         if (!isRunning) {
             if (pausedTime == 0) {
                 startTime = System.currentTimeMillis();
@@ -98,14 +103,25 @@ public class GeneralController {
             }
             isRunning = true;
 
-            timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> updateTimer()));
-            timeline.setCycleCount(Animation.INDEFINITE);
-            timeline.play();
+            long[] intervalCount = {1}; // Using array to make it effectively final
+
+            if (intervalDuration != null) {
+                timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+                    updateTimer();
+
+                    if ((System.currentTimeMillis() - startTime) >= intervalCount[0] * intervalDuration.toMillis()) {
+                        displayIntervalPopup();
+                        intervalCount[0]++;
+                    }
+                }));
+                timeline.setCycleCount(Animation.INDEFINITE);
+                timeline.play();
+            }
         }
     }
 
     // Method to stop/pause the timer
-    public void stopTimer(ActionEvent event) {
+    public void stopTimer() {
         if (isRunning) {
             timeline.stop();
             isRunning = false;
@@ -117,9 +133,18 @@ public class GeneralController {
         }
     }
 
+    // Method to reset the timer
+    public void resetTimer() {
+        timeline.stop();
+        isRunning = false;
+        startTime = 0;
+        pausedTime = 0;
+        // Reset timer label or any other necessary UI components
+        timerLabel.setText("00:00:00");
+    }
+
     // Method to display the interval reminder popup
     public void displayIntervalPopup() {
-        // Pause the timer
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Reminder");
@@ -131,77 +156,14 @@ public class GeneralController {
 
             alert.getButtonTypes().setAll(stopPlayingButton, continuePlayingButton);
 
-            // Show the alert and wait for user interaction
-            alert.showAndWait().ifPresent(response -> {
-                if (response == stopPlayingButton) {
-                    resetTimer(null);
-                    // METHOD TO ADD TIME TO TOTAL TIME
+            Optional<ButtonType> result = alert.showAndWait();
+            result.ifPresent(buttonType -> {
+                if (buttonType == stopPlayingButton) {
+                    resetTimer();
+                    // Method to add time to total time
                 }
             });
         });
-    }
-
-    // Method to reset the timer
-    public void resetTimer(ActionEvent event) {
-        timeline.stop();
-        isRunning = false;
-        startTime = 0;
-        pausedTime = 0;
-        // Reset timer label or any other necessary UI components
-        timerLabel.setText("00:00:00");
-    }
-
-    // Method to handle no reminder option
-    public void noReminder(ActionEvent event) {
-        timerinterval.setText("No Reminder");
-    }
-    public void setInterval1(ActionEvent event) {
-        timerinterval.setText("1m");
-        setInterval(Duration.seconds(10));
-    }
-    // Method to set interval to 15 minutes
-    public void setInterval15(ActionEvent event) {
-        timerinterval.setText("15m");
-        setInterval(Duration.minutes(15));
-    }
-
-    // Method to set interval to 30 minutes
-    public void setInterval30(ActionEvent event) {
-        timerinterval.setText("30m");
-        setInterval(Duration.minutes(30));
-    }
-
-    // Method to set interval to 1 hour
-    public void setInterval1h(ActionEvent event) {
-        timerinterval.setText("1h");
-        setInterval(Duration.hours(1));
-    }
-
-    // Method to set interval to 2 hours
-    public void setInterval2h(ActionEvent event) {
-        timerinterval.setText("2h");
-        setInterval(Duration.hours(2));
-    }
-
-    // Method to set the timer interval
-    private void setInterval(Duration interval) {
-        // Pause the timer if it's running
-        if (isRunning) {
-            stopTimer(null); // Call stopTimer method to pause the timer
-        }
-
-        // Clear existing key frames
-        timeline.getKeyFrames().clear();
-
-        // Add a key frame to trigger the display of the interval popup after the specified interval
-        timeline.getKeyFrames().add(new KeyFrame(interval, e -> {
-            displayIntervalPopup(); // Show the popup
-        }));
-
-        // Start the timeline if it's not already running
-        if (!timeline.getStatus().equals(Animation.Status.RUNNING)) {
-            timeline.play();
-        }
     }
 
     // Method to update the timer label
@@ -212,5 +174,46 @@ public class GeneralController {
         int seconds = (int) ((elapsedTime / 1000) % 60);
 
         timerLabel.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
+    }
+
+    // Method to set the timer interval to 10 seconds
+    @FXML
+    public void setIntervalTest() {
+        timerinterval.setText("Test");
+        intervalDuration = Duration.seconds(10); // Set interval duration to 10 seconds
+    }
+
+    // Method to set the timer interval to 15 minutes
+    @FXML
+    public void setInterval15() {
+        timerinterval.setText("15m");
+        intervalDuration = Duration.minutes(15); // Set interval duration to 15 minutes
+    }
+
+    // Method to set the timer interval to 30 minutes
+    @FXML
+    public void setInterval30() {
+        timerinterval.setText("30m");
+        intervalDuration = Duration.minutes(30); // Set interval duration to 30 minutes
+    }
+
+    // Method to set the timer interval to 1 hour
+    @FXML
+    public void setInterval1h() {
+        timerinterval.setText("1h");
+        intervalDuration = Duration.hours(1); // Set interval duration to 1 hour
+    }
+
+    // Method to set the timer interval to 2 hours
+    @FXML
+    public void setInterval2h() {
+        timerinterval.setText("2h");
+        intervalDuration = Duration.hours(2); // Set interval duration to 2 hours
+    }
+
+    // Method to set no reminder interval
+    @FXML
+    public void noReminder() {
+        timerinterval.setText("No Reminder");
     }
 }

@@ -135,7 +135,7 @@
                             <MenuButton fx:id="timerinterval" accessibleRole="CHECK_MENU_ITEM" contentDisplay="CENTER" layoutX="116.0" layoutY="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="213.0" text="Set Reminders Interval">
                             <items>
                                 <MenuItem mnemonicParsing="false" onAction="#noReminder" text="No Reminder" />
-                                <MenuItem mnemonicParsing="false" onAction="#setInterval1" text="1m" />
+                                <MenuItem mnemonicParsing="false" onAction="#setIntervalTest" text="Test (10 Seconds)" />
                                 <MenuItem mnemonicParsing="false" onAction="#setInterval15" text="15m" />
                                 <MenuItem mnemonicParsing="false" onAction="#setInterval30" text="30m" />
                                 <MenuItem mnemonicParsing="false" onAction="#setInterval1h" text="1h" />
