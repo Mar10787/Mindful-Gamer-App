@@ -92,7 +92,6 @@ public class GeneralController {
     private Label timerLabel;
 
     // Method to start the timer
-// Method to start the timer
     public void startTimer() {
         if (!isRunning) {
             if (pausedTime == 0) {
@@ -142,6 +141,15 @@ public class GeneralController {
         // Reset timer label or any other necessary UI components
         timerLabel.setText("00:00:00");
     }
+    public void displayTimeRecordedPopup() {
+        Platform.runLater(() -> {
+            Alert timeRecordedAlert = new Alert(Alert.AlertType.INFORMATION);
+            timeRecordedAlert.setTitle("Time Recorded");
+            timeRecordedAlert.setHeaderText(null);
+            timeRecordedAlert.setContentText("Your time has been recorded. You now currently have X hours."); // Replace X with actual hours
+            timeRecordedAlert.showAndWait();
+        });
+    }
 
     // Method to display the interval reminder popup
     public void displayIntervalPopup() {
@@ -159,8 +167,8 @@ public class GeneralController {
             Optional<ButtonType> result = alert.showAndWait();
             result.ifPresent(buttonType -> {
                 if (buttonType == stopPlayingButton) {
-                    resetTimer();
-                    // Method to add time to total time
+                    resetTimer(); // Reset the timer
+                    displayTimeRecordedPopup(); // Call the new method to display time recorded reminder
                 }
             });
         });
