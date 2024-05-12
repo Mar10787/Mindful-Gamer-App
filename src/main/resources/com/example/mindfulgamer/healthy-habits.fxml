@@ -69,7 +69,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="healthy_habits" layoutX="2.0" layoutY="226.0" mnemonicParsing="false" onAction="#Healthy_Habits" prefHeight="34.0" prefWidth="125.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Healthy Habits" textFill="WHITE">
+                  <Button fx:id="timer" layoutX="2.0" layoutY="226.0" mnemonicParsing="false" onAction="#Timer" prefHeight="34.0" prefWidth="125.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/sidebar.css" text="Timer" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
