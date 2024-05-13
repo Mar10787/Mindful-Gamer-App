@@ -13,7 +13,7 @@ public interface IUserDAO {
      */
     public void addUser(User user);
     /**
-     * Updates an existing user in the database.
+     * Updates an existing user in the dgitatabase.
      * @param user The user to update.
      */
     public void updateUser(User user);
