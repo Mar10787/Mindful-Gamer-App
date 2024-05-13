@@ -26,6 +26,8 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.*;
 
+import static java.time.Duration.*;
+
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
     // used to code redundancy
