@@ -27,10 +27,24 @@ public interface IUserDAO {
      * @param userId The id of the user to retrieve.
      * @return The user with the given id, or null if not found.
      */
+    public boolean isEmailExist(String email);
+    /**
+     * Check database if email already exists
+     * @param email The email entered for the sign up
+     * @return if the email is found
+     */
+    public void ClearData(String tablename);
+    /**
+     * Clears table for testing purposes
+     * @param connection, Database connection
+     *        tablename, The table name wanting to delete
+     */
+
     public User getUser(int userId);
     /**
      * Retrieves all users from the database.
      * @return A list of all users in the database.
      */
     public List<User> getAllUsers();
+    User getUserByEmail(String email);
 }
