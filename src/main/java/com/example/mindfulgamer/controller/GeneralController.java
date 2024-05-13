@@ -4,15 +4,17 @@ import com.example.mindfulgamer.HelloApplication;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -22,7 +24,7 @@ public class GeneralController {
 
     // Constructors
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout;
+    public Button dashboard, gaming_time, reminders, goals, achievements, healthy_habits, logout, openAddGamingTimePage, cancel;
 
 
     @FXML
@@ -33,6 +35,20 @@ public class GeneralController {
     public void Gaming_Time() throws IOException{
         Stage stage = (Stage) gaming_time.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
+    @FXML
+    public void cancel() throws IOException{
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
+    @FXML
+    private void openAddGamingTimePage() throws IOException {
+        Stage stage = (Stage) openAddGamingTimePage.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-gamingtime-manually.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }

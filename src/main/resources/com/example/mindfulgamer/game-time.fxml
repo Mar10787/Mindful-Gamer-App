@@ -126,6 +126,15 @@
                                 <NumberAxis side="LEFT" />
                             </yAxis>
                         </BarChart>
+                  <Button fx:id="openAddGamingTimePage" layoutX="394.0" layoutY="-21.0" mnemonicParsing="false" onAction="#openAddGamingTimePage" prefHeight="37.0" prefWidth="48.0" styleClass="background_buttons" stylesheets="@../../../CSS/sidebar.css">
+                     <graphic>
+                        <ImageView fitHeight="29.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../GUI%20Images/plus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                     </children>
                 </Pane>
                 <Pane layoutY="219.0" prefHeight="181.0" prefWidth="446.0">
