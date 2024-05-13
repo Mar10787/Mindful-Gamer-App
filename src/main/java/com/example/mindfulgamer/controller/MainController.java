@@ -139,9 +139,10 @@ public class MainController {
         // Default values for a new user
         final String DEFAULT_FIRST_NAME = "New";
         final String DEFAULT_LAST_NAME = "User";
-        final String DEFAULT_PHONE = "";
         final String DEFAULT_EMAIL = "";
-        User newUser = new User(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL, DEFAULT_PHONE);
+        final String DEFAULT_PASSWORD = "";
+        final String DEFAULT_PHONE = "";
+        User newUser = new User(DEFAULT_FIRST_NAME, DEFAULT_LAST_NAME, DEFAULT_EMAIL,DEFAULT_PHONE, DEFAULT_PASSWORD);
         // Add the new user to the database
         userDAO.addUser(newUser);
         syncUsers();

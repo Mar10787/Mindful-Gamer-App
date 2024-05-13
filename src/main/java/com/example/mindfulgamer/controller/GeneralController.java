@@ -33,16 +33,24 @@ public class GeneralController {
     // Constructors
     SqliteUserDAO userDAO = new SqliteUserDAO();
 
+
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, logout, openAddGamingTimePage, cancel, search_button;
 
+    @FXML
+    private TextField searchField;
+    @FXML
+    private BarChart<String, Number> barChart;
+    @FXML
+    private ListView<String> searchResults;
+    public ListView<String> gamesPlayedLastWeek;
 
     @FXML
     public void Dashboard(){
 
     }
     @FXML
-    public void Gaming_Time() throws IOException{
+    public void Gaming_Time() throws IOException {
         Stage stage = (Stage) gaming_time.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -95,9 +103,11 @@ public class GeneralController {
     }
     @FXML
     public void Settings(){
+
     }
     @FXML
-    public void Profile() {
+    public void Profile(){
+
     }
 
     @FXML
