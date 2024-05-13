@@ -176,6 +176,10 @@ public class GeneralController {
         }
         barChart.setAnimated(false); // Optional: Disable animation
         barChart.setLegendVisible(true); // Optional: Show legend
+
+        barChart.getXAxis().setTickLabelRotation(0);
+        // Explicitly set CSS style to ensure horizontal display of tick labels and adjust font size
+        barChart.getXAxis().setStyle("-fx-tick-label-rotation: 0; -fx-font-size: 10px;");
     }
 
 
