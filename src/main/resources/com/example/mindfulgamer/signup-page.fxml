@@ -20,6 +20,6 @@
         <TextField fx:id="email" layoutX="35.0" layoutY="175.0" prefHeight="25.0" prefWidth="263.0" promptText="Email" />
         <TextField fx:id="password" layoutX="35.0" layoutY="219.0" prefHeight="25.0" prefWidth="263.0" promptText="Password" />
         <Label layoutX="78.0" layoutY="319.0" text="Already have an account?" />
-        <Hyperlink fx:id="login" layoutX="213.0" layoutY="316.0" onAction="#onSignUpButtonClick" text="Login" />
+        <Hyperlink fx:id="login" layoutX="213.0" layoutY="316.0" onAction="#onLogInButtonClick" text="Login" />
    <Separator layoutX="14.0" layoutY="307.0" prefHeight="2.0" prefWidth="308.0" />
 </AnchorPane>
