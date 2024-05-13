@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="320.0" prefWidth="268.0" styleClass="popup_background" stylesheets="@../../../CSS/sidebar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302week9checkpoint.NewReminderPopup">
+<AnchorPane prefHeight="320.0" prefWidth="268.0" styleClass="popup_background" stylesheets="@../../../CSS/bargraph.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.cab302week9checkpoint.NewReminderPopup">
    <children>
       <TextField layoutX="8.0" layoutY="14.0" prefHeight="25.0" prefWidth="245.0" promptText="Input goal">
          <font>
@@ -44,14 +44,14 @@
          </font>
       </Label>
       <ComboBox layoutX="79.0" layoutY="148.0" prefHeight="25.0" prefWidth="166.0" promptText="Input goal type" />
-      <Button layoutX="151.0" layoutY="267.0" mnemonicParsing="false" styleClass="timer_go" stylesheets="@../../../CSS/sidebar.css" text="Done" textFill="WHITE" />
+      <Button layoutX="151.0" layoutY="267.0" mnemonicParsing="false" styleClass="timer_go" stylesheets="@../../../CSS/bargraph.css" text="Done" textFill="WHITE" />
       <TextArea layoutX="8.0" layoutY="48.0" prefHeight="94.0" prefWidth="245.0" promptText="Description">
          <font>
             <Font size="14.0" />
          </font>
       </TextArea>
       <Separator layoutX="9.0" layoutY="242.0" prefHeight="7.0" prefWidth="256.0" />
-      <Button layoutX="64.0" layoutY="267.0" mnemonicParsing="false" styleClass="timer_stop" stylesheets="@../../../CSS/sidebar.css" text="Cancel" textFill="WHITE">
+      <Button layoutX="64.0" layoutY="267.0" mnemonicParsing="false" styleClass="timer_stop" stylesheets="@../../../CSS/bargraph.css" text="Cancel" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

@@ -47,3 +47,34 @@
 .reminder_button {
     -fx-background-color: #ebebeb;
 }
+.bar-chart {
+    -fx-background-color: white;
+    -fx-padding: 15px;
+}
+
+.bar-chart .chart-series-bar {
+    -fx-bar-fill: linear-gradient(from 0% 0% to 0% 100%, #1e90ff, #87cefa); /* Gradient from dark blue to light blue */
+}
+
+
+.axis-label {
+    -fx-font-size: 12px;
+    -fx-font-family: 'Arial';
+}
+
+.chart-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+.chart-legend {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10px;
+}
+
+.bar-chart .chart-bar {
+    -fx-bar-fill: #4682b4; /* Steel blue */
+    -fx-background-radius: 5;
+    -fx-background-insets: 0, 0, 1, 0;
+}

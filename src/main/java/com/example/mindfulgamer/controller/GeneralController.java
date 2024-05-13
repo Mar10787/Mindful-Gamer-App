@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Duration;
+import javafx.util.Duration;
 import java.util.*;
 
 public class GeneralController {
@@ -34,7 +34,7 @@ public class GeneralController {
 
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, openAddGamingTimePage, cancel, search_button;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, search_button;
 
     @FXML
     private TextField searchField;
@@ -58,8 +58,17 @@ public class GeneralController {
         controller.loadInitialData();
     }
     @FXML
+    public void cancel() throws IOException{
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadInitialData();
+    }
+    @FXML
     private void openAddGamingTimePage() throws IOException {
-        Stage stage = (Stage) openAddGamingTimePage.getScene().getWindow();
+        Stage stage = (Stage) plus.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-gamingtime-manually.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
@@ -252,6 +261,12 @@ public class GeneralController {
         barChart.getData().clear();
         barChart.getData().add(series);
         barChart.setTitle("Game Time From Past 7 Days For " + gameName); // Optionally set the chart title to reflect the selected game
+        barChart.setAnimated(false); // Optional: Disable animation
+        barChart.setLegendVisible(true); // Optional: Show legend
+
+        barChart.getXAxis().setTickLabelRotation(0);
+        // Explicitly set CSS style to ensure horizontal display of tick labels and adjust font size
+        barChart.getXAxis().setStyle("-fx-tick-label-rotation: 0; -fx-font-size: 10px;");
     }
 
 
