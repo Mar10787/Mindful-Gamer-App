@@ -13,8 +13,6 @@ public class HelloApplication extends Application {
 
     public static final int LOGIN_W = 333;
     public static final int LOGIN_H = 400;
-    public static final int WIDTH = 640;
-    public static final int HEIGHT = 360;
 
     @Override
     public void start(Stage stage) throws IOException {
