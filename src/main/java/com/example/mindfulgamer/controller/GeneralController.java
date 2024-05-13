@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -25,8 +24,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.util.*;
-
-import static java.time.Duration.*;
 
 public class GeneralController {
     // This class is used to create the methods for clicking the buttons found in each window
