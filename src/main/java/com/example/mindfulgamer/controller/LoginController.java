@@ -11,6 +11,8 @@ import com.example.mindfulgamer.model.SqliteUserDAO;
 
 import java.io.IOException;
 
+import static javafx.scene.control.Alert.AlertType.ERROR;
+
 public class LoginController {
     private SqliteUserDAO userDAO;
     @FXML
@@ -53,13 +55,13 @@ public class LoginController {
             GeneralController controller = fxmlLoader.getController();
             controller.loadInitialData();
         } else {
-            showAlert("Login Failed", "Incorrect email or password.");
+            showAlert("Login Failed", "Incorrect email or password.", ERROR);
         }
     }
 
     // Incorrect details displayed
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
