@@ -21,7 +21,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import javafx.util.Duration;
 import java.util.*;
 
@@ -141,7 +140,7 @@ public class GeneralController {
         }
 
         // If user searches nothing in search bar, default to all games
-        else if (query.equals("")){
+        else if (query.isEmpty()){
             Map<String, Integer> gamingTimeByGame = new TreeMap<>();
             // Should only be fetching games that are within past 7 days of being played
             ObservableList<String> allGames = userDAO.fetchAllGameNames();
@@ -287,7 +286,6 @@ public class GeneralController {
     private Label timerLabel;
 
     // Method to start the timer
-// Method to start the timer
     public void startTimer(ActionEvent event) {
         if (!isRunning) {
             if (pausedTime == 0) {

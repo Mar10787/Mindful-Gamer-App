@@ -1,5 +1,6 @@
 package com.example.mindfulgamer.model;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -12,34 +13,50 @@ public interface IUserDAO {
      * @param user The user to add.
      */
     public void addUser(User user);
+
+
     /**
      * Updates an existing user in the dgitatabase.
      * @param user The user to update.
      */
     public void updateUser(User user);
+
+
     /**
      * Deletes a user from the database.
      * @param user The user to delete.
      */
     public void deleteUser(User user);
+
+
     /**
-     * Retrieves a user from the database.
-     * @param userId The id of the user to retrieve.
-     * @return The user with the given id, or null if not found.
+     * Adds game data to the gameTracking table
+     * @param gameName the name of the game
+     * @param startGame the date the game session started
+     * @param endGame the date the game session ended
+     * @param gamingTime the total time of the session
      */
-    public boolean isEmailExist(String email);
+    public void addGameTime(String gameName, Date startGame, Date endGame, String gamingTime);
+
+
     /**
      * Check database if email already exists
      * @param email The email entered for the sign up
      * @return if the email is found
      */
-    public void ClearData(String tablename);
-    /**
-     * Clears table for testing purposes
-     * @param connection, Database connection
-     *        tablename, The table name wanting to delete
-     */
+    public boolean isEmailExist(String email);
 
+    /**
+     * Clears all data from a given table
+     * @param tablename the table chosen to delete all data
+     */
+    public void ClearData(String tablename);
+
+    /**
+     * Gets a single user
+     * @param userId the ID of the user wanted to be retrieved
+     * @return the user class
+     */
     public User getUser(int userId);
     /**
      * Retrieves all users from the database.
