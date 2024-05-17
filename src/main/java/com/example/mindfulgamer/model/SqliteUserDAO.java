@@ -3,9 +3,8 @@ package com.example.mindfulgamer.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
-import java.util.*;
 import java.sql.Date;
-
+import java.util.*;
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
 
@@ -129,13 +128,13 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
-    public void addGameTime(String gameName, Date startGame, Date endGame, String gamingTime){
+    public void addGameTime(String gameName, String startGame, String endGame, String gamingTime){
         try{
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES (?,?,?,?)");
             statement.setString(1, gameName);
-            statement.setDate(2,startGame);
-            statement.setDate(3,endGame);
+            statement.setString(2, startGame);
+            statement.setString(3, endGame);
             statement.setString(4,gamingTime);
             statement.executeUpdate();
         } catch (Exception e){

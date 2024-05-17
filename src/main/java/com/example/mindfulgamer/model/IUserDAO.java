@@ -36,8 +36,7 @@ public interface IUserDAO {
      * @param endGame the date the game session ended
      * @param gamingTime the total time of the session
      */
-    public void addGameTime(String gameName, Date startGame, Date endGame, String gamingTime);
-
+    public void addGameTime(String gameName, String startGame, String endGame, String gamingTime);
 
     /**
      * Check database if email already exists

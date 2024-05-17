@@ -297,6 +297,13 @@ public class GeneralController {
     private TextField gameTitle;
     private String gameName;
 
+    // Used for gameTime
+    private String gameTime;
+
+    // Used for Saving Data
+    @FXML
+    private Button InsertData_Main;
+
     // Method to start the timer
     public void startTimer(ActionEvent event) {
         startGame = LocalDate.now();
@@ -336,6 +343,8 @@ public class GeneralController {
             timeline.stop();
             isRunning = false;
             pausedTime = System.currentTimeMillis() - startTime;
+            // Converting mm to hh:mm:ss
+            gameTime = convertMillisecondssToTimeString(pausedTime);
         }
         // Ensure the timeline is stopped to prevent intervals from triggering when the timer is paused
         if (timeline != null) {
@@ -437,8 +446,22 @@ public class GeneralController {
         intervalDuration = Duration.hours(999);
     }
 
-
     public void addGameTitle(ActionEvent actionEvent) {
         gameName = gameTitle.getText();
     }
+
+    public static String convertMillisecondssToTimeString(long milliseconds){
+        // Calculate hours, minutes and seconds
+        long seconds = milliseconds / 1000;
+        long hours = seconds /3600;
+        long minutes = (seconds % 3600) / 60;
+        long remainingSeconds = seconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds);
+    }
+
+    public void InsertData(){
+        stopTimer();
+        userDAO.addGameTime(gameName, startDate, startDate, gameTime);
+    }
+
 }
