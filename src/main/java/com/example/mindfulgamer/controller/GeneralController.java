@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 
 import java.io.IOException;
 import javafx.util.Duration;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class GeneralController {
@@ -275,18 +278,31 @@ public class GeneralController {
 
     @FXML
     private MenuButton timerinterval;
-    // Other fields and methods remain the same...
+    @FXML
+    private Label timerLabel;
+    @FXML
+    private Button AddButton;
     private Duration intervalDuration; // Interval duration field
     private Timeline timeline;
     private long startTime = 0;
     private long pausedTime = 0;
     private boolean isRunning = false;
 
+    // Used for date extraction
+    private LocalDate startGame;
+    private String startDate;
+
+    // Used for gameName extraction
     @FXML
-    private Label timerLabel;
+    private TextField gameTitle;
+    private String gameName;
 
     // Method to start the timer
     public void startTimer(ActionEvent event) {
+        startGame = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        startDate = startGame.format(formatter);
+
         if (!isRunning) {
             if (pausedTime == 0) {
                 startTime = System.currentTimeMillis();
@@ -315,6 +331,7 @@ public class GeneralController {
 
     // Method to stop/pause the timer
     public void stopTimer() {
+        // Here it should save into database
         if (isRunning) {
             timeline.stop();
             isRunning = false;
@@ -418,5 +435,10 @@ public class GeneralController {
     public void noReminder() {
         timerinterval.setText("No Reminder");
         intervalDuration = Duration.hours(999);
+    }
+
+
+    public void addGameTitle(ActionEvent actionEvent) {
+        gameName = gameTitle.getText();
     }
 }
