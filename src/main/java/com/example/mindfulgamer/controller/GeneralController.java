@@ -15,6 +15,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
@@ -422,7 +424,7 @@ public class GeneralController {
                 if (buttonType == stopPlayingButton) {
                     stopTimer();
                     gameTime = convertMillisecondssToTimeString(pausedTime);
-                    InsertData(false);
+                    InsertData();
                     resetTimer(); // Reset the timer
                     displayTimeRecordedPopup(); // Call the new method to display time recorded reminder
                 }
@@ -528,16 +530,24 @@ public class GeneralController {
     /**
      * Method used to insert data from UI to the database to be later used for bargraphs
      */
-    public void InsertData(boolean manual){
+    public void InsertData(){
         // Testing, presentation may need to hard code gameTime for hours
-        if(gameName != null){
-            if(!gameName.isEmpty()){
+        // Convert String to sql Data type
+        if(gameName != null) {
+            if (!gameName.isEmpty()) {
                 userDAO.addGameTime(gameName, startDate, startDate, gameTime);
             }
-        }
-        if(!manual){
             stopTimer();
             resetTimer();
+        }
+    }
+    public void InsertDataManual() {
+        // Testing, presentation may need to hard code gameTime for hours
+
+        if (gameName != null) {
+            if (!gameName.isEmpty()) {
+                userDAO.addGameTime(gameName, startDate, startDate, gameTime);
+            }
         }
     }
     /**
@@ -548,7 +558,7 @@ public class GeneralController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         startDate = startGame.format(formatter);
         addGameHours();
-        InsertData(true);
+        InsertDataManual();
         String title = "Manual Data Stored";
         String message = "Congrats! You have succesfully stored your session. Feel free to add more, if not " +
                 "just press cancel to be redirected to the Gaming Time Page";

@@ -129,6 +129,10 @@ public class SqliteUserDAO implements IUserDAO {
 
     @Override
     public void addGameTime(String gameName, String startGame, String endGame, String gamingTime){
+        // startGame and endGame must have time in order to classify as a date
+        String time = "00:00:00";
+        startGame = startGame + " " + time;
+        endGame = endGame + " " + time;
         try{
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES (?,?,?,?)");
@@ -258,7 +262,7 @@ public class SqliteUserDAO implements IUserDAO {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT DISTINCT gameName FROM gameTracking WHERE DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
+            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()){
                 String gameName = resultSet.getString("gameName");
@@ -275,8 +279,8 @@ public class SqliteUserDAO implements IUserDAO {
         List<String> startDatesList = new ArrayList<>();
         try {
             // Prepare SQL statement
-            String query = "SELECT startGame FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
-            ;
+            String query = "SELECT startGame FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days')";
+
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
@@ -299,7 +303,7 @@ public class SqliteUserDAO implements IUserDAO {
     public List<Integer> getGamingTimes(String gameName){
         List<Integer> gamingTimesList = new ArrayList<>();
         try {
-            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days') GROUP BY startGame";
+            String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1,gameName);
 
@@ -323,7 +327,6 @@ public class SqliteUserDAO implements IUserDAO {
     // List of Games played in last 7 days
     public List<String> getGamesPlayedLast7Days() {
         List<String> gamesLast7Days = new ArrayList<>();
-
         try {
             String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
