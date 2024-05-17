@@ -488,10 +488,15 @@ public class GeneralController {
      * Method used to insert data from UI to the database to be later used for bargraphs
      */
     public void InsertData(){
+        // Testing, presentation may need to hard code gameTime for hours
+        if(gameName != null){
+            if(!gameName.isEmpty()){
+                userDAO.addGameTime(gameName, startDate, startDate, gameTime);
+            }
+        }
+        gameName = null;
         stopTimer();
         resetTimer();
-        // Testing, presentation may need to hard code gameTime for hours
-        userDAO.addGameTime(gameName, startDate, startDate, gameTime);
     }
 
 }
