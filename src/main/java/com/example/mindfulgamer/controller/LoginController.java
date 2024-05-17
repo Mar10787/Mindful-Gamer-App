@@ -24,6 +24,9 @@ public class LoginController {
     @FXML
     private Hyperlink signup_hyperlink;
 
+    /**
+     * Initializes the controller. Sets up the user DAO and adds listeners to form fields.
+     */
     @FXML
     public void initialize(){
         userDAO = new SqliteUserDAO();
@@ -34,12 +37,18 @@ public class LoginController {
         login_button.setDisable(true);
     }
 
+    /**
+     * Checks if the email and password fields are non-empty and enables/disables the login button accordingly.
+     */
     private void checkFields(){
         String email = input_email.getText();
         String password = input_password.getText();
         login_button.setDisable(email.isEmpty() || password.isEmpty());
     }
 
+    /**
+     * Handles the login button click event. Verifies user credentials and loads the home page if successful.
+     */
     @FXML
     protected void onLoginButtonClick() throws IOException {
         String email = input_email.getText().toLowerCase();
@@ -59,15 +68,23 @@ public class LoginController {
         }
     }
 
-    // Incorrect details displayed
-    public void showAlert(String title, String message, Alert.AlertType type) {
-        Alert alert = new Alert(type);
+    /**
+     * Displays an alert dialog with the given title and message.
+     *
+     * @param title   the title of the alert dialog.
+     * @param message the message to be displayed in the alert dialog.
+     */
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
 
+    /**
+     * Handles sign-up hyperlink click event. Loads the sign-up page.
+     */
     @FXML
     protected void onSignUpHyperlinkClick() throws IOException{
         Stage stage = (Stage) signup_hyperlink.getScene().getWindow();
