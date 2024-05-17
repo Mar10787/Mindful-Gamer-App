@@ -210,7 +210,7 @@ public class GeneralController {
     public void loadInitialData() {
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
         Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         for (String game : allGames) {
             List<String> startDates = userDAO.getStartDate(game);
@@ -270,10 +270,6 @@ public class GeneralController {
         // Explicitly set CSS style to ensure horizontal display of tick labels and adjust font size
         barChart.getXAxis().setStyle("-fx-tick-label-rotation: 0; -fx-font-size: 10px;");
     }
-
-
-
-
 
 
     @FXML
@@ -461,6 +457,7 @@ public class GeneralController {
 
     public void InsertData(){
         stopTimer();
+        // Testing, presentation may need to hard code gameTime for hours
         userDAO.addGameTime(gameName, startDate, startDate, gameTime);
     }
 
