@@ -74,8 +74,8 @@ public class LoginController {
      * @param title   the title of the alert dialog.
      * @param message the message to be displayed in the alert dialog.
      */
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    public void showAlert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
