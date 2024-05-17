@@ -22,27 +22,32 @@ import java.text.SimpleDateFormat;
 
 import java.io.IOException;
 import javafx.util.Duration;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class GeneralController {
-    // This class is used to create the methods for clicking the buttons found in each window
-    // used to code redundancy
+    /**
+     * Class used for the general controller of the application. Ranges from page directions, bar updates etc
+     */
 
-    // Constructors
+    // Utilizing other classes
     SqliteUserDAO userDAO = new SqliteUserDAO();
 
 
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, search_button;
-
     @FXML
-    private TextField searchField;
+    private TextField searchField, gameTitle;;
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
-    private ListView<String> searchResults;
-    public ListView<String> gamesPlayedLastWeek;
-
+    private ListView<String> searchResults, gamesPlayedLastWeek;
+    @FXML
+    private MenuButton timerinterval;
+    @FXML
+    private Label timerLabel;
     @FXML
     public void Dashboard(){
 
@@ -79,7 +84,6 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
-
     @FXML
     public void Goals() throws IOException {
         Stage stage = (Stage) goals.getScene().getWindow();
@@ -87,8 +91,6 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
-
-
     @FXML
     public void Achievements(){
 
@@ -100,7 +102,6 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
-
     @FXML
     public void Logout() throws IOException{
         Stage stage = (Stage) logout.getScene().getWindow();
@@ -117,8 +118,20 @@ public class GeneralController {
 
     }
 
+    // Variables
+    private Duration intervalDuration;
+    private Timeline timeline;
+    private long startTime = 0, pausedTime = 0;
+    private boolean isRunning = false;
+    private String startDate, gameName, gameTime;
+
+
+    /**
+     * Search Method used to search for games in the gaming_time page, vital for extracting data and displaying the
+     * bar graph accordingly
+     * Returns nothing, mainly used to set variables
+     */
     @FXML
-    // 1. It feeds the information from the database and changes the table
     private void search(){
         ObservableList<String> games = FXCollections.observableArrayList(userDAO.fetchAllGameNames());
         String query = searchField.getText().toLowerCase();
@@ -173,6 +186,12 @@ public class GeneralController {
         searchResults.setItems(filteredList);
     }
 
+    /**
+     * Used to update the bar graph with the wanted game all from the database
+     * @param gameName The name of the game wanted to select data from
+     * @param dates list of all the dates associated to the gameName
+     * @param times list of all the game time associated to the gameName
+     */
     private void updateChart(String gameName, List<String> dates, List<Integer> times) {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Gaming Time");
@@ -203,11 +222,14 @@ public class GeneralController {
     }
 
 
-
+    /**
+     * initialising the Data for the bar graph such that each time the page load the bar graph is not empty
+     * It will display x-axis with previous 7 dates and y-axis is hours
+     */
     public void loadInitialData() {
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
         Map<Date, Integer> gamingTimeByDate = new TreeMap<>();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         for (String game : allGames) {
             List<String> startDates = userDAO.getStartDate(game);
@@ -238,6 +260,10 @@ public class GeneralController {
         gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));
     }
 
+    /**
+     * Here is used to update the drop-down list of all games played within the past 7 days
+     * @param event A FXML mouseEvent object
+     */
     @FXML
     private void handleGameSelection(MouseEvent event) {
         String selectedGame = gamesPlayedLastWeek.getSelectionModel().getSelectedItem();
@@ -246,6 +272,10 @@ public class GeneralController {
         }
     }
 
+    /**
+     * Similiar to updateChart however, this makes the x-axis the game names and displays hours for each game
+     * @param gameName String of the game's Name
+     */
     private void updateGameChart(String gameName) {
         List<String> dates = userDAO.getStartDate(gameName);
         List<Integer> times = userDAO.getGamingTimes(gameName);
@@ -269,24 +299,14 @@ public class GeneralController {
     }
 
 
+    /**
+     * Method used to start the timer, here it also tracks time which is vital for saving into database
+     */
+    public void startTimer() {
+        LocalDate startGame = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        startDate = startGame.format(formatter);
 
-
-
-
-    @FXML
-    private MenuButton timerinterval;
-    // Other fields and methods remain the same...
-    private Duration intervalDuration; // Interval duration field
-    private Timeline timeline;
-    private long startTime = 0;
-    private long pausedTime = 0;
-    private boolean isRunning = false;
-
-    @FXML
-    private Label timerLabel;
-
-    // Method to start the timer
-    public void startTimer(ActionEvent event) {
         if (!isRunning) {
             if (pausedTime == 0) {
                 startTime = System.currentTimeMillis();
@@ -313,12 +333,17 @@ public class GeneralController {
         }
     }
 
-    // Method to stop/pause the timer
+    /**
+     * Method used to stop the timer, here it also assigns a value to the gameTime variable declared at the start
+     */
     public void stopTimer() {
+        // Here it should save into database
         if (isRunning) {
             timeline.stop();
             isRunning = false;
             pausedTime = System.currentTimeMillis() - startTime;
+            // Converting mm to hh:mm:ss
+            gameTime = convertMillisecondssToTimeString(pausedTime);
         }
         // Ensure the timeline is stopped to prevent intervals from triggering when the timer is paused
         if (timeline != null) {
@@ -326,7 +351,9 @@ public class GeneralController {
         }
     }
 
-    // Method to reset the timer
+    /**
+     * Method to reset the timer, so starts back from zero
+     */
     public void resetTimer() {
         timeline.stop();
         isRunning = false;
@@ -340,12 +367,14 @@ public class GeneralController {
             Alert timeRecordedAlert = new Alert(Alert.AlertType.INFORMATION);
             timeRecordedAlert.setTitle("Time Recorded");
             timeRecordedAlert.setHeaderText(null);
-            timeRecordedAlert.setContentText("Your time has been recorded. You now currently have X hours."); // Replace X with actual hours
+            timeRecordedAlert.setContentText("Your time has been recorded. You have completed a session time of " + gameTime);
             timeRecordedAlert.showAndWait();
         });
     }
 
-    // Method to display the interval reminder popup
+    /**
+     * Method used to display an interval pop for every interval that the user has selected
+     */
     public void displayIntervalPopup() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -361,14 +390,20 @@ public class GeneralController {
             Optional<ButtonType> result = alert.showAndWait();
             result.ifPresent(buttonType -> {
                 if (buttonType == stopPlayingButton) {
+                    stopTimer();
+                    gameTime = convertMillisecondssToTimeString(pausedTime);
+                    InsertData();
                     resetTimer(); // Reset the timer
                     displayTimeRecordedPopup(); // Call the new method to display time recorded reminder
                 }
             });
         });
+
     }
 
-    // Method to update the timer label
+    /**
+     * Method used to update the timer label
+     */
     private void updateTimer() {
         long elapsedTime = System.currentTimeMillis() - startTime;
         int hours = (int) (elapsedTime / 3600000);
@@ -378,45 +413,93 @@ public class GeneralController {
         timerLabel.setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
     }
 
-    // Method to set the timer interval to 10 seconds
+    /**
+     * Method to set interval to 10 seconds, mainly used for testing
+     */
     @FXML
     public void setIntervalTest() {
         timerinterval.setText("Test");
         intervalDuration = Duration.seconds(10); // Set interval duration to 10 seconds
     }
 
-    // Method to set the timer interval to 15 minutes
+    /**
+     * Method to set interval to 15 minutes
+     */
     @FXML
     public void setInterval15() {
         timerinterval.setText("15m");
         intervalDuration = Duration.minutes(15); // Set interval duration to 15 minutes
     }
 
-    // Method to set the timer interval to 30 minutes
+    /**
+     * Method to set interval to 30 minutes
+     */
     @FXML
     public void setInterval30() {
         timerinterval.setText("30m");
         intervalDuration = Duration.minutes(30); // Set interval duration to 30 minutes
     }
 
-    // Method to set the timer interval to 1 hour
+    /**
+     * Method to set interval to 1 hour
+     */
     @FXML
     public void setInterval1h() {
         timerinterval.setText("1h");
         intervalDuration = Duration.hours(1); // Set interval duration to 1 hour
     }
 
-    // Method to set the timer interval to 2 hours
+    /**
+     * Method to set interval to 2 hours
+     */
     @FXML
     public void setInterval2h() {
         timerinterval.setText("2h");
         intervalDuration = Duration.hours(2); // Set interval duration to 2 hours
     }
 
-    // Method to set no reminder interval
+    /**
+     * Method to have an interval of infinite, essentially creating no reminders
+     */
     @FXML
     public void noReminder() {
         timerinterval.setText("No Reminder");
         intervalDuration = Duration.hours(999);
     }
+
+    /**
+     * Method used to assign the gameTitle(From texfield) to the string gameName initialised
+     */
+    public void addGameTitle() {
+        gameName = gameTitle.getText();
+    }
+
+    /**
+     * Converts milliseconds to standard format
+     * @param milliseconds the time from the stopwatch in milliseconds
+     * @return a string in the format "hh:mm:ss", vital format for database
+     */
+    public static String convertMillisecondssToTimeString(long milliseconds){
+        // Calculate hours, minutes and seconds
+        long seconds = milliseconds / 1000;
+        long hours = seconds /3600;
+        long minutes = (seconds % 3600) / 60;
+        long remainingSeconds = seconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds);
+    }
+
+    /**
+     * Method used to insert data from UI to the database to be later used for bargraphs
+     */
+    public void InsertData(){
+        // Testing, presentation may need to hard code gameTime for hours
+        if(gameName != null){
+            if(!gameName.isEmpty()){
+                userDAO.addGameTime(gameName, startDate, startDate, gameTime);
+            }
+        }
+        stopTimer();
+        resetTimer();
+    }
+
 }
