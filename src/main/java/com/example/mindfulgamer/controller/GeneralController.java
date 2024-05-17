@@ -367,7 +367,7 @@ public class GeneralController {
             Alert timeRecordedAlert = new Alert(Alert.AlertType.INFORMATION);
             timeRecordedAlert.setTitle("Time Recorded");
             timeRecordedAlert.setHeaderText(null);
-            timeRecordedAlert.setContentText("Your time has been recorded. You now currently have X hours."); // Replace X with actual hours
+            timeRecordedAlert.setContentText("Your time has been recorded. You have completed a session time of " + gameTime);
             timeRecordedAlert.showAndWait();
         });
     }
@@ -390,11 +390,15 @@ public class GeneralController {
             Optional<ButtonType> result = alert.showAndWait();
             result.ifPresent(buttonType -> {
                 if (buttonType == stopPlayingButton) {
+                    stopTimer();
+                    gameTime = convertMillisecondssToTimeString(pausedTime);
+                    InsertData();
                     resetTimer(); // Reset the timer
                     displayTimeRecordedPopup(); // Call the new method to display time recorded reminder
                 }
             });
         });
+
     }
 
     /**
@@ -494,7 +498,6 @@ public class GeneralController {
                 userDAO.addGameTime(gameName, startDate, startDate, gameTime);
             }
         }
-        gameName = null;
         stopTimer();
         resetTimer();
     }
