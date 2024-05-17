@@ -1,5 +1,4 @@
 package com.example.mindfulgamer.controller;
-
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.SqliteUserDAO;
 import javafx.animation.Animation;
@@ -8,7 +7,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,15 +15,17 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.io.IOException;
 import javafx.util.Duration;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 public class GeneralController {
     /**
@@ -34,12 +34,13 @@ public class GeneralController {
 
     // Utilizing other classes
     SqliteUserDAO userDAO = new SqliteUserDAO();
+    LoginController loginController = new LoginController();
 
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, search_button;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button;
     @FXML
-    private TextField searchField, gameTitle;;
+    private TextField searchField, gameTitle, hours;
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
@@ -52,6 +53,11 @@ public class GeneralController {
     public void Dashboard(){
 
     }
+
+    /**
+     * Takes the user to the game_time page
+     * @throws IOException
+     */
     @FXML
     public void Gaming_Time() throws IOException {
         Stage stage = (Stage) gaming_time.getScene().getWindow();
@@ -61,6 +67,10 @@ public class GeneralController {
         GeneralController controller = fxmlLoader.getController();
         controller.loadInitialData();
     }
+    /**
+     * Takes the user to the game_time page when clicking cancel button on manual time page
+     * @throws IOException
+     */
     @FXML
     public void cancel() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
@@ -70,6 +80,10 @@ public class GeneralController {
         GeneralController controller = fxmlLoader.getController();
         controller.loadInitialData();
     }
+    /**
+     * Takes the user to the add manual game time page for users to manually store in data
+     * @throws IOException
+     */
     @FXML
     private void openAddGamingTimePage() throws IOException {
         Stage stage = (Stage) plus.getScene().getWindow();
@@ -77,6 +91,10 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
+    /**
+     * Takes the user to the reminders page
+     * @throws IOException
+     */
     @FXML
     public void Reminders() throws IOException {
         Stage stage = (Stage) reminders.getScene().getWindow();
@@ -84,6 +102,10 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
+    /**
+     * Takes the user to the goals page
+     * @throws IOException
+     */
     @FXML
     public void Goals() throws IOException {
         Stage stage = (Stage) goals.getScene().getWindow();
@@ -91,10 +113,18 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
+    /**
+     * Takes the user to the achievements page
+     * @throws IOException
+     */
     @FXML
     public void Achievements(){
 
     }
+    /**
+     * Takes the user to the Timer page
+     * @throws IOException
+     */
     @FXML
     public void Timer() throws IOException {
         Stage stage = (Stage) reminders.getScene().getWindow();
@@ -102,6 +132,10 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
+    /**
+     * Takes the user to the log in page
+     * @throws IOException
+     */
     @FXML
     public void Logout() throws IOException{
         Stage stage = (Stage) logout.getScene().getWindow();
@@ -145,7 +179,7 @@ public class GeneralController {
 
         if (filteredList.isEmpty()){
             // Display a pop-up message indicating that the game does not exist
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(INFORMATION);
             alert.setTitle("Game Not Found");
             alert.setHeaderText(null);
             alert.setContentText("The game \"" + query + "\" does not exist.");
@@ -364,11 +398,9 @@ public class GeneralController {
     }
     public void displayTimeRecordedPopup() {
         Platform.runLater(() -> {
-            Alert timeRecordedAlert = new Alert(Alert.AlertType.INFORMATION);
-            timeRecordedAlert.setTitle("Time Recorded");
-            timeRecordedAlert.setHeaderText(null);
-            timeRecordedAlert.setContentText("Your time has been recorded. You have completed a session time of " + gameTime);
-            timeRecordedAlert.showAndWait();
+            String title = "Time Recorded";
+            String desc = "Your time has been recorded. You have completed a session time of " + gameTime;
+            loginController.showAlert(title, desc, INFORMATION);
         });
     }
 
@@ -475,6 +507,13 @@ public class GeneralController {
     }
 
     /**
+     * Method used to assign the gameHours from manual page
+     */
+    public void addGameHours() {
+        gameTime = hours.getText();
+    }
+
+    /**
      * Converts milliseconds to standard format
      * @param milliseconds the time from the stopwatch in milliseconds
      * @return a string in the format "hh:mm:ss", vital format for database
@@ -493,13 +532,37 @@ public class GeneralController {
      */
     public void InsertData(){
         // Testing, presentation may need to hard code gameTime for hours
-        if(gameName != null){
-            if(!gameName.isEmpty()){
+        // Convert String to sql Data type
+        if(gameName != null) {
+            if (!gameName.isEmpty()) {
+                userDAO.addGameTime(gameName, startDate, startDate, gameTime);
+            }
+            stopTimer();
+            resetTimer();
+        }
+    }
+    public void InsertDataManual() {
+        // Testing, presentation may need to hard code gameTime for hours
+
+        if (gameName != null) {
+            if (!gameName.isEmpty()) {
                 userDAO.addGameTime(gameName, startDate, startDate, gameTime);
             }
         }
-        stopTimer();
-        resetTimer();
     }
+    /**
+     * stores data when user clicks done on the manual game time page and creates alert pop u
+     */
+    public void AddManualTime() {
+        LocalDate startGame = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        startDate = startGame.format(formatter);
+        addGameHours();
+        InsertDataManual();
+        String title = "Manual Data Stored";
+        String message = "Congrats! You have succesfully stored your session. Feel free to add more, if not " +
+                "just press cancel to be redirected to the Gaming Time Page";
 
+        loginController.showAlert(title, message, INFORMATION);
+    }
 }
