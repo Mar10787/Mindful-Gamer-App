@@ -36,7 +36,6 @@ public class GeneralController {
     SqliteUserDAO userDAO = new SqliteUserDAO();
     LoginController loginController = new LoginController();
 
-
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button;
     @FXML
@@ -49,9 +48,37 @@ public class GeneralController {
     private MenuButton timerinterval;
     @FXML
     private Label timerLabel;
-    @FXML
-    public void Dashboard(){
 
+    @FXML
+    private Label totalHoursLabel;
+
+    @FXML
+    public void Dashboard() throws IOException {
+        Stage stage = (Stage) dashboard.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+
+        // After setting the scene, initialize the dashboard data
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadDashboardData();
+    }
+
+    public void loadDashboardData() {
+        int totalHours = calculateTotalHours();
+        Platform.runLater(() -> totalHoursLabel.setText(String.valueOf(totalHours)));
+    }
+
+    private int calculateTotalHours() {
+        int totalHours = 0;
+        ObservableList<String> allGames = userDAO.fetchAllGameNames();
+        for (String game : allGames) {
+            List<Integer> gamingTimes = userDAO.getGamingTimes(game);
+            for (int gamingTime : gamingTimes) {
+                totalHours += gamingTime;
+            }
+        }
+        return totalHours;
     }
 
     /**

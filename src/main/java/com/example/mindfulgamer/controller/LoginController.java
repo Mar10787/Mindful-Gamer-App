@@ -58,15 +58,19 @@ public class LoginController {
 
         if (user != null && HashUtil.hash(password).equals(user.getPassword())) {
             Stage stage = (Stage) login_button.getScene().getWindow();
-            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
+
+            // Load the dashboard data
             GeneralController controller = fxmlLoader.getController();
-            controller.loadInitialData();
+            controller.loadDashboardData();
         } else {
             showAlert("Login Failed", "Incorrect email or password.", ERROR);
         }
     }
+
+
 
     /**
      * Displays an alert dialog with the given title and message.
