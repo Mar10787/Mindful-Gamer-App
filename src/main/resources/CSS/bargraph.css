@@ -1,8 +1,11 @@
+.label-padding {
+    -fx-padding: 8px; /* Adjust the padding value as needed */
+}
 .background {
     -fx-background-color: #ebebeb;
 }
 .side_bar {
-    -fx-background-color: rgb(98, 122, 143);
+    -fx-background-color: #34495E;
     -fx-border-color: aliceblue;
     -fx-border-width: 2px 2px 2px 2px;
     -fx-border-style: solid;
@@ -15,13 +18,21 @@
     -fx-border-style: solid;
 }
 .sidebar_buttons {
-    -fx-background-color: rgb(98, 122, 143);
-    -fx-font-weight: bold;
+    -fx-background-color: #34495E;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-margin: 10px 0;
+    -fx-cursor: hand;
 }
 .background_buttons {
     -fx-background-color: #ebebeb;
     -fx-font-weight: bold;
 }
+
+.sidebar_buttons:hover {
+    -fx-background-color: #3A539B;
+}
+
 .checkbox {
     -fx-font-weight: bold;
     /*niam-use-this.fxml */

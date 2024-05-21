@@ -19,9 +19,9 @@
          <children>
             <AnchorPane prefHeight="425.0" prefWidth="134.0" styleClass="side_bar" stylesheets="@../../../CSS/bargraph.css">
                <children>
-                  <Label fx:id="MindfulGamer" layoutX="2.0" layoutY="6.0" text="MindfulGamer" textFill="WHITE">
+                  <Label fx:id="MindfulGamer" layoutX="2.0" layoutY="6.0" text="MindfulGamer" textFill="WHITE" styleClass="label-padding">
                      <font>
-                        <Font name="System Bold" size="20.0" />
+                        <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
                   <Button fx:id="dashboard" layoutX="2.0" layoutY="56.0" mnemonicParsing="false" onAction="#Dashboard" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Dashboard" textFill="WHITE">
