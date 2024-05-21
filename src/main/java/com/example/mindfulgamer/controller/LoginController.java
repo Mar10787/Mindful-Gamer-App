@@ -2,6 +2,7 @@ package com.example.mindfulgamer.controller;
 
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.User;
+import com.example.mindfulgamer.util.HashUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -55,12 +56,11 @@ public class LoginController {
         String password = input_password.getText();
         User user = userDAO.getUserByEmail(email);
 
-        if (user != null && password.equals(user.getPassword())) {
+        if (user != null && HashUtil.hash(password).equals(user.getPassword())) {
             Stage stage = (Stage) login_button.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
-            // Remove below if the application starts from the dashboard, used to load data coming from log in page
             GeneralController controller = fxmlLoader.getController();
             controller.loadInitialData();
         } else {

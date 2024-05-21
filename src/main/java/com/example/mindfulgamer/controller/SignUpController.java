@@ -2,6 +2,7 @@ package com.example.mindfulgamer.controller;
 
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.User;
+import com.example.mindfulgamer.util.HashUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -48,22 +49,16 @@ public class SignUpController {
         String password_rec = password.getText();
         String phone = "";
 
-        // Should check in database to see if the email is found, if yes then produce an error that says so otherwise
-
-        // Checking both email and password first
         if (!isValidEmail(email_rec) && !isValidPassword(password_rec)){
             showAlert("Invalid Email and Password", "Please re-enter a valid email address and create a password that is 8 characters long, " +
                     "including one number and uppercase letter.");
             return;
         }
-        // Checking email is valid
         else if (!isValidEmail(email_rec)) {
             showAlert("Invalid Email", "Please enter a valid email address.");
             return;
         }
-        // Checking password meets requirements
         else if (!isValidPassword(password_rec)) {
-
             showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
             return;
         }
@@ -78,10 +73,11 @@ public class SignUpController {
             return;
         }
 
-        User newUser = new User(first_name_lower, last_name_lower, phone, email_lower, password_rec);
+
+        String hashedPassword = HashUtil.hash(password_rec);
+        User newUser = new User(first_name_lower, last_name_lower, phone, email_lower, hashedPassword);
         userDAO.addUser(newUser);
         showSuccess("Sign Up Successful", "Welcome to Mindful Gamer!");
-
         // TESTING PURPOSES //
         // Deleting Database
         // userDAO.ClearData("users");
