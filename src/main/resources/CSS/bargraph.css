@@ -89,3 +89,49 @@
     -fx-background-radius: 5;
     -fx-background-insets: 0, 0, 1, 0;
 }
+
+.title {
+    -fx-padding: 10px 0;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.card_value {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2980B9;
+}
+
+.card_header {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495E;
+}
+
+.card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0.5, 0.0, 0.0);
+    -fx-alignment: center;
+    -fx-spacing: 10;
+    -fx-margin: 10px 0;
+}
+
+.header_label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.header {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 0 0 2px 0;
+    -fx-padding: 10px;
+}
+
+.background_buttons {
+ -fx-background-color: #ffffff;
+}
