@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -19,6 +20,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -108,7 +111,15 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("new-reminder-popup.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        // Access the controller associated with the loaded FXML
+        GeneralController controller = fxmlLoader.getController();
+        controller.initialize(null, null); // Pass appropriate URL and ResourceBundle if needed
     }
+
+    private void initialise() {
+    }
+
+
     @FXML
     public void cancel() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
@@ -613,6 +624,21 @@ public class GeneralController {
      */
     public void setReminderMessage() throws IOException {
         message = reminderMessage.getText();
+    }
+
+    /**
+     * creates functional combobox for new-reminder-pop.fxml
+     */     @FXML
+    private ComboBox<String> category_dropbox;
+    @FXML
+    private ComboBox<String> priority_dropbox;
+
+    public  void initialize(URL location, ResourceBundle resources) {
+        // Initialize category_dropbox
+        category_dropbox.getItems().addAll("Goal", "Reminder");
+
+        // Initialize priority_dropbox
+        priority_dropbox.getItems().addAll("High", "Medium", "Low");
     }
 
     /**

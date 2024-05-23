@@ -40,9 +40,9 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <ComboBox layoutX="114.0" layoutY="215.0" prefHeight="25.0" prefWidth="145.0" promptText="High, medium or low" />
+      <ComboBox fx:id="priority_dropbox" layoutX="114.0" layoutY="215.0" prefHeight="25.0" prefWidth="145.0" promptText="High, medium or low" />
       <Button fx:id="confirm_add_reminder" layoutX="159.0" layoutY="281.0" mnemonicParsing="false" onAction="#confirm_add_reminder" styleClass="timer_go" stylesheets="@../../../CSS/bargraph.css" text="Done" textFill="#fcfcfc" />
       <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" styleClass="timer_stop" stylesheets="@../../../CSS/bargraph.css" text="Cancel" textFill="#f5f5f5" />
-      <ComboBox layoutX="114.0" layoutY="183.0" prefHeight="25.0" prefWidth="145.0" promptText="Goal or Reminder" />
+      <ComboBox fx:id="category_dropbox" layoutX="114.0" layoutY="183.0" prefHeight="25.0" prefWidth="145.0" promptText="Goal or Reminder" />
    </children>
 </AnchorPane>
