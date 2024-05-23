@@ -38,10 +38,9 @@ public class SqliteUserDAO implements IUserDAO {
 
             String createRemindersTable = "CREATE TABLE IF NOT EXISTS reminders (" +
                     "reminderID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    //"timeSpent TEXT," +
-                    //"timeExceeded DATETIME," +
-                    //"VideoGame TEXT," +
-                    "message TEXT" +
+                    "message TEXT," +
+                    "Type VARCHAR," +
+                    "Priority VARCHAR" +
                     ")";
             statement.execute(createRemindersTable);
 
@@ -64,6 +63,37 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return reminders;
+    }
+    public List<String> getAllTypes() {
+        List<String> Types = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT Type FROM reminders ORDER BY reminderID DESC";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String message = resultSet.getString("Type");
+                Types.add(message);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Types;
+    }
+
+    public List<String> getAllPrio() {
+        List<String> Priorities = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT Priority FROM reminders ORDER BY reminderID DESC";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String message = resultSet.getString("Priority");
+                Priorities.add(message);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Priorities;
     }
 
     public void insertSampleData() {
@@ -157,12 +187,13 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
     }
-
-    public void addReminder(String message) {
+    public void addReminder(String message, String category, String priority) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO Reminders (message) VALUES (?)");
+                    "INSERT INTO Reminders (message, Type, Priority) VALUES (?,?,?)");
             statement.setString(1, message);
+            statement.setString(2, category);
+            statement.setString(3, priority);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -280,12 +311,12 @@ public class SqliteUserDAO implements IUserDAO {
         return null;
     }
 
-
+    // ERROR IN SQL QUERY
     public ObservableList<String> fetchAllGameNames() {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
+            String query = "SELECT Distinct gameName FROM gameTracking WHERE DATE(startGame) >= DATE('now', '-7 days')";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String gameName = resultSet.getString("gameName");
@@ -344,25 +375,6 @@ public class SqliteUserDAO implements IUserDAO {
         return gamingTimesList;
     }
 
-    // List of Games played in last 7 days
-    public List<String> getGamesPlayedLast7Days() {
-        List<String> gamesLast7Days = new ArrayList<>();
-        try {
-            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                gamesLast7Days.add(resultSet.getString("gameName"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Set<String> uniqueGames = new HashSet<>(gamesLast7Days);
-        List<String> uniqueGamesList = new ArrayList<>(uniqueGames);
-        return uniqueGamesList;
-    }
-
     public String getMostPlayedGame() {
         String game = "";
         try {
@@ -383,9 +395,14 @@ public class SqliteUserDAO implements IUserDAO {
         return game;
     }
 
-
-
-
-
-
+    public void deleteReminder(String message) {
+        try {
+            String deleteQuery = "DELETE FROM reminders WHERE message = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            preparedStatement.setString(1, message);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

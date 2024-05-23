@@ -1,5 +1,6 @@
 package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
+import com.example.mindfulgamer.model.Reminder;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ import java.util.ResourceBundle;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.io.IOException;
+
+import javafx.util.Callback;
 import javafx.util.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,17 +45,13 @@ public class GeneralController {
     LoginController loginController = new LoginController();
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, openAddGamingTimePage;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder;
     @FXML
     private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
     private TableView<Reminder> remindersTable;
-    @FXML
-    private TableColumn<String, String> messageColumn;
-    @FXML
-    private TableColumn<String, String> shardColumn;
     @FXML
     private ListView<String> searchResults, gamesPlayedLastWeek, remindersList;
     @FXML
@@ -126,10 +125,6 @@ public class GeneralController {
         controller.initialize(null, null); // Pass appropriate URL and ResourceBundle if needed
     }
 
-    private void initialise() {
-    }
-
-
     @FXML
     public void cancel() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
@@ -149,6 +144,7 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-gamingtime-manually.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+
     }
     /**
      * Takes the user to the reminders page
@@ -351,7 +347,7 @@ public class GeneralController {
         updateChart(gameName,sortedDates, sortedTimes);
 
         // Update list of games played last week
-        List<String> gamesLastWeek = userDAO.getGamesPlayedLast7Days();
+        List<String> gamesLastWeek = userDAO.fetchAllGameNames();
         gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));
     }
 
@@ -627,28 +623,49 @@ public class GeneralController {
         loginController.showAlert(title, message, INFORMATION);
     }
     private String message;
+    private String type;
+    private String prio;
 
     /**
      * Sets reminder message from the text field so that it can be added to the database
      * @throws IOException
      */
-    public void setReminderMessage() throws IOException {
+    public void setReminderMessage() {
         message = reminderMessage.getText();
     }
 
+
     /**
      * creates functional combobox for new-reminder-pop.fxml
-     */     @FXML
+     */
+    @FXML
     private ComboBox<String> category_dropbox;
+    @FXML
+    private String priorityLabel, categoryLabel;
     @FXML
     private ComboBox<String> priority_dropbox;
 
     public  void initialize(URL location, ResourceBundle resources) {
         // Initialize category_dropbox
         category_dropbox.getItems().addAll("Goal", "Reminder");
-
+        category_dropbox.setPromptText("Goal or Reminder");
+        // Adding listener
+        category_dropbox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if (newValue != null){
+                System.out.println("Selected priority: " + newValue);
+                categoryLabel = newValue;
+            }
+        });
         // Initialize priority_dropbox
         priority_dropbox.getItems().addAll("High", "Medium", "Low");
+        priority_dropbox.setPromptText("high, medium or low");
+        // Add listener
+        priority_dropbox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if (newValue != null){
+                System.out.println("Selected priority: " + newValue);
+                priorityLabel = newValue;
+            }
+        });
     }
 
     /**
@@ -658,7 +675,7 @@ public class GeneralController {
     @FXML
     public void confirm_add_reminder() throws IOException {
         setReminderMessage();
-        userDAO.addReminder(message);
+        userDAO.addReminder(message, categoryLabel, priorityLabel);
         userDAO.getAllReminders();
 
         Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
@@ -668,48 +685,87 @@ public class GeneralController {
         GeneralController controller = fxmlLoader.getController();
         controller.loadTable();
     }
+
+
     @FXML
     public void loadTable() {
         // Get reminders from the database
         List<String> reminderMessages = userDAO.getAllReminders();
-
-        // Print the reminders as a list
-        System.out.println("Reminders:");
-        for (String message : reminderMessages) {
-            System.out.println(message);
-        }
+        List<String> reminderType = userDAO.getAllTypes();
+        List<String> reminderPrio = userDAO.getAllPrio();
 
         // Create a list of Reminder objects
         ObservableList<Reminder> reminders = FXCollections.observableArrayList();
-        for (String message : reminderMessages) {
-            reminders.add(new Reminder(message));
+
+        for (int i = 0; i < reminderMessages.size(); i++) {
+            String message = reminderMessages.get(i);
+            String type = reminderType.get(i);
+            String priority = reminderPrio.get(i);
+            reminders.add(new Reminder(message, type, priority));
         }
 
         // Set up the TableView columns
         TableColumn<Reminder, String> messageColumn = new TableColumn<>("Message");
+        messageColumn.setPrefWidth(250);
+        TableColumn<Reminder, String> typeColumn = new TableColumn<>("Type");
+        typeColumn.setPrefWidth(80);
+        TableColumn<Reminder, String> prioColumn = new TableColumn<>("Prio");
+        prioColumn.setPrefWidth(80);
+
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        prioColumn.setCellValueFactory(new PropertyValueFactory<>("priority"));
 
         // Clear existing columns and add the new columns
         remindersTable.getColumns().clear(); // Clear existing columns
-        remindersTable.getColumns().add(messageColumn);
+        remindersTable.getColumns().addAll(messageColumn, typeColumn, prioColumn);
+        // Add the delete button
+        addButtonToTable();
 
         // Set items to the TableView
         remindersTable.setItems(reminders);
     }
 
-    public class Reminder {
-        private String message;
+    private void addButtonToTable(){
+        TableColumn<Reminder, Void> colBtn = new TableColumn<>("Del");
 
-        public Reminder(String message) {
-            this.message = message;
-        }
+        Callback<TableColumn<Reminder, Void>, TableCell<Reminder, Void>> cellFactory = new Callback<TableColumn<Reminder, Void>, TableCell<Reminder, Void>>() {
+            @Override
+            public TableCell<Reminder, Void> call(final TableColumn<Reminder, Void> param) {
+                final TableCell<Reminder, Void> cell = new TableCell<Reminder, Void>() {
 
-        public String getMessage() {
-            return message;
-        }
+                    private final Button btn = new Button("Delete");
 
-        public void setMessage(String message) {
-            this.message = message;
-        }
+                    {
+                        btn.setOnAction(event -> {
+                            Reminder reminder = getTableView().getItems().get(getIndex());
+                            deleteReminder(reminder);
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colBtn.setCellFactory(cellFactory);
+
+        remindersTable.getColumns().add(colBtn);
+    }
+    private void deleteReminder(Reminder reminder) {
+        // Remove the reminder from the database
+        userDAO.deleteReminder(reminder.getMessage());
+
+        // Remove the reminder from the TableView
+        remindersTable.getItems().remove(reminder);
     }
 }
