@@ -1,5 +1,6 @@
 package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
+import com.example.mindfulgamer.model.Reminder;
 import com.example.mindfulgamer.model.SqliteUserDAO;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,6 +20,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -46,6 +57,8 @@ public class GeneralController {
     private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
     private BarChart<String, Number> barChart;
+    @FXML
+    private TableView<Reminder> remindersTable;
     @FXML
     private ListView<String> searchResults, gamesPlayedLastWeek, remindersList;
     @FXML
@@ -614,7 +627,11 @@ public class GeneralController {
     public void setReminderMessage() throws IOException {
         message = reminderMessage.getText();
     }
+    @FXML
+    private TableColumn<String, String> messageColumn;
 
+    @FXML
+    private TableColumn<String, String> shardColumn;
     /**
      * Adds users reminder to the database and takes the user back to the reminders page
      * @throws IOException
@@ -632,9 +649,47 @@ public class GeneralController {
         GeneralController controller = fxmlLoader.getController();
         controller.loadTable();
     }
+    public class Reminder {
+        private String message;
+
+        public Reminder(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+    }
     @FXML
     public void loadTable() {
-        ObservableList<String> observableList = FXCollections.observableArrayList(userDAO.getAllReminders());
-        remindersList.setItems((observableList));
+        // Get reminders from the database
+        List<String> reminderMessages = userDAO.getAllReminders();
+
+        // Print the reminders as a list
+        System.out.println("Reminders:");
+        for (String message : reminderMessages) {
+            System.out.println(message);
+        }
+
+        // Create a list of Reminder objects
+        ObservableList<Reminder> reminders = FXCollections.observableArrayList();
+        for (String message : reminderMessages) {
+            reminders.add(new Reminder(message));
+        }
+
+        // Set up the TableView columns
+        TableColumn<Reminder, String> messageColumn = new TableColumn<>("Message");
+        messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
+
+        // Clear existing columns and add the new columns
+        remindersTable.getColumns().clear(); // Clear existing columns
+        remindersTable.getColumns().add(messageColumn);
+
+        // Set items to the TableView
+        remindersTable.setItems(reminders);
     }
 }

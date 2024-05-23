@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -143,7 +145,12 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <ListView fx:id="remindersList" layoutY="37.0" prefHeight="327.0" prefWidth="444.0" />
+                  <TableView fx:id="remindersTable" layoutY="37.0" prefHeight="327.0" prefWidth="444.0" >
+                     <columns>
+                        <TableColumn fx:id="messageColumn" prefWidth="150.0" text="Message" />
+                        <TableColumn fx:id="shardColumn" prefWidth="150.0" text="Shard" />
+                     </columns>
+                  </TableView>
                </children>
             </Pane>
          </children>
