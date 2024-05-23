@@ -126,9 +126,9 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TableView layoutX="-2.0" layoutY="38.0" prefHeight="326.0" prefWidth="447.0">
+                  <TableView fx:id="remindersTable" layoutX="-2.0" layoutY="38.0" prefHeight="326.0" prefWidth="447.0">
                      <columns>
-                        <TableColumn prefWidth="446.0" text="Reminder" />
+                        <TableColumn fx:id="reminderColumn" prefWidth="446.0" text="Reminder" />
                      </columns>
                   </TableView>
                </children>

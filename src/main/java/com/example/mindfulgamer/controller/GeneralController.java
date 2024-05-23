@@ -7,12 +7,14 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -39,7 +41,7 @@ public class GeneralController {
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, openAddGamingTimePage;
     @FXML
-    private TextField searchField, gameTitle, hours;
+    private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
@@ -138,18 +140,6 @@ public class GeneralController {
     }
     /**
      * Takes the user to the goals page
-     * @throws IOException
-     */
-    @FXML
-    public void confirm_add_reminder() throws IOException {
-
-        Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-    }
-    /**
-     * Adds reminder message to database and takes the user back to the reminders page
      * @throws IOException
      */
     @FXML
@@ -610,5 +600,40 @@ public class GeneralController {
                 "just press cancel to be redirected to the Gaming Time Page";
 
         loginController.showAlert(title, message, INFORMATION);
+    }
+    private String message;
+    private TableView<String> remindersTable;
+    private TableColumn<String, String> reminderColumn;
+    private ObservableList<String> remindersList;
+
+
+    /**
+     * Sets reminder message from the text field so that it can be added to the database
+     * @throws IOException
+     */
+    public void loadRemindersFromDatabase() {
+        // Fetch reminders from the database and add them to the remindersList
+        List<String> reminders = userDAO.getAllReminders();
+        remindersList.addAll(reminders);
+    }
+
+    public void setReminderMessage() throws IOException {
+        message = reminderMessage.getText();
+    }
+
+    /**
+     * Adds users reminder to the database and takes the user back to the reminders page
+     * @throws IOException
+     */
+    @FXML
+    public void confirm_add_reminder() throws IOException {
+        setReminderMessage();
+        userDAO.addReminder(message);
+        System.out.println(userDAO.getAllReminders());
+
+        Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
     }
 }

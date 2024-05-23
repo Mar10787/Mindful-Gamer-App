@@ -37,7 +37,6 @@ public class SqliteUserDAO implements IUserDAO {
                     ")";
             statement.execute(createGameTrackingTable);
 
-            // New table for GamingDetails
             String createRemindersTable = "CREATE TABLE IF NOT EXISTS reminders (" +
                     "reminderID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     //"timeSpent TEXT," +
@@ -47,20 +46,25 @@ public class SqliteUserDAO implements IUserDAO {
                     ")";
             statement.execute(createRemindersTable);
 
-            String createUserRemindersTable = "CREATE TABLE IF NOT EXISTS users (" +
-                    "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "firstName VARCHAR NOT NULL," +
-                    "lastName VARCHAR NOT NULL," +
-                    "phone VARCHAR NOT NULL," +
-                    "email VARCHAR NOT NULL," +
-                    "password VARCHAR NOT NULL" +
-                    ")";
-            statement.execute(createUsersTable);
-
-
         } catch (SQLException e) {
             System.err.println("Error creating tables: " + e.getMessage());
         }
+    }
+
+    public List<String> getAllReminders() {
+        List<String> reminders = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT message FROM reminders";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String message = resultSet.getString("message");
+                reminders.add(message);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reminders;
     }
 
     public void insertSampleData() {
