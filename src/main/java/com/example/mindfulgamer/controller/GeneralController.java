@@ -611,12 +611,6 @@ public class GeneralController {
      * Sets reminder message from the text field so that it can be added to the database
      * @throws IOException
      */
-    public void loadRemindersFromDatabase() {
-        // Fetch reminders from the database and add them to the remindersList
-        List<String> reminders = userDAO.getAllReminders();
-        remindersList.addAll(reminders);
-    }
-
     public void setReminderMessage() throws IOException {
         message = reminderMessage.getText();
     }
