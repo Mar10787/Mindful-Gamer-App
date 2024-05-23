@@ -18,12 +18,7 @@
          <children>
             <AnchorPane prefHeight="425.0" prefWidth="134.0" styleClass="side_bar" stylesheets="@../../../CSS/bargraph.css">
                <children>
-                  <Label fx:id="MindfulGamer" layoutX="2.0" layoutY="6.0" styleClass="label-padding" text="MindfulGamer" textFill="WHITE">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="dashboard" layoutX="2.0" layoutY="56.0" mnemonicParsing="false" onAction="#Dashboard" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Dashboard" textFill="WHITE">
+                  <Button fx:id="dashboard" layoutX="2.0" layoutY="81.0" mnemonicParsing="false" onAction="#Dashboard" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Dashboard" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -32,7 +27,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="gaming_time" layoutX="2.0" layoutY="90.0" mnemonicParsing="false" onAction="#Gaming_Time" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Gaming Time" textFill="WHITE">
+                  <Button fx:id="gaming_time" layoutX="2.0" layoutY="115.0" mnemonicParsing="false" onAction="#Gaming_Time" prefHeight="34.0" prefWidth="118.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Gaming Time" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -41,7 +36,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="reminders" layoutX="2.0" layoutY="192.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Reminders" textFill="WHITE">
+                  <Button fx:id="reminders" layoutX="2.0" layoutY="183.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Reminders" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -50,16 +45,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="goals" layoutX="2.0" layoutY="158.0" mnemonicParsing="false" onAction="#Goals" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Goals" textFill="WHITE">
-                     <graphic>
-                        <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../GUI%20Images/icons8-target-24.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button fx:id="timer" layoutX="2.0" layoutY="124.0" mnemonicParsing="false" onAction="#Timer" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Timer" textFill="WHITE">
+                  <Button fx:id="timer" layoutX="2.0" layoutY="149.0" mnemonicParsing="false" onAction="#Timer" prefHeight="34.0" prefWidth="72.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Timer" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -80,6 +66,11 @@
                         <Font size="18.0" />
                      </font>
                   </Button>
+                  <ImageView fitHeight="68.0" fitWidth="72.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../GUI%20Images/icons8-controller-100.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
