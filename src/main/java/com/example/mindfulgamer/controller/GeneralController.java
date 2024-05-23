@@ -45,23 +45,13 @@ public class GeneralController {
     LoginController loginController = new LoginController();
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, openAddGamingTimePage;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder;
     @FXML
     private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
     private TableView<Reminder> remindersTable;
-    @FXML
-    private TableColumn<String, String> messageColumn;
-    @FXML
-    private TableColumn<String, String> typeCol;
-    @FXML
-    private TableColumn<String, String> prioCol;
-    @FXML
-    private TableColumn<Reminder, Void> delCol;
-    @FXML
-    private ObservableList<Reminder> reminderData = FXCollections.observableArrayList();
     @FXML
     private ListView<String> searchResults, gamesPlayedLastWeek, remindersList;
     @FXML
@@ -117,8 +107,7 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-        GeneralController controller = fxmlLoader.getController();
-        controller.loadInitialData();
+        loadInitialData();
     }
     /**
      * Takes the user to the game_time page when clicking cancel button on manual time page
