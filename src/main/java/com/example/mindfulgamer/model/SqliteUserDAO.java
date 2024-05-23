@@ -3,7 +3,6 @@ package com.example.mindfulgamer.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 public class SqliteUserDAO implements IUserDAO {
     private Connection connection;
@@ -55,7 +54,7 @@ public class SqliteUserDAO implements IUserDAO {
         List<String> reminders = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT message FROM reminders";
+            String query = "SELECT message FROM reminders ORDER BY reminderID DESC";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String message = resultSet.getString("message");

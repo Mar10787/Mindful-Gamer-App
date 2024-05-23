@@ -47,7 +47,7 @@ public class GeneralController {
     @FXML
     private BarChart<String, Number> barChart;
     @FXML
-    private ListView<String> searchResults, gamesPlayedLastWeek;
+    private ListView<String> searchResults, gamesPlayedLastWeek, remindersList;
     @FXML
     private MenuButton timerinterval;
     @FXML
@@ -139,6 +139,8 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadTable();
     }
     /**
      * Takes the user to the goals page
@@ -604,10 +606,6 @@ public class GeneralController {
         loginController.showAlert(title, message, INFORMATION);
     }
     private String message;
-    private String currentMessage;
-    @FXML
-    private ListView<String> remindersList;
-    private TableColumn<String, String> reminderColumn;
 
     /**
      * Sets reminder message from the text field so that it can be added to the database
@@ -625,15 +623,18 @@ public class GeneralController {
     public void confirm_add_reminder() throws IOException {
         setReminderMessage();
         userDAO.addReminder(message);
-        System.out.println(userDAO.getAllReminders());
+        userDAO.getAllReminders();
 
         Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadTable();
     }
     @FXML
-    public void initialiseTable() {
-        remindersList.getItems().addAll(userDAO.getAllReminders());
+    public void loadTable() {
+        ObservableList<String> observableList = FXCollections.observableArrayList(userDAO.getAllReminders());
+        remindersList.setItems((observableList));
     }
 }

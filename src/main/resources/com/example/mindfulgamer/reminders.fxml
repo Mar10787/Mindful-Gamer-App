@@ -144,7 +144,6 @@
                      </graphic>
                   </Button>
                   <ListView fx:id="remindersList" layoutY="37.0" prefHeight="327.0" prefWidth="444.0" />
-
                </children>
             </Pane>
          </children>
