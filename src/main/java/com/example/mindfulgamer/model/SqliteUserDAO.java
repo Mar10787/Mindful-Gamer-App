@@ -39,14 +39,23 @@ public class SqliteUserDAO implements IUserDAO {
 
             // New table for GamingDetails
             String createRemindersTable = "CREATE TABLE IF NOT EXISTS reminders (" +
-                    "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "reminderID TEXT," +
-                    "timeSpent TEXT," +
-                    "timeExceeded DATETIME," +
-                    "VideoGame TEXT," +
-                    "notification TEXT" +
+                    "reminderID INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    //"timeSpent TEXT," +
+                    //"timeExceeded DATETIME," +
+                    //"VideoGame TEXT," +
+                    "message TEXT" +
                     ")";
             statement.execute(createRemindersTable);
+
+            String createUserRemindersTable = "CREATE TABLE IF NOT EXISTS users (" +
+                    "userId INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "firstName VARCHAR NOT NULL," +
+                    "lastName VARCHAR NOT NULL," +
+                    "phone VARCHAR NOT NULL," +
+                    "email VARCHAR NOT NULL," +
+                    "password VARCHAR NOT NULL" +
+                    ")";
+            statement.execute(createUsersTable);
 
 
         } catch (SQLException e) {
@@ -140,6 +149,16 @@ public class SqliteUserDAO implements IUserDAO {
             statement.setString(2, startGame);
             statement.setString(3, endGame);
             statement.setString(4,gamingTime);
+            statement.executeUpdate();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public void addReminder(String message){
+        try{
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO Reminders (message) VALUES (?)");
+            statement.setString(1, message);
             statement.executeUpdate();
         } catch (Exception e){
             e.printStackTrace();

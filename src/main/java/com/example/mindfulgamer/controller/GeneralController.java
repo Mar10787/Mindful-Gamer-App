@@ -37,7 +37,7 @@ public class GeneralController {
     LoginController loginController = new LoginController();
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, openAddGamingTimePage;
     @FXML
     private TextField searchField, gameTitle, hours;
     @FXML
@@ -99,6 +99,13 @@ public class GeneralController {
      * @throws IOException
      */
     @FXML
+    public void add_reminder() throws IOException {
+        Stage stage = (Stage) add_reminder.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("new-reminder-popup.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
+    @FXML
     public void cancel() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
@@ -131,6 +138,18 @@ public class GeneralController {
     }
     /**
      * Takes the user to the goals page
+     * @throws IOException
+     */
+    @FXML
+    public void confirm_add_reminder() throws IOException {
+
+        Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+    }
+    /**
+     * Adds reminder message to database and takes the user back to the reminders page
      * @throws IOException
      */
     @FXML
