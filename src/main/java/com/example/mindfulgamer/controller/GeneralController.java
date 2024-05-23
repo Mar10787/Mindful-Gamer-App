@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import java.net.URL;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -613,6 +614,21 @@ public class GeneralController {
      */
     public void setReminderMessage() throws IOException {
         message = reminderMessage.getText();
+    }
+    /**
+     * creates functional combobox for new-reminder-pop.fxml
+     */
+    @FXML
+    private ComboBox<String> category_dropbox;
+    @FXML
+    private ComboBox<String> priority_dropbox;
+
+    public  void initialize(URL location, ResourceBundle resources) {
+        // Initialize category_dropbox
+        category_dropbox.getItems().addAll("Goal", "Reminder");
+
+        // Initialize priority_dropbox
+        priority_dropbox.getItems().addAll("High", "Medium", "Low");
     }
 
     /**
