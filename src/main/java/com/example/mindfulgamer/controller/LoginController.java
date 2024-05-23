@@ -64,7 +64,7 @@ public class LoginController {
         // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
 
 
-        if (user==null/*user != null && HashUtil.hash(password).equals(user.getPassword())*/) {
+        if (user != null && HashUtil.hash(password).equals(user.getPassword())) {
             Stage stage = (Stage) login_button.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
