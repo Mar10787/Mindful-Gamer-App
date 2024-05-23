@@ -5,6 +5,8 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -602,10 +604,10 @@ public class GeneralController {
         loginController.showAlert(title, message, INFORMATION);
     }
     private String message;
-    private TableView<String> remindersTable;
+    private String currentMessage;
+    @FXML
+    private ListView<String> remindersList;
     private TableColumn<String, String> reminderColumn;
-    private ObservableList<String> remindersList;
-
 
     /**
      * Sets reminder message from the text field so that it can be added to the database
@@ -629,5 +631,9 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+    }
+    @FXML
+    public void initialiseTable() {
+        remindersList.getItems().addAll(userDAO.getAllReminders());
     }
 }
