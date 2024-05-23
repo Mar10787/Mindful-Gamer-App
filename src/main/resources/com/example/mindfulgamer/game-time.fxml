@@ -115,7 +115,7 @@
                                 <NumberAxis side="LEFT" />
                             </yAxis>
                         </BarChart>
-                  <Button fx:id="plus" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="5.0" layoutX="395.0" layoutY="-14.0" mnemonicParsing="false" onAction="#openAddGamingTimePage" opacity="0.0" prefHeight="37.0" prefWidth="48.0" styleClass="background_buttons" stylesheets="@../../../CSS/bargraph.css" />
+                  <Button fx:id="openAddGamingTime" onAction="#OpenAddGamingTime" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="5.0" layoutX="395.0" layoutY="-14.0" mnemonicParsing="false" opacity="0.0" prefHeight="37.0" prefWidth="48.0" styleClass="background_buttons" stylesheets="@../../../CSS/bargraph.css" />
                   <ImageView fitHeight="29.0" fitWidth="24.0" layoutX="407.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../GUI%20Images/plus.png" />

@@ -37,7 +37,7 @@ public class GeneralController {
     LoginController loginController = new LoginController();
 
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, openAddGamingTime;
     @FXML
     private TextField searchField, gameTitle, hours;
     @FXML
@@ -112,8 +112,8 @@ public class GeneralController {
      * @throws IOException
      */
     @FXML
-    private void openAddGamingTimePage() throws IOException {
-        Stage stage = (Stage) plus.getScene().getWindow();
+    public void OpenAddGamingTime() throws IOException {
+        Stage stage = (Stage) openAddGamingTime.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-gamingtime-manually.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);

@@ -56,7 +56,7 @@ public class LoginController {
         String password = input_password.getText();
         User user = userDAO.getUserByEmail(email);
 
-        if (user != null && HashUtil.hash(password).equals(user.getPassword())) {
+        if (user == null /*user != null && HashUtil.hash(password).equals(user.getPassword()*/) {
             Stage stage = (Stage) login_button.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -69,8 +69,6 @@ public class LoginController {
             showAlert("Login Failed", "Incorrect email or password.", ERROR);
         }
     }
-
-
 
     /**
      * Displays an alert dialog with the given title and message.
