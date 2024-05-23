@@ -104,15 +104,15 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
-    public void ClearData(String table){
+    public void ClearData(String table) {
         /**
          * Method used to delete all data from table in the database, used only for testing
          */
         String deleteQuery = "DELETE FROM " + table;
-        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)){
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
             // Execute the delete query
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -140,47 +140,48 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
     @Override
-    public void addGameTime(String gameName, String startGame, String endGame, String gamingTime){
+    public void addGameTime(String gameName, String startGame, String endGame, String gamingTime) {
         // startGame and endGame must have time in order to classify as a date
         String time = "00:00:00";
         startGame = startGame + " " + time;
         endGame = endGame + " " + time;
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO gameTracking (gameName, startGame, endGame, gamingTime) VALUES (?,?,?,?)");
             statement.setString(1, gameName);
             statement.setString(2, startGame);
             statement.setString(3, endGame);
-            statement.setString(4,gamingTime);
+            statement.setString(4, gamingTime);
             statement.executeUpdate();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void addReminder(String message){
-        try{
+
+    public void addReminder(String message) {
+        try {
             PreparedStatement statement = connection.prepareStatement(
                     "INSERT INTO Reminders (message) VALUES (?)");
             statement.setString(1, message);
             statement.executeUpdate();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public boolean isEmailExist(String email){
+    public boolean isEmailExist(String email) {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT COUNT(*) AS count FROM users WHERE email = ?"
             );
             statement.setString(1, email);
             ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()){
+            if (resultSet.next()) {
                 int count = resultSet.getInt("count");
                 return count > 0;
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
@@ -216,7 +217,7 @@ public class SqliteUserDAO implements IUserDAO {
     public User getUser(int userId) {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE userId = ?");
-            statement.setInt(1,userId);
+            statement.setInt(1, userId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String firstName = resultSet.getString("firstName");
@@ -280,71 +281,68 @@ public class SqliteUserDAO implements IUserDAO {
     }
 
 
-    public ObservableList<String> fetchAllGameNames(){
+    public ObservableList<String> fetchAllGameNames() {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
             Statement statement = connection.createStatement();
             String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
             ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String gameName = resultSet.getString("gameName");
                 gameNames.add(gameName);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             // Handle exception
         }
         return gameNames;
     }
 
-    public List<String> getStartDate(String gameName){
+    public List<String> getStartDate(String gameName) {
         List<String> startDatesList = new ArrayList<>();
         try {
             // Prepare SQL statement
             String query = "SELECT startGame FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days')";
 
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,gameName);
+            preparedStatement.setString(1, gameName);
 
             // Execute query
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Process result set
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 String startDate = resultSet.getString("startGame");
                 String[] Date = startDate.split(" ");
                 startDatesList.add(Date[0]);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return startDatesList;
     }
 
-    public List<Integer> getGamingTimes(String gameName){
+    public List<Integer> getGamingTimes(String gameName) {
         List<Integer> gamingTimesList = new ArrayList<>();
         try {
             String query = "SELECT gamingTime FROM gameTracking WHERE gameName = ? AND DATE(startGame) >= DATE('now', '-7 days')";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1,gameName);
+            preparedStatement.setString(1, gameName);
 
             // Execute query
             ResultSet resultSet = preparedStatement.executeQuery();
 
             // Process result set
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int gamingTime = resultSet.getInt("gamingTime");
                 gamingTimesList.add(gamingTime);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return gamingTimesList;
     }
-
-
-
 
     // List of Games played in last 7 days
     public List<String> getGamesPlayedLast7Days() {
@@ -363,6 +361,26 @@ public class SqliteUserDAO implements IUserDAO {
         Set<String> uniqueGames = new HashSet<>(gamesLast7Days);
         List<String> uniqueGamesList = new ArrayList<>(uniqueGames);
         return uniqueGamesList;
+    }
+
+    public String getMostPlayedGame() {
+        String game = "";
+        try {
+            String query = "SELECT gameName, SUM(gamingTime) as TotalGamingTime " +
+                    "FROM gameTracking " +
+                    "WHERE startGame >= datetime('now','-7 days') " +
+                    "GROUP BY gameName " +
+                    "ORDER BY totalGamingTime DESC " +
+                    "LIMIT 1;";
+            PreparedStatement preparedStatement = connection.prepareStatement((query));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                game = resultSet.getString("gameName");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return game;
     }
 
 

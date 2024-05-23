@@ -1,6 +1,5 @@
 package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
-import com.example.mindfulgamer.model.Reminder;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
@@ -64,6 +62,8 @@ public class GeneralController {
 
     @FXML
     private Label totalHoursLabel;
+    @FXML
+    private Label mostPlayedGames;
 
     @FXML
     public void Dashboard() throws IOException {
@@ -80,6 +80,9 @@ public class GeneralController {
     public void loadDashboardData() {
         int totalHours = calculateTotalHours();
         Platform.runLater(() -> totalHoursLabel.setText(String.valueOf(totalHours)));
+        // Method finds game with largest hours of week
+        String game = userDAO.getMostPlayedGame();
+        Platform.runLater(() -> mostPlayedGames.setText(game));
     }
 
     private int calculateTotalHours() {
@@ -93,6 +96,7 @@ public class GeneralController {
         }
         return totalHours;
     }
+
 
     /**
      * Takes the user to the game_time page

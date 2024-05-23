@@ -120,7 +120,7 @@
                                         <Font name="System Bold" size="18.0" />
                                     </font>
                                 </Label>
-                                <Label fx:id="goalsLabel" styleClass="card_value" text="Total Goals" textAlignment="CENTER">
+                                <Label fx:id="mostPlayedGames" styleClass="card_value" text="Total Goals" textAlignment="CENTER">
                                     <font>
                                         <Font name="System Bold" size="27.0" />
                                     </font>
