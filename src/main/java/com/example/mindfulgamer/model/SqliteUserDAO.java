@@ -38,10 +38,9 @@ public class SqliteUserDAO implements IUserDAO {
 
             String createRemindersTable = "CREATE TABLE IF NOT EXISTS reminders (" +
                     "reminderID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    //"timeSpent TEXT," +
-                    //"timeExceeded DATETIME," +
-                    //"VideoGame TEXT," +
-                    "message TEXT" +
+                    "message TEXT," +
+                    "Type VARCHAR," +
+                    "Priority VARCHAR" +
                     ")";
             statement.execute(createRemindersTable);
 
@@ -64,6 +63,37 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return reminders;
+    }
+    public List<String> getAllTypes() {
+        List<String> Types = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT Type FROM reminders ORDER BY reminderID DESC";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String message = resultSet.getString("Type");
+                Types.add(message);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Types;
+    }
+
+    public List<String> getAllPrio() {
+        List<String> Priorities = new ArrayList<>();
+        try {
+            Statement statement = connection.createStatement();
+            String query = "SELECT Priority FROM reminders ORDER BY reminderID DESC";
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                String message = resultSet.getString("Priority");
+                Priorities.add(message);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Priorities;
     }
 
     public void insertSampleData() {
@@ -157,12 +187,13 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
     }
-
-    public void addReminder(String message) {
+    public void addReminder(String message, String category, String priority) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO Reminders (message) VALUES (?)");
+                    "INSERT INTO Reminders (message, Type, Priority) VALUES (?,?,?)");
             statement.setString(1, message);
+            statement.setString(2, category);
+            statement.setString(3, priority);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -383,9 +414,14 @@ public class SqliteUserDAO implements IUserDAO {
         return game;
     }
 
-
-
-
-
-
+    public void deleteReminder(String message) {
+        try {
+            String deleteQuery = "DELETE FROM reminders WHERE message = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
+            preparedStatement.setString(1, message);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
