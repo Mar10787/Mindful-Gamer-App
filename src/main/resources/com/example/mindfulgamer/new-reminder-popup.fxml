@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -17,11 +16,11 @@
             <Font size="19.0" />
          </font>
       </TextField>
-      <Label layoutX="20.0" layoutY="183.0" prefHeight="23.0" prefWidth="67.0" text="Date" textFill="WHITE">
+      <Label layoutX="20.0" layoutY="183.0" prefHeight="25.0" prefWidth="91.0" text="Category" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../GUI%20Images/icons8-calendar-32.png" />
+                  <Image url="@../../../GUI%20Images/icons8-category-64.png" />
                </image>
             </ImageView>
          </graphic>
@@ -29,12 +28,11 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <DatePicker layoutX="103.0" layoutY="183.0" prefHeight="11.0" prefWidth="156.0" />
-      <Label layoutX="20.0" layoutY="215.0" prefHeight="23.0" prefWidth="67.0" text="Time" textFill="WHITE">
+      <Label layoutX="20.0" layoutY="215.0" prefHeight="25.0" prefWidth="85.0" text="Priority" textFill="WHITE">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../GUI%20Images/icons8-time-48.png" />
+                  <Image url="@../../../GUI%20Images/icons8-priority-50.png" />
                </image>
             </ImageView>
          </graphic>
@@ -42,21 +40,9 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Label>
-      <TextField layoutX="103.0" layoutY="215.0" prefHeight="25.0" prefWidth="156.0" promptText="Input time" />
-      <Label layoutX="20.0" layoutY="247.0" prefHeight="25.0" prefWidth="79.0" text="Repeat?" textFill="WHITE">
-         <graphic>
-            <ImageView fitHeight="21.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../GUI%20Images/icons8-repeat-48.png" />
-               </image>
-            </ImageView>
-         </graphic>
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Label>
-      <ComboBox layoutX="103.0" layoutY="247.0" prefHeight="25.0" prefWidth="156.0" promptText="Daily?" />
+      <ComboBox layoutX="114.0" layoutY="215.0" prefHeight="25.0" prefWidth="145.0" promptText="High, medium or low" />
       <Button fx:id="confirm_add_reminder" layoutX="159.0" layoutY="281.0" mnemonicParsing="false" onAction="#confirm_add_reminder" styleClass="timer_go" stylesheets="@../../../CSS/bargraph.css" text="Done" textFill="#fcfcfc" />
       <Button layoutX="61.0" layoutY="281.0" mnemonicParsing="false" styleClass="timer_stop" stylesheets="@../../../CSS/bargraph.css" text="Cancel" textFill="#f5f5f5" />
+      <ComboBox layoutX="114.0" layoutY="183.0" prefHeight="25.0" prefWidth="145.0" promptText="Goal or Reminder" />
    </children>
 </AnchorPane>
