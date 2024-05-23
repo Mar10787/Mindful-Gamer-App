@@ -107,7 +107,8 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
-        loadInitialData();
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadInitialData();
     }
     /**
      * Takes the user to the game_time page when clicking cancel button on manual time page
@@ -143,6 +144,7 @@ public class GeneralController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("add-gamingtime-manually.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+
     }
     /**
      * Takes the user to the reminders page
@@ -345,7 +347,7 @@ public class GeneralController {
         updateChart(gameName,sortedDates, sortedTimes);
 
         // Update list of games played last week
-        List<String> gamesLastWeek = userDAO.getGamesPlayedLast7Days();
+        List<String> gamesLastWeek = userDAO.fetchAllGameNames();
         gamesPlayedLastWeek.setItems(FXCollections.observableArrayList(gamesLastWeek));
     }
 

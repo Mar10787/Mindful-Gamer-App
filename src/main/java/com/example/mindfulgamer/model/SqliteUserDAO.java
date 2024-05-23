@@ -311,12 +311,12 @@ public class SqliteUserDAO implements IUserDAO {
         return null;
     }
 
-
+    // ERROR IN SQL QUERY
     public ObservableList<String> fetchAllGameNames() {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
             Statement statement = connection.createStatement();
-            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
+            String query = "SELECT Distinct gameName FROM gameTracking WHERE DATE(startGame) >= DATE('now', '-7 days')";
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 String gameName = resultSet.getString("gameName");
@@ -373,25 +373,6 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
         return gamingTimesList;
-    }
-
-    // List of Games played in last 7 days
-    public List<String> getGamesPlayedLast7Days() {
-        List<String> gamesLast7Days = new ArrayList<>();
-        try {
-            String query = "SELECT DISTINCT gameName, startGame FROM gameTracking WHERE DATE(startGame) BETWEEN DATE('now', '-7 days') AND DATE('now')";
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                gamesLast7Days.add(resultSet.getString("gameName"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        Set<String> uniqueGames = new HashSet<>(gamesLast7Days);
-        List<String> uniqueGamesList = new ArrayList<>(uniqueGames);
-        return uniqueGamesList;
     }
 
     public String getMostPlayedGame() {
