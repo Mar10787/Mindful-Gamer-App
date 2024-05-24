@@ -4,14 +4,27 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 import java.util.*;
+
+/**
+ * Class used for any database related methods
+ */
 public class SqliteUserDAO implements IUserDAO {
+    /**
+     * Initialiase connection
+     */
     private Connection connection;
 
+    /**
+     * Create a database
+     */
     public SqliteUserDAO() {
         connection = SqliteConnection.getInstance();
         createTables();
     }
 
+    /**
+     * Create tables for the database that is required
+     */
     private void createTables() {
         try {
             Statement statement = connection.createStatement();
@@ -49,6 +62,10 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /**
+     * Gets all Reminders from database
+     * @return List<String> of all reminders </String>
+     */
     public List<String> getAllReminders() {
         List<String> reminders = new ArrayList<>();
         try {
@@ -64,6 +81,11 @@ public class SqliteUserDAO implements IUserDAO {
         }
         return reminders;
     }
+
+    /**
+     * Gets all Types from database reminders table
+     * @return List<String> of all types from reminders </String>
+     */
     public List<String> getAllTypes() {
         List<String> Types = new ArrayList<>();
         try {
@@ -80,6 +102,10 @@ public class SqliteUserDAO implements IUserDAO {
         return Types;
     }
 
+    /**
+     * Gets all Priority from database reminder table
+     * @return List<String> of all priority from reminders</String>
+     */
     public List<String> getAllPrio() {
         List<String> Priorities = new ArrayList<>();
         try {
@@ -96,6 +122,9 @@ public class SqliteUserDAO implements IUserDAO {
         return Priorities;
     }
 
+    /**
+     * Inserts sample data, only used for testing
+     */
     public void insertSampleData() {
         try {
             // Clear before inserting
@@ -133,11 +162,12 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /**
+     * Clears the Data, mainly used for testing
+     * @param table the table chosen to delete all data
+     */
     @Override
     public void ClearData(String table) {
-        /**
-         * Method used to delete all data from table in the database, used only for testing
-         */
         String deleteQuery = "DELETE FROM " + table;
         try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
             // Execute the delete query
@@ -147,7 +177,10 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
-
+    /**
+     * Adds user to database
+     * @param user The user to add.
+     */
     @Override
     public void addUser(User user) {
         try {
@@ -169,6 +202,13 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /**
+     * Adds Game Time to the database
+     * @param gameName the name of the game
+     * @param startGame the date the game session started
+     * @param endGame the date the game session ended
+     * @param gamingTime the total time of the session
+     */
     @Override
     public void addGameTime(String gameName, String startGame, String endGame, String gamingTime) {
         // startGame and endGame must have time in order to classify as a date
@@ -187,6 +227,13 @@ public class SqliteUserDAO implements IUserDAO {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Adds Reminders to the database
+     * @param message String, the message
+     * @param category String, the category
+     * @param priority String, the priority
+     */
     public void addReminder(String message, String category, String priority) {
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -200,6 +247,11 @@ public class SqliteUserDAO implements IUserDAO {
         }
     }
 
+    /**
+     * Checks to see if email is already in database
+     * @param email The email entered for the sign up
+     * @return Boolean, True if in, False otherwise
+     */
     @Override
     public boolean isEmailExist(String email) {
         try {
@@ -218,78 +270,11 @@ public class SqliteUserDAO implements IUserDAO {
         return false;
     }
 
-    @Override
-    public void updateUser(User user) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, phone = ?, email = ? WHERE userId = ?");
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getPhone());
-            statement.setString(4, user.getEmail());
-            statement.setInt(5, user.getId());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void deleteUser(User user) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE userId = ?");
-            statement.setInt(1, user.getId());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public User getUser(int userId) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE userId = ?");
-            statement.setInt(1, userId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                String firstName = resultSet.getString("firstName");
-                String lastName = resultSet.getString("lastName");
-                String phone = resultSet.getString("phone");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
-                User user = new User(firstName, lastName, phone, email, password);
-                user.setId(userId);
-                return user;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            String query = "SELECT * FROM users";
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                int userId = resultSet.getInt("userId");
-                String firstName = resultSet.getString("firstName");
-                String lastName = resultSet.getString("lastName");
-                String phone = resultSet.getString("phone");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
-                User user = new User(firstName, lastName, phone, email, password);
-                user.setId(userId);
-                users.add(user);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return users;
-    }
-
+    /**
+     * Gets user by the email
+     * @param email String, email trying to find
+     * @return User, the user
+     */
     @Override
     public User getUserByEmail(String email) {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE email = ?")) {
@@ -311,7 +296,10 @@ public class SqliteUserDAO implements IUserDAO {
         return null;
     }
 
-    // ERROR IN SQL QUERY
+    /**
+     * Method used to fetch all game names in a list
+     * @return List<String> List of all game names in past 7 days </String>
+     */
     public ObservableList<String> fetchAllGameNames() {
         ObservableList<String> gameNames = FXCollections.observableArrayList();
         try {
@@ -329,6 +317,11 @@ public class SqliteUserDAO implements IUserDAO {
         return gameNames;
     }
 
+    /**
+     * Method to get the starting dates from a game
+     * @param gameName String of the game name
+     * @return LIst<String> The list of all game start dates from the past 7 days </String>
+     */
     public List<String> getStartDate(String gameName) {
         List<String> startDatesList = new ArrayList<>();
         try {
@@ -354,6 +347,11 @@ public class SqliteUserDAO implements IUserDAO {
         return startDatesList;
     }
 
+    /**
+     * Method used to get the gaming times of a game from the past 7 days
+     * @param gameName String of the game name
+     * @return List<Integer> List of all game times <Integer\>
+     */
     public List<Integer> getGamingTimes(String gameName) {
         List<Integer> gamingTimesList = new ArrayList<>();
         try {
@@ -375,6 +373,10 @@ public class SqliteUserDAO implements IUserDAO {
         return gamingTimesList;
     }
 
+    /**
+     * Gets the name of the most played game of the current date
+     * @return String the game name
+     */
     public String getMostPlayedGame() {
         String game = "";
         try {
@@ -395,6 +397,10 @@ public class SqliteUserDAO implements IUserDAO {
         return game;
     }
 
+    /**
+     * Method used to delete specific reminders
+     * @param message String of the message
+     */
     public void deleteReminder(String message) {
         try {
             String deleteQuery = "DELETE FROM reminders WHERE message = ?";
