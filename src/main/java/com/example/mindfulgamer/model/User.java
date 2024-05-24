@@ -31,40 +31,60 @@ public class User {
     }
 
     /**
-     * Gets first name of user
-     * @return String firstName
+     * Gets ID of user
+     * @return
+     */
+    public int getId() {return userId; }
+
+    /**
+     * Set the ID of
+     * @param userId
+     */
+    public void setId(int userId) {this.userId = userId; }
+
+    /**
+     * Gets first name
+     * @return firstName
      */
     public String getFirstName() {
         return firstName;
     }
 
     /**
-     * Gets last name of user
-     * @return String lastName
+     * Gets last name
+     * @return lastName
      */
     public String getLastName() {
         return lastName;
     }
 
     /**
-     * Gets email of user
-     * @return String email
+     * Gets email
+     * @return email
      */
     public String getEmail() {
         return email;
     }
 
     /**
-     * Gets phone number of user
-     * @return String phone number
+     * sets email
+     * @param email
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Gets phone number
+     * @return phone
      */
     public String getPhone() {
         return phone;
     }
 
     /**
-     * Gets the password from user
-     * @return String password
+     * Gets password
+     * @return password
      */
     public String getPassword() {
         return password;
