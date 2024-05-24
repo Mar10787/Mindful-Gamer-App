@@ -39,12 +39,17 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 public class GeneralController {
     /**
      * Class used for the general controller of the application. Ranges from page directions, bar updates etc
+     * Since the program has essentially the same page throughout the whole app, it requires that this general controller
+     * is to be used throughout all "pages" of the app, as it is very difficult to have two controllers to one FXML
      */
 
     // Utilizing other classes
     SqliteUserDAO userDAO = new SqliteUserDAO();
     LoginController loginController = new LoginController();
 
+    /**
+     * FXML ID Links to all dashboard related things
+     */
     @FXML
     public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder;
     @FXML
@@ -54,17 +59,32 @@ public class GeneralController {
     @FXML
     private TableView<Reminder> remindersTable;
     @FXML
+    public TableColumn<Reminder, String> priorityColumn;
+    @FXML
     private ListView<String> searchResults, gamesPlayedLastWeek, remindersList;
+    @FXML
+    private ComboBox<String> category_dropbox, priority_dropbox;
     @FXML
     private MenuButton timerinterval;
     @FXML
-    private Label timerLabel;
-
+    private Label timerLabel,totalHoursLabel,mostPlayedGames;
     @FXML
-    private Label totalHoursLabel;
-    @FXML
-    private Label mostPlayedGames;
+    private String priorityLabel, categoryLabel;
 
+    /**
+     * Initialising variables within this class
+     */
+    private Duration intervalDuration;
+    private Timeline timeline;
+    private long startTime = 0, pausedTime = 0;
+    private boolean isRunning = false;
+    private String startDate, gameName, gameTime;
+
+
+    /**
+     * Directs user to the dashboard scene, also ensures the data required for the dashboard is loaded
+     * @throws IOException throws the error in the terminal in case of unexpected errors
+     */
     @FXML
     public void Dashboard() throws IOException {
         Stage stage = (Stage) dashboard.getScene().getWindow();
@@ -77,6 +97,9 @@ public class GeneralController {
         controller.loadDashboardData();
     }
 
+    /**
+     * Method used to load the data into the dashboard, used for Dashboard() method
+     */
     public void loadDashboardData() {
         int totalHours = calculateTotalHours();
         Platform.runLater(() -> totalHoursLabel.setText(String.valueOf(totalHours)));
@@ -85,6 +108,10 @@ public class GeneralController {
         Platform.runLater(() -> mostPlayedGames.setText(game));
     }
 
+    /**
+     * Calculates the total hours played for the current day, used to display on dashboard
+     * @return totalHours: Int of the total hours
+     */
     private int calculateTotalHours() {
         int totalHours = 0;
         ObservableList<String> allGames = userDAO.fetchAllGameNames();
@@ -97,10 +124,9 @@ public class GeneralController {
         return totalHours;
     }
 
-
     /**
      * Takes the user to the game_time page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void Gaming_Time() throws IOException {
@@ -113,7 +139,7 @@ public class GeneralController {
     }
     /**
      * Takes the user to the game_time page when clicking cancel button on manual time page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void add_reminder() throws IOException {
@@ -126,6 +152,10 @@ public class GeneralController {
         controller.initialize(null, null); // Pass appropriate URL and ResourceBundle if needed
     }
 
+    /**
+     * From the add_gaming page, when clicking cancel button ID, directs user back to the game-time page
+     * @throws IOException throws the error in the terminal in case of unexpected errors
+     */
     @FXML
     public void cancel() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
@@ -137,7 +167,7 @@ public class GeneralController {
     }
     /**
      * Takes the user to the add manual game time page for users to manually store in data
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     private void openAddGamingTimePage() throws IOException {
@@ -149,7 +179,7 @@ public class GeneralController {
     }
     /**
      * Takes the user to the reminders page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void Reminders() throws IOException {
@@ -160,28 +190,10 @@ public class GeneralController {
         GeneralController controller = fxmlLoader.getController();
         controller.loadTable();
     }
-    /**
-     * Takes the user to the goals page
-     * @throws IOException
-     */
-    @FXML
-    public void Goals() throws IOException {
-        Stage stage = (Stage) goals.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("goals.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setScene(scene);
-    }
-    /**
-     * Takes the user to the achievements page
-     * @throws IOException
-     */
-    @FXML
-    public void Achievements(){
 
-    }
     /**
      * Takes the user to the Timer page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void Timer() throws IOException {
@@ -190,9 +202,10 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
+
     /**
      * Takes the user to the log in page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void Logout() throws IOException{
@@ -201,21 +214,6 @@ public class GeneralController {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
     }
-    @FXML
-    public void Settings(){
-
-    }
-    @FXML
-    public void Profile(){
-
-    }
-
-    // Variables
-    private Duration intervalDuration;
-    private Timeline timeline;
-    private long startTime = 0, pausedTime = 0;
-    private boolean isRunning = false;
-    private String startDate, gameName, gameTime;
 
 
     /**
@@ -280,7 +278,7 @@ public class GeneralController {
 
     /**
      * Used to update the bar graph with the wanted game all from the database
-     * @param gameName The name of the game wanted to select data from
+     * @param gameName String, the name of the game wanted to select data from
      * @param dates list of all the dates associated to the gameName
      * @param times list of all the game time associated to the gameName
      */
@@ -390,7 +388,6 @@ public class GeneralController {
         barChart.getXAxis().setStyle("-fx-tick-label-rotation: 0; -fx-font-size: 10px;");
     }
 
-
     /**
      * Method used to start the timer, here it also tracks time which is vital for saving into database
      */
@@ -454,6 +451,10 @@ public class GeneralController {
         // Reset timer label or any other necessary UI components
         timerLabel.setText("00:00:00");
     }
+
+    /**
+     * Method used to create an alert page for when the time has been recorded
+     */
     public void displayTimeRecordedPopup() {
         Platform.runLater(() -> {
             String title = "Time Recorded";
@@ -599,6 +600,10 @@ public class GeneralController {
             resetTimer();
         }
     }
+
+    /**
+     * Method used to insert data into the database
+     */
     public void InsertDataManual() {
         // Testing, presentation may need to hard code gameTime for hours
 
@@ -636,17 +641,10 @@ public class GeneralController {
 
 
     /**
-     * creates functional combobox for new-reminder-pop.fxml
+     * Initialize the drop box for both category and priority types for reminders
+     * @param location URL location
+     * @param resources ResourceBundle resources
      */
-    @FXML
-    private ComboBox<String> category_dropbox;
-    @FXML
-    private String priorityLabel, categoryLabel;
-    @FXML
-    private ComboBox<String> priority_dropbox;
-    @FXML
-    public TableColumn<Reminder, String> priorityColumn;
-
     public  void initialize(URL location, ResourceBundle resources) {
         // Initialize category_dropbox
         category_dropbox.getItems().addAll("Goal", "Reminder");
@@ -660,7 +658,7 @@ public class GeneralController {
         });
         // Initialize priority_dropbox
         priority_dropbox.getItems().addAll("High", "Medium", "Low");
-        priority_dropbox.setPromptText("high, medium or low");
+        priority_dropbox.setPromptText("High, Med, Low");
         // Add listener
         priority_dropbox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if (newValue != null){
@@ -672,7 +670,7 @@ public class GeneralController {
 
     /**
      * Adds users reminder to the database and takes the user back to the reminders page
-     * @throws IOException
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
     public void confirm_add_reminder() throws IOException {
@@ -688,7 +686,9 @@ public class GeneralController {
         controller.loadTable();
     }
 
-
+    /**
+     * Method used to load table into reminders page, sets the table up in terms of columns and rows and custom sort
+     */
     @FXML
     public void loadTable() {
         // Get reminders from the database
@@ -731,6 +731,9 @@ public class GeneralController {
         remindersTable.setItems(reminders);
     }
 
+    /**
+     * Method is used to create delete buttons in the table rows
+     */
     private void addButtonToTable(){
         TableColumn<Reminder, Void> colBtn = new TableColumn<>("Del");
 
@@ -766,6 +769,11 @@ public class GeneralController {
 
         remindersTable.getColumns().add(colBtn);
     }
+
+    /**
+     * Method used to delete the reminder from the table in reminders page
+     * @param reminder Reminder class, essentially is a row in the table, contains message, type, priority
+     */
     private void deleteReminder(Reminder reminder) {
         // Remove the reminder from the database
         userDAO.deleteReminder(reminder.getMessage());
