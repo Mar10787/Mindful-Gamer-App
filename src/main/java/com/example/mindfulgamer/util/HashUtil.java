@@ -4,6 +4,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class HashUtil {
+    /**
+     * Creates an encryption on the passwords
+     * @param password String the entered password
+     * @return the password but in hash format
+     */
     public static String hash(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
