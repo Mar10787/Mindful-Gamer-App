@@ -14,21 +14,6 @@ public interface IUserDAO {
      */
     public void addUser(User user);
 
-
-    /**
-     * Updates an existing user in the dgitatabase.
-     * @param user The user to update.
-     */
-    public void updateUser(User user);
-
-
-    /**
-     * Deletes a user from the database.
-     * @param user The user to delete.
-     */
-    public void deleteUser(User user);
-
-
     /**
      * Adds game data to the gameTracking table
      * @param gameName the name of the game
@@ -52,15 +37,9 @@ public interface IUserDAO {
     public void ClearData(String tablename);
 
     /**
-     * Gets a single user
-     * @param userId the ID of the user wanted to be retrieved
-     * @return the user class
+     * Gets a user by email
+     * @param email String, email trying to find
+     * @return User, The user
      */
-    public User getUser(int userId);
-    /**
-     * Retrieves all users from the database.
-     * @return A list of all users in the database.
-     */
-    public List<User> getAllUsers();
     User getUserByEmail(String email);
 }
