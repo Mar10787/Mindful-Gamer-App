@@ -14,7 +14,14 @@ import java.io.IOException;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
 
+/**
+ * Class used for login controller, used for validation, reading database etc.
+ */
 public class LoginController {
+
+    /**
+     * Sets up ID for FXML and initialises variables
+     */
     private SqliteUserDAO userDAO;
     @FXML
     private TextField input_email;
@@ -56,14 +63,6 @@ public class LoginController {
         String password = input_password.getText();
         User user = userDAO.getUserByEmail(email);
 
-
-        // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
-        // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
-        // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
-        // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
-        // TODO FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY      FIX CODE TO MAKE LOGIN WORK PROPERLY
-
-
         if (user != null && HashUtil.hash(password).equals(user.getPassword())) {
             Stage stage = (Stage) login_button.getScene().getWindow();
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("dashboard.fxml"));
@@ -77,8 +76,6 @@ public class LoginController {
             showAlert("Login Failed", "Incorrect email or password.", ERROR);
         }
     }
-
-
 
     /**
      * Displays an alert dialog with the given title and message.
