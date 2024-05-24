@@ -129,10 +129,10 @@
                   </Button>
                   <TableView fx:id="remindersTable" layoutY="37.0" prefHeight="327.0" prefWidth="444.0">
                      <columns>
-                        <TableColumn fx:id="messageColumn" prefWidth="300.0" text="Message" />
-                        <TableColumn fx:id="type" prefWidth="50.0" text="Type" />
-                        <TableColumn fx:id="priority" prefWidth="50.0" resizable="false" text="Prio" />
-                        <TableColumn fx:id="delete" prefWidth="50.0" text="Del" />
+                        <TableColumn prefWidth="300.0" text="Message" />
+                        <TableColumn prefWidth="50.0" text="Type" />
+                        <TableColumn fx:id="priorityColumn" prefWidth="50.0" resizable="false" text="Prio" />
+                        <TableColumn prefWidth="50.0" text="Del" />
                      </columns>
                   </TableView>
                </children>

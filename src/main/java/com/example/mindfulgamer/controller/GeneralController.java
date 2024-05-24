@@ -1,6 +1,7 @@
 package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.Reminder;
+import com.example.mindfulgamer.util.CustomComparator;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.fxml.FXML;
@@ -623,7 +624,6 @@ public class GeneralController {
         loginController.showAlert(title, message, INFORMATION);
     }
     private String message;
-    private String type;
     private String prio;
 
     /**
@@ -644,6 +644,8 @@ public class GeneralController {
     private String priorityLabel, categoryLabel;
     @FXML
     private ComboBox<String> priority_dropbox;
+    @FXML
+    public TableColumn<Reminder, String> priorityColumn;
 
     public  void initialize(URL location, ResourceBundle resources) {
         // Initialize category_dropbox
@@ -715,6 +717,9 @@ public class GeneralController {
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         prioColumn.setCellValueFactory(new PropertyValueFactory<>("priority"));
+
+        // Custom Sorting For Prior Column
+        prioColumn.setComparator(new CustomComparator());
 
         // Clear existing columns and add the new columns
         remindersTable.getColumns().clear(); // Clear existing columns
