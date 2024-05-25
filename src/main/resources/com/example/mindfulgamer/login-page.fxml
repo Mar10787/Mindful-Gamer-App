@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.PasswordField?>
-<AnchorPane prefHeight="360.0" prefWidth="303.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.LoginController">
+<AnchorPane prefHeight="360.0" prefWidth="303.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mindfulgamer.controller.LoginController">
     <Label fx:id="login_title" layoutX="88.0" layoutY="14.0" text="Login">
         <font>
             <Font name="System Bold" size="48.0" />
