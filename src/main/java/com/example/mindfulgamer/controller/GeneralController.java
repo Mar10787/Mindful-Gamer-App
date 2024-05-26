@@ -652,7 +652,6 @@ public class GeneralController {
         // Adding listener
         category_dropbox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if (newValue != null){
-                System.out.println("Selected priority: " + newValue);
                 categoryLabel = newValue;
             }
         });
@@ -662,7 +661,6 @@ public class GeneralController {
         // Add listener
         priority_dropbox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             if (newValue != null){
-                System.out.println("Selected priority: " + newValue);
                 priorityLabel = newValue;
             }
         });
