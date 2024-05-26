@@ -2,7 +2,6 @@ package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.Reminder;
 import com.example.mindfulgamer.util.CustomComparator;
-import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.fxml.FXML;
@@ -52,7 +51,7 @@ public class GeneralController {
      * FXML ID Links to all dashboard related things
      */
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, GreenStart;
+    public Button dashboard, gaming_time, reminders, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, GreenStart;
     @FXML
     private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
@@ -185,7 +184,7 @@ public class GeneralController {
     @FXML
     public void Reminders() throws IOException {
         Stage stage = (Stage) reminders.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("notice-board.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         GeneralController controller = fxmlLoader.getController();
@@ -615,8 +614,9 @@ public class GeneralController {
     }
     /**
      * stores data when user clicks done on the manual game time page and creates alert pop u
+     * @throws IOException throws the error in the terminal in case of unexpected errors
      */
-    public void AddManualTime() {
+    public void AddManualTime() throws IOException {
         LocalDate startGame = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         startDate = startGame.format(formatter);
@@ -627,13 +627,13 @@ public class GeneralController {
                 "just press cancel to be redirected to the Gaming Time Page";
 
         loginController.showAlert(title, message, INFORMATION);
+
+        cancel();
     }
     private String message;
-    private String prio;
 
     /**
      * Sets reminder message from the text field so that it can be added to the database
-     * @throws IOException
      */
     public void setReminderMessage() {
         message = reminderMessage.getText();
@@ -677,7 +677,7 @@ public class GeneralController {
         userDAO.getAllNotices();
 
         Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("notice-board.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         GeneralController controller = fxmlLoader.getController();
