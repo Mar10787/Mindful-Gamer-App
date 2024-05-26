@@ -2,6 +2,7 @@ package com.example.mindfulgamer.controller;
 import com.example.mindfulgamer.HelloApplication;
 import com.example.mindfulgamer.model.Reminder;
 import com.example.mindfulgamer.util.CustomComparator;
+import javafx.beans.binding.BooleanBinding;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.fxml.FXML;
@@ -51,7 +52,7 @@ public class GeneralController {
      * FXML ID Links to all dashboard related things
      */
     @FXML
-    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder;
+    public Button dashboard, gaming_time, reminders, goals, achievements, logout, plus, cancel, done, search_button, add_reminder, confirm_add_reminder, GreenStart;
     @FXML
     private TextField searchField, gameTitle, hours, reminderMessage;
     @FXML
@@ -557,7 +558,6 @@ public class GeneralController {
         timerinterval.setText("No Reminder");
         intervalDuration = Duration.hours(999);
     }
-
     /**
      * Method used to assign the gameTitle(From texfield) to the string gameName initialised
      */
