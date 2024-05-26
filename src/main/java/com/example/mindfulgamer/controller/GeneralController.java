@@ -469,7 +469,7 @@ public class GeneralController {
     public void displayIntervalPopup() {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Reminder");
+            alert.setTitle("Notice Board");
             alert.setHeaderText(null);
             alert.setContentText("You have reached your limit.");
 
@@ -676,7 +676,7 @@ public class GeneralController {
     public void confirm_add_reminder() throws IOException {
         setReminderMessage();
         userDAO.addReminder(message, categoryLabel, priorityLabel);
-        userDAO.getAllReminders();
+        userDAO.getAllNotices();
 
         Stage stage = (Stage) confirm_add_reminder.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("reminders.fxml"));
@@ -692,7 +692,7 @@ public class GeneralController {
     @FXML
     public void loadTable() {
         // Get reminders from the database
-        List<String> reminderMessages = userDAO.getAllReminders();
+        List<String> reminderMessages = userDAO.getAllNotices();
         List<String> reminderType = userDAO.getAllTypes();
         List<String> reminderPrio = userDAO.getAllPrio();
 

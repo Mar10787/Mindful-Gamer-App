@@ -29,7 +29,7 @@
                                 </ImageView>
                             </graphic>
                         </Button>
-                        <Button fx:id="reminders" layoutX="2.0" layoutY="183.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="103.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Reminders" textFill="WHITE">
+                        <Button fx:id="reminders" layoutX="2.0" layoutY="183.0" mnemonicParsing="false" onAction="#Reminders" prefHeight="34.0" prefWidth="111.0" styleClass="sidebar_buttons" stylesheets="@../../../CSS/bargraph.css" text="Notice Board" textFill="WHITE">
                             <graphic>
                                 <ImageView fitHeight="21.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

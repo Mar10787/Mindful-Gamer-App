@@ -66,7 +66,7 @@ public class SqliteUserDAO implements IUserDAO {
      * Gets all Reminders from database
      * @return List<String> of all reminders </String>
      */
-    public List<String> getAllReminders() {
+    public List<String> getAllNotices() {
         List<String> reminders = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
