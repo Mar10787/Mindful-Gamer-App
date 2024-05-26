@@ -157,13 +157,26 @@ public class GeneralController {
      * @throws IOException throws the error in the terminal in case of unexpected errors
      */
     @FXML
-    public void cancel() throws IOException{
+    public void cancel_game_time() throws IOException{
         Stage stage = (Stage) cancel.getScene().getWindow();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("game-time.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
         GeneralController controller = fxmlLoader.getController();
         controller.loadInitialData();
+    }
+    /**
+     * From the new-reminder-popup page, when clicking cancel button ID, directs user back to the notice-board page
+     * @throws IOException throws the error in the terminal in case of unexpected errors
+     */
+    @FXML
+    public void cancel_notice() throws IOException{
+        Stage stage = (Stage) cancel.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("notice-board.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setScene(scene);
+        GeneralController controller = fxmlLoader.getController();
+        controller.loadTable();
     }
     /**
      * Takes the user to the add manual game time page for users to manually store in data
@@ -628,7 +641,7 @@ public class GeneralController {
 
         loginController.showAlert(title, message, INFORMATION);
 
-        cancel();
+        cancel_game_time();
     }
     private String message;
 
