@@ -96,7 +96,7 @@ public class SignUpController implements Subject{
         // Deleting Database
         // userDAO.ClearData("users");
         //userDAO.ClearData("gameTracking");
-        //userDAO.insertSampleData();
+        userDAO.insertSampleData();
         // TESTING PURPOSES //
 
         // Redirect to the login page after signup
