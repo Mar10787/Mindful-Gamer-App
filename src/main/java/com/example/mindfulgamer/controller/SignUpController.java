@@ -9,17 +9,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import com.example.mindfulgamer.model.SqliteUserDAO;
+import com.example.mindfulgamer.util.PasswordStrengthMeter;
+import com.example.mindfulgamer.util.Observer;
+import com.example.mindfulgamer.util.Subject;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class used to sigh up for application, has validation, reading database etc.
  */
-public class SignUpController {
+public class SignUpController implements Subject{
     /**
      * Setting up ID for FXML and initialising variables
      */
+    private List<Observer> observers = new ArrayList<>();
     private SqliteUserDAO userDAO;
     @FXML
     public Hyperlink login;
@@ -27,32 +33,39 @@ public class SignUpController {
     public Button signup;
     @FXML
     public TextField fname, lname, email, password;
-
+    @FXML
+    public Label passwordStrengthLabel;
     /**
      * Initialises the page such that it can detect what is written inside the text boxes
      */
     @FXML
     public void initialize(){
         userDAO = new SqliteUserDAO();
+        PasswordStrengthMeter passwordStrengthMeter = new PasswordStrengthMeter(passwordStrengthLabel);
+        registerObserver(passwordStrengthMeter); // Registering the passwordStrengthMeter
         // Listen for changes in fname, lname, email and password
-        fname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        lname.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        email.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-        password.textProperty().addListener((observable, oldValue, newValue) -> checkFields());
-    }
+        fname.textProperty().addListener((observable, oldValue, newValue) -> validateForm());
+        lname.textProperty().addListener((observable, oldValue, newValue) -> validateForm());
+        email.textProperty().addListener((observable, oldValue, newValue) -> validateForm());
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateForm();
+            notifyObservers();
+        });
 
+        // Initial Form Validation
+        validateForm();
+    }
     /**
-     * Grabs all the strings in the textboxes when the sign up button is clicked
+     * Validates the entire form and updates the sign-up button state.
      */
-    public void checkFields(){
-        String first_name = fname.getText();
-        String last_name = lname.getText();
-        String email_rec = email.getText();
-        String password_rec = password.getText();
-
-        // Enable sign up button if all parameters are not null
-        signup.setDisable(first_name.isEmpty() || last_name.isEmpty() || email_rec.isEmpty() || password_rec.isEmpty());
+    public void validateForm(){
+        boolean isFormValid = !fname.getText().isEmpty() &&
+                !lname.getText().isEmpty() &&
+                isValidEmail(email.getText()) &&
+                isValidPassword(password.getText());
+        signup.setDisable(!isFormValid);
     }
+
 
     /**
      * Directs the user to the loging page only if certain sign up conditions are met
@@ -65,20 +78,6 @@ public class SignUpController {
         String email_rec = email.getText();
         String password_rec = password.getText();
         String phone = "";
-
-        if (!isValidEmail(email_rec) && !isValidPassword(password_rec)){
-            showAlert("Invalid Email and Password", "Please re-enter a valid email address and create a password that is 8 characters long, " +
-                    "including one number and uppercase letter.");
-            return;
-        }
-        else if (!isValidEmail(email_rec)) {
-            showAlert("Invalid Email", "Please enter a valid email address.");
-            return;
-        }
-        else if (!isValidPassword(password_rec)) {
-            showAlert("Invalid Password", "Password must be at least 8 characters long, include one number and one uppercase letter.");
-            return;
-        }
 
         String first_name_lower = first_name.toLowerCase();
         String last_name_lower = last_name.toLowerCase();
@@ -97,8 +96,6 @@ public class SignUpController {
         // Deleting Database
         // userDAO.ClearData("users");
         //userDAO.ClearData("gameTracking");
-        // Reseting ID Count
-        //userDAO.ResetID("users");
         //userDAO.insertSampleData();
         // TESTING PURPOSES //
 
@@ -165,5 +162,18 @@ public class SignUpController {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login-page.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), HelloApplication.LOGIN_W, HelloApplication.LOGIN_H);
         stage.setScene(scene);
+    }
+
+    @Override
+    public void registerObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void notifyObservers() {
+        String password = this.password.getText();
+        for (Observer observer : observers){
+            observer.update(password);
+        }
     }
 }
